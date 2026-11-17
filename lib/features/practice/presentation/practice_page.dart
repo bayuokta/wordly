@@ -66,12 +66,13 @@ class PracticePage extends StatelessWidget {
             onTap: () => context.push('/flashcards'),
           ),
           const SizedBox(height: 10),
-          const _PracticeTile(
+          _PracticeTile(
             icon: Icons.ads_click_outlined,
             tone: IconTileTone.success,
             title: 'Quiz',
             description: '6 mode: pilihan ganda, EN→ID, ID→EN, isian, listening, ejaan.',
-            phase: 'Fase 8',
+            phase: 'Siap',
+            onTap: () => context.push('/quiz'),
           ),
           const SizedBox(height: 10),
           const _PracticeTile(

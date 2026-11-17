@@ -58,6 +58,11 @@ final categoryWordsProvider = FutureProvider.family<List<WordListItem>, int>(
   (ref, categoryId) => ref.watch(vocabRepositoryProvider).wordsInCategory(categoryId),
 );
 
+/// Kumpulan kata untuk kuis.
+final quizPoolProvider = FutureProvider<List<Vocabulary>>(
+  (ref) => ref.watch(vocabRepositoryProvider).quizPool(),
+);
+
 /// Daftar kata untuk filter level di Explore.
 final browseProvider = FutureProvider.family<List<WordListItem>, String?>(
   (ref, level) => ref.watch(vocabRepositoryProvider).browse(level: level),

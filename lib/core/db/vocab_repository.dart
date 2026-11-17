@@ -230,6 +230,13 @@ class VocabRepository {
     return items;
   }
 
+  /// Kumpulan kata untuk kuis: level pengguna, dengan fallback semua kata.
+  Future<List<Vocabulary>> quizPool() async {
+    final level = await content.wordsForLevel(defaultLevel, limit: 400);
+    if (level.length >= 20) return level;
+    return content.allWords(limit: 600);
+  }
+
   Future<List<WordListItem>> recentItems({int limit = 6}) async {
     final rows = await user.recentlyTouched(limit: limit);
     if (rows.isEmpty) return const [];

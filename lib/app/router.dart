@@ -6,6 +6,7 @@ import '../features/flashcards/presentation/flashcards_page.dart';
 import '../features/home/presentation/home_page.dart';
 import '../features/my_words/presentation/my_words_page.dart';
 import '../features/practice/presentation/practice_page.dart';
+import '../features/quiz/presentation/quiz_page.dart';
 import '../features/profile/presentation/profile_page.dart';
 import '../features/word_detail/presentation/word_detail_page.dart';
 import 'shell/app_shell.dart';
@@ -46,6 +47,7 @@ final GoRouter appRouter = GoRouter(
       ],
     ),
     GoRoute(path: '/flashcards', builder: (_, _) => const FlashcardsPage()),
+    GoRoute(path: '/quiz', builder: (_, _) => const QuizPage()),
     GoRoute(
       path: '/word/:id',
       builder: (context, state) => WordDetailPage(
