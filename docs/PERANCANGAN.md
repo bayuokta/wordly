@@ -10,7 +10,7 @@
 | Platform | Android (Flutter), offline-first |
 | Versi | 0.1.0+1 |
 | Status | Fungsional: belajar → latihan → ulang terjadwal sudah menutup siklus |
-| Ukuran konten | 13 kategori · 591 kata |
+| Ukuran konten | 13 kategori · 747 kata |
 | Bahasa UI | Indonesia |
 
 ---
@@ -291,7 +291,7 @@ dan `daily_activities` sekaligus.
 
 ## 8. Konten Kosakata
 
-- 13 kategori × 39 kata = **591 kata** (target minimum 500 tercapai).
+- 13 kategori × 39 kata = **747 kata** (target minimum 500 tercapai).
 - Berkas: `assets/vocab/NN-nama-kategori.json` dengan struktur:
 
 ```json
@@ -314,7 +314,7 @@ dan `daily_activities` sekaligus.
 
 ```bash
 dart run tool/validate_vocab.dart
-# 13 kategori · 591 kata · 0 error · 0 peringatan
+# 13 kategori · 747 kata · 0 error · 0 peringatan
 ```
 
 Validator memeriksa: field wajib, format IPA, level/CEFR/POS sah, ID & kata
@@ -385,7 +385,7 @@ kedipan UI):
 | `flutter test` | 22 tes (10 SM-2, 10 autentikasi/validasi, 2 pengaturan/tema) |
 | Build | `flutter build apk --debug` sukses |
 | Verifikasi visual | Semua layar dijalankan di emulator Android 16 (lihat `docs/screenshots/`) |
-| Konten | 591 kata tervalidasi |
+| Konten | 747 kata tervalidasi |
 
 **Belum ada:** tes widget per layar, tes integrasi end-to-end, tes performa pada
 10.000 kata, dan build release yang ditandatangani.
@@ -397,7 +397,7 @@ kedipan UI):
 | Prioritas | Pekerjaan |
 |---|---|
 | 1 | Uji APK rilis di perangkat nyata (TTS, ukuran layar 360 dp, notifikasi) |
-| 2 | Lengkapi konten ke ~1.000 kata (sekarang 591) |
+| 2 | Lengkapi konten ke ~1.000 kata (sekarang 747) |
 | 3 | Audio file/URL + atribusi lisensi di halaman Tentang |
 | 4 | Publikasi Google Play (lihat `docs/PLAY_STORE.md`) |
 | 5 | Sinkronisasi cloud (FastAPI + PostgreSQL sesuai brief v0.1) |
