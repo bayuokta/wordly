@@ -64,13 +64,22 @@ final ttsServiceProvider = Provider<TtsService>((ref) {
 ///
 /// Memakai ProviderScope.containerOf supaya tidak perlu mengubah widget
 /// menjadi ConsumerWidget hanya untuk satu tombol audio.
-Future<void> speakWord(BuildContext context, String text) async {
+Future<void> speakText(BuildContext context, String text, {double rateScale = 1}) async {
   final container = ProviderScope.containerOf(context, listen: false);
   final speed = container.read(settingsProvider).audioSpeed;
-  final ok = await container.read(ttsServiceProvider).speak(text, rate: 0.45 * speed);
+  final ok = await container
+      .read(ttsServiceProvider)
+      .speak(text, rate: 0.45 * speed * rateScale);
   if (!ok && context.mounted) {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(const SnackBar(content: Text('Audio tidak tersedia di perangkat ini.')));
   }
 }
+
+/// Mengucapkan satu kata (mengikuti setelan kecepatan pengguna).
+Future<void> speakWord(BuildContext context, String text) => speakText(context, text);
+
+/// Mengucapkan kalimat contoh dengan tempo sedikit lebih pelan.
+Future<void> speakSentence(BuildContext context, String text) =>
+    speakText(context, text, rateScale: 0.9);

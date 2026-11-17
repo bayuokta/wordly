@@ -364,6 +364,7 @@ class _BrowseList extends ConsumerWidget {
           children: [
             WordListCard(
               items: visible,
+              withAudio: true,
               onTapItem: (item) => context.push('/word/${item.word.id}'),
             ),
             if (items.length > visible.length) ...[

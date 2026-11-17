@@ -5,6 +5,7 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../../core/audio/tts_service.dart';
 import '../../../core/db/database_providers.dart';
+import '../../../core/settings/settings_controller.dart';
 import '../../../core/design/app_palette.dart';
 import '../../../core/design/app_spacing.dart';
 import '../../../core/design/app_typography.dart';
@@ -120,6 +121,9 @@ class _QuizPageState extends ConsumerState<QuizPage> {
       if (!mounted) return;
       if (correct) {
         HapticFeedback.selectionClick();
+        if (ref.read(settingsProvider).soundEffects) {
+          SystemSound.play(SystemSoundType.click);
+        }
       } else {
         HapticFeedback.mediumImpact();
       }
@@ -360,6 +364,7 @@ class _QuizPageState extends ConsumerState<QuizPage> {
                       focus: _focus,
                       onSelect: (index) => setState(() => _selected = index),
                       onSpeak: () => ref.read(ttsServiceProvider).speak(question.audioText),
+                      onSpeakSlow: () => speakText(context, question.audioText, rateScale: 0.6),
                       onSubmitTyped: _check,
                     ),
                   ],
@@ -485,6 +490,7 @@ class _QuestionBody extends StatelessWidget {
     required this.focus,
     required this.onSelect,
     required this.onSpeak,
+    required this.onSpeakSlow,
     required this.onSubmitTyped,
   });
 
@@ -495,6 +501,7 @@ class _QuestionBody extends StatelessWidget {
   final FocusNode focus;
   final ValueChanged<int> onSelect;
   final VoidCallback onSpeak;
+  final VoidCallback onSpeakSlow;
   final VoidCallback onSubmitTyped;
 
   @override
@@ -507,7 +514,7 @@ class _QuestionBody extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (question.mode == QuizMode.listening)
-            _AudioPrompt(onTap: onSpeak, label: 'Putar kata')
+            _AudioPrompt(onTap: onSpeak, onSlow: onSpeakSlow, label: 'Putar kata')
           else ...[
             Text(word.word, style: context.wordTitle.copyWith(fontSize: 34)),
             if (word.pronunciationIpa case final ipa?) ...[
@@ -541,7 +548,7 @@ class _QuestionBody extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (question.mode == QuizMode.spelling)
-          _AudioPrompt(onTap: onSpeak, label: 'Putar kata')
+          _AudioPrompt(onTap: onSpeak, onSlow: onSpeakSlow, label: 'Putar kata')
         else if (question.mode == QuizMode.fillBlank) ...[
           Text(
             question.sentence ?? '',
@@ -704,9 +711,10 @@ class _OptionTile extends StatelessWidget {
 }
 
 class _AudioPrompt extends StatelessWidget {
-  const _AudioPrompt({required this.onTap, required this.label});
+  const _AudioPrompt({required this.onTap, required this.onSlow, required this.label});
 
   final VoidCallback onTap;
+  final VoidCallback onSlow;
   final String label;
 
   @override
@@ -731,6 +739,23 @@ class _AudioPrompt extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Text(label, style: context.tiny),
+          const SizedBox(height: 6),
+          GestureDetector(
+            onTap: onSlow,
+            behavior: HitTestBehavior.opaque,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+              child: Text(
+                'Lambat (0,6x)',
+                style: TextStyle(
+                  fontFamily: AppFonts.body,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: p.primaryText,
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

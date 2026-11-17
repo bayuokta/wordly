@@ -13,6 +13,7 @@ class AppSettings {
     required this.notificationsEnabled,
     required this.notificationMinutes,
     required this.audioSpeed,
+    required this.soundEffects,
   });
 
   /// `beginner` | `intermediate` | `advanced`.
@@ -32,6 +33,9 @@ class AppSettings {
   /// Pengali kecepatan TTS: 0.75 atau 1.0.
   final double audioSpeed;
 
+  /// Efek suara benar/salah saat latihan.
+  final bool soundEffects;
+
   static const AppSettings defaults = AppSettings(
     level: 'intermediate',
     dailyGoal: 10,
@@ -42,6 +46,7 @@ class AppSettings {
     notificationsEnabled: false,
     notificationMinutes: 19 * 60,
     audioSpeed: 1,
+    soundEffects: false,
   );
 
   /// Contoh: `19:00`.
@@ -87,6 +92,7 @@ class AppSettings {
     bool? notificationsEnabled,
     int? notificationMinutes,
     double? audioSpeed,
+    bool? soundEffects,
   }) {
     return AppSettings(
       level: level ?? this.level,
@@ -98,6 +104,7 @@ class AppSettings {
       notificationsEnabled: notificationsEnabled ?? this.notificationsEnabled,
       notificationMinutes: notificationMinutes ?? this.notificationMinutes,
       audioSpeed: audioSpeed ?? this.audioSpeed,
+      soundEffects: soundEffects ?? this.soundEffects,
     );
   }
 }

@@ -27,6 +27,7 @@ pengulangan berjarak (SM-2). Offline-first, tanpa akun, tanpa iklan.
 | ⭐ **Kata Saya** | Favorit, riwayat, belum dikuasai, dikuasai |
 | 📊 **Statistik** | Grafik 7/30 hari, akurasi, streak terbaik, total ulasan |
 | 🔔 **Notifikasi harian** | Pengingat belajar pada jam pilihan (lokal, tanpa server) |
+| 🔊 **Audio di mana-mana** | Ikon speaker di setiap daftar kata, tombol kata & kalimat di detail, audio di flashcard/review, mode lambat di listening |
 | 🃏 **Flashcard** | 5–20 kartu, ketuk untuk balik, geser kiri/kanan, kata salah muncul lagi |
 | 📚 **Koleksi kata** | Kelompokkan kata sendiri (mis. "Interview"), tambah dari detail kata |
 | 🧠 **Latihan adaptif** | Quiz & flashcard memprioritaskan kata yang sering salah dan yang jatuh tempo |

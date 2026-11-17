@@ -3,7 +3,9 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter/services.dart';
 import 'package:material_ui/material_ui.dart';
 
+import '../../../core/audio/tts_service.dart';
 import '../../../core/db/database_providers.dart';
+import '../../../core/settings/settings_controller.dart';
 import '../../../core/db/vocab_repository.dart';
 import '../../../core/design/app_palette.dart';
 import '../../../core/design/app_spacing.dart';
@@ -32,6 +34,13 @@ class _ReviewPageState extends ConsumerState<ReviewPage> {
   bool _busy = false;
   bool _finished = false;
 
+  void _speakIfAutoplay() {
+    final card = _current;
+    if (card == null) return;
+    if (!ref.read(settingsProvider).audioAutoplay) return;
+    speakWord(context, card.word.word);
+  }
+
   WordListItem? get _current {
     final queue = _queue;
     if (queue == null || _index >= queue.length) return null;
@@ -47,6 +56,7 @@ class _ReviewPageState extends ConsumerState<ReviewPage> {
       _flipped = false;
       _finished = false;
     });
+    _speakIfAutoplay();
   }
 
   Future<void> _answer({required bool correct}) async {
@@ -78,6 +88,8 @@ class _ReviewPageState extends ConsumerState<ReviewPage> {
           _index++;
         }
       });
+
+      _speakIfAutoplay();
 
       ref.invalidate(homeSnapshotProvider);
       ref.invalidate(reviewQueueProvider);
@@ -377,6 +389,14 @@ class _ReviewFront extends StatelessWidget {
           Row(
             children: [
               Expanded(child: Text('KARTU $position DARI $total', style: context.eyebrow)),
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () => speakWord(context, word.word),
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 6),
+                  child: Icon(Icons.volume_up_outlined, size: 18, color: p.primaryText),
+                ),
+              ),
               AppChip(label: _dueLabel(item), tone: AppChipTone.accent, height: 22, fontSize: 10),
             ],
           ),
@@ -452,7 +472,19 @@ class _ReviewBack extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('ARTI', style: context.eyebrow),
+            Row(
+              children: [
+                Expanded(child: Text('ARTI', style: context.eyebrow)),
+                GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () => speakWord(context, word.word),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8),
+                    child: Icon(Icons.volume_up_outlined, size: 18, color: p.primaryText),
+                  ),
+                ),
+              ],
+            ),
             const SizedBox(height: 8),
             Text(
               word.translation,

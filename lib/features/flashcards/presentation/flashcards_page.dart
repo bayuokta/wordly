@@ -5,7 +5,9 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter/services.dart';
 import 'package:material_ui/material_ui.dart';
 
+import '../../../core/audio/tts_service.dart';
 import '../../../core/db/content/content_database.dart';
+import '../../../core/settings/settings_controller.dart';
 import '../../../core/db/database_providers.dart';
 import '../../../core/db/vocab_repository.dart';
 import '../../../core/design/app_palette.dart';
@@ -42,6 +44,14 @@ class _FlashcardsPageState extends ConsumerState<FlashcardsPage> {
   bool _busy = false;
 
   WordListItem? get _current => _index < _queue.length ? _queue[_index] : null;
+
+  /// Ucapkan kata pada kartu baru bila pengguna mengaktifkan putar otomatis.
+  void _speakIfAutoplay() {
+    final card = _current;
+    if (card == null) return;
+    if (!ref.read(settingsProvider).audioAutoplay) return;
+    speakWord(context, card.word.word);
+  }
   int get _total => _queue.length;
 
   Future<void> _start({List<WordListItem>? cards}) async {
@@ -65,6 +75,7 @@ class _FlashcardsPageState extends ConsumerState<FlashcardsPage> {
         _repeats.clear();
         _phase = _Phase.session;
       });
+      _speakIfAutoplay();
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -83,6 +94,9 @@ class _FlashcardsPageState extends ConsumerState<FlashcardsPage> {
       if (!mounted) return;
       if (correct) {
         HapticFeedback.selectionClick();
+        if (ref.read(settingsProvider).soundEffects) {
+          SystemSound.play(SystemSoundType.click);
+        }
       } else {
         HapticFeedback.mediumImpact();
       }
@@ -105,6 +119,8 @@ class _FlashcardsPageState extends ConsumerState<FlashcardsPage> {
           _index++;
         }
       });
+
+      _speakIfAutoplay();
 
       ref.invalidate(homeSnapshotProvider);
       ref.invalidate(favoritesProvider);
@@ -638,7 +654,19 @@ class _CardFront extends StatelessWidget {
     return _CardShell(
       child: Column(
         children: [
-          Text('KARTU $position DARI $total', style: context.eyebrow),
+          Row(
+            children: [
+              Expanded(child: Text('KARTU $position DARI $total', style: context.eyebrow)),
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () => speakWord(context, word.word),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8),
+                  child: Icon(Icons.volume_up_outlined, size: 18, color: p.primaryText),
+                ),
+              ),
+            ],
+          ),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -701,7 +729,19 @@ class _CardBack extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('ARTI', style: context.eyebrow),
+            Row(
+              children: [
+                Expanded(child: Text('ARTI', style: context.eyebrow)),
+                GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () => speakWord(context, word.word),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8),
+                    child: Icon(Icons.volume_up_outlined, size: 18, color: p.primaryText),
+                  ),
+                ),
+              ],
+            ),
             const SizedBox(height: 8),
             Text(
               word.translation,

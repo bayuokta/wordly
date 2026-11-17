@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
+import '../../../core/audio/tts_service.dart';
 import '../../../core/db/database_providers.dart';
 import '../../../core/design/app_palette.dart';
 import '../../../core/design/app_spacing.dart';
@@ -106,6 +107,14 @@ class CollectionDetailPage extends ConsumerWidget {
                                     style: context.tiny,
                                   ),
                                 ],
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () => speakWord(context, item.word.word),
+                              icon: Icon(
+                                Icons.volume_up_outlined,
+                                size: 18,
+                                color: p.primaryText,
                               ),
                             ),
                             IconButton(

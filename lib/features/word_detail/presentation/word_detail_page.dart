@@ -281,13 +281,26 @@ class _DetailBody extends StatelessWidget {
                 Text(ipa, style: context.ipaText.copyWith(fontSize: 14)),
               ],
               const SizedBox(height: 14),
-              AppButton(
-                label: 'Dengarkan',
-                icon: Icons.volume_up_outlined,
-                expand: false,
-                variant: AppButtonVariant.ghost,
-                size: AppButtonSize.small,
-                onPressed: () => speakWord(context, detail.word.word),
+              Row(
+                children: [
+                  AppButton(
+                    label: 'Dengarkan kata',
+                    icon: Icons.volume_up_outlined,
+                    expand: false,
+                    variant: AppButtonVariant.ghost,
+                    size: AppButtonSize.small,
+                    onPressed: () => speakWord(context, detail.word.word),
+                  ),
+                  const SizedBox(width: 8),
+                  AppButton(
+                    label: 'Kalimat',
+                    icon: Icons.record_voice_over_outlined,
+                    expand: false,
+                    variant: AppButtonVariant.ghost,
+                    size: AppButtonSize.small,
+                    onPressed: () => speakSentence(context, detail.word.exampleSentence),
+                  ),
+                ],
               ),
               const SizedBox(height: 18),
               Text('ARTI', style: context.eyebrow),

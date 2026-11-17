@@ -79,6 +79,7 @@ class CategoryPage extends ConsumerWidget {
                       const SizedBox(height: 10),
                       WordListCard(
                         items: items,
+                        withAudio: true,
                         onTapItem: (item) => context.push('/word/${item.word.id}'),
                       ),
                     ],

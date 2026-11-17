@@ -1,5 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 
+import '../audio/tts_service.dart';
 import '../db/vocab_repository.dart';
 import '../srs/sm2.dart';
 import '../design/app_palette.dart';
@@ -15,6 +16,7 @@ class WordRow extends StatelessWidget {
     this.onTap,
     this.showBookmark = false,
     this.showStatus = true,
+    this.withAudio = false,
     this.padding = const EdgeInsets.symmetric(vertical: 12),
   });
 
@@ -22,6 +24,9 @@ class WordRow extends StatelessWidget {
   final VoidCallback? onTap;
   final bool showBookmark;
   final bool showStatus;
+
+  /// Tampilkan ikon speaker untuk melafalkan kata (TTS).
+  final bool withAudio;
   final EdgeInsetsGeometry padding;
 
   @override
@@ -75,6 +80,16 @@ class WordRow extends StatelessWidget {
                 ],
               ),
             ),
+            if (withAudio) ...[
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () => speakWord(context, item.word.word),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                  child: Icon(Icons.volume_up_outlined, size: 16, color: p.primaryText),
+                ),
+              ),
+            ],
             if (showStatus && hasProgress) ...[
               const SizedBox(width: 8),
               StatusPill(status: item.status),
@@ -90,10 +105,16 @@ class WordRow extends StatelessWidget {
 
 /// Daftar kata di dalam satu card, dengan garis pemisah antar baris.
 class WordListCard extends StatelessWidget {
-  const WordListCard({super.key, required this.items, required this.onTapItem});
+  const WordListCard({
+    super.key,
+    required this.items,
+    required this.onTapItem,
+    this.withAudio = true,
+  });
 
   final List<WordListItem> items;
   final ValueChanged<WordListItem> onTapItem;
+  final bool withAudio;
 
   @override
   Widget build(BuildContext context) {
@@ -113,6 +134,7 @@ class WordListCard extends StatelessWidget {
               ),
             WordRow(
               item: item,
+              withAudio: withAudio,
               onTap: () => onTapItem(item),
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
             ),

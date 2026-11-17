@@ -335,7 +335,10 @@ duplikat, sinonim/antonim tidak memuat kata itu sendiri, minimal 10 kata/kategor
 | 3 | **TTS perangkat** (`flutter_tts`, en-US, rate 0,45) | ✅ dipakai sekarang |
 | 4 | Tidak ada audio | ✅ snackbar "Audio tidak tersedia" |
 
-Titik pemakaian: Detail Kata, kartu Kata Hari Ini (Home), Quiz listening & ejaan.
+Titik pemakaian: Detail Kata (kata + kalimat contoh), kartu Kata Hari Ini, semua
+daftar kata (ikon speaker), Flashcard/Review (depan & belakang, dengan putar
+otomatis opsional), Quiz listening & ejaan (putar ulang + mode lambat 0,6×), dan
+efek suara benar/salah bila diaktifkan.
 TTS bersifat *best-effort*: aktivasi suara bergantung perangkat.
 
 ---
