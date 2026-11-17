@@ -18,6 +18,7 @@ pengulangan berjarak (SM-2). Offline-first, tanpa akun, tanpa iklan.
 | | |
 |---|---|
 | 🚀 **Onboarding** | Pilih level (A1–C2) dan target harian sekali, bisa diubah kapan saja |
+| 👤 **Akun lokal** | Daftar/masuk dengan email + kata sandi, atau lanjut sebagai tamu. Progres tiap akun terpisah |
 | 🏠 **Home** | Kata hari ini + audio, target harian, streak, kata jatuh tempo |
 | 🧭 **Explore** | 13 kategori, filter level, pencarian Inggris ↔ Indonesia |
 | 📖 **Detail kata** | Terjemahan, definisi, IPA, contoh kalimat + terjemahan, sinonim/antonim, jadwal ulangan |
@@ -37,7 +38,8 @@ Semua progres tersimpan lokal dan bertahan setelah aplikasi ditutup.
 |---|---|
 | Framework | Flutter 3.50 (Dart 3.14), paket `material_ui` |
 | State | Riverpod 3.5 |
-| Database | Drift/SQLite — dua file: `vocab.db` (konten) & `user.db` (progres) |
+| Database | Drift/SQLite — dua file: `vocab.db` (konten) & `user.db` (progres + akun) |
+| Akun lokal | PBKDF2-HMAC-SHA256 (`crypto`), sesi token di `shared_preferences` |
 | Navigasi | go_router 18 (`StatefulShellRoute` untuk bottom nav) |
 | Audio | `flutter_tts` (mesin TTS perangkat, offline) |
 | Preferensi | `shared_preferences` |

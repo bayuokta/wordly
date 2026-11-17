@@ -80,7 +80,16 @@ Aturan penempatan:
 ## 5. Database & data
 
 - **Dua database terpisah:** `vocab.db` (konten, read-only saat runtime) dan
-  `user.db` (progres). Jangan gabungkan.
+  `user.db` (akun, sesi, progres). Jangan gabungkan.
+- **Semua tabel progres punya `user_id`** (akun 1 = Tamu). Setiap query di
+  `UserDatabase` **wajib** difilter `user_id`; jangan pernah membaca progres
+  tanpa parameter pengguna.
+- Repository menerima `userId` dari `sessionProvider`; jangan menyimpan
+  salinan `userId` di widget atau meng-hardcode `guestUserId`.
+- Kata sandi **hanya** lewat `PasswordHasher` (PBKDF2). Jangan pernah menyimpan
+  teks asli, mencatatnya ke log, atau mengembalikannya di UI.
+- Akun pertama mewarisi progres Tamu (`claimGuestProgress`). Hati-hati saat
+  mengubah alur ini—jangan sampai progres pengguna hilang.
 - ID kata harus **stabil** karena `user.db` hanya menyimpan `vocab_id`. Jangan
   mengubah ID yang sudah ada; tambahkan ID baru.
 - Setelah mengubah tabel: `dart run build_runner build`, lalu naikkan
@@ -111,6 +120,8 @@ Aturan penempatan:
   `homeSnapshotProvider`, `reviewQueueProvider`, `favoritesProvider`,
   `learningWordsProvider`, `masteredWordsProvider`, `historyProvider`,
   `wordDetailProvider(id)`.
+- Jangan menangani login langsung di UI; gunakan `sessionProvider`
+  (`signIn`, `signUp`, `signOut`, `deleteAccount`) yang juga mengurus token.
 
 ---
 

@@ -73,12 +73,16 @@ class VocabRepository {
   VocabRepository({
     required this.content,
     required this.user,
+    required this.userId,
     this.level = 'intermediate',
     this.dailyGoal = 10,
   });
 
   final ContentDatabase content;
   final UserDatabase user;
+
+  /// Akun pemilik progres (1 = Tamu).
+  final int userId;
 
   /// Level & target harian mengikuti pengaturan pengguna.
   final String level;
@@ -90,10 +94,10 @@ class VocabRepository {
     final category = wordOfDay == null
         ? null
         : await content.categoryOf(wordOfDay.categoryId);
-    final activity = await user.activityFor(day);
-    final learned = await user.countLearned();
-    final mastered = await user.countByStatus(WordStatus.mastered.value);
-    final due = await user.countDue(now);
+    final activity = await user.activityFor(userId, day);
+    final learned = await user.countLearned(userId);
+    final mastered = await user.countByStatus(userId, WordStatus.mastered.value);
+    final due = await user.countDue(userId, now);
     final recent = await recentItems(limit: 4);
 
     return HomeSnapshot(
@@ -111,7 +115,7 @@ class VocabRepository {
 
   /// Jumlah hari berurutan yang punya minimal satu ulangan.
   Future<int> _streak(DateTime now) async {
-    final rows = await user.recentActivity(days: 400);
+    final rows = await user.recentActivity(userId, days: 400);
     final activeDays = {
       for (final row in rows)
         if (row.reviewsDone > 0) row.day,
@@ -136,21 +140,21 @@ class VocabRepository {
 
   Future<Vocabulary?> _wordOfDay(DateTime now) async {
     final day = _dayKey(now);
-    final pinned = await user.wordOfDayId(day);
+    final pinned = await user.wordOfDayId(userId, day);
     if (pinned != null) {
       final word = await content.vocabularyById(pinned);
       if (word != null) return word;
     }
     final picked = await content.pickWordOfDay(now, level: level);
     if (picked != null) {
-      await user.pinWordOfDay(day, picked.id);
+      await user.pinWordOfDay(userId, day, picked.id);
     }
     return picked;
   }
 
   Future<List<CategoryCount>> categoriesWithProgress() async {
     final counts = await content.categoryCounts();
-    final touched = await user.touchedVocabIds();
+    final touched = await user.touchedVocabIds(userId);
     if (touched.isEmpty) return counts;
 
     final words = await content.vocabulariesByIds(touched.toList());
@@ -199,7 +203,7 @@ class VocabRepository {
     final items = <WordListItem>[];
     final seen = <int>{};
 
-    final due = await user.dueWords(now, limit: limit);
+    final due = await user.dueWords(userId, now, limit: limit);
     if (due.isNotEmpty) {
       final words = await content.vocabulariesByIds(due.map((row) => row.vocabId).toList());
       final byId = {for (final word in words) word.id: word};
@@ -211,7 +215,7 @@ class VocabRepository {
       }
     }
 
-    final touched = await user.touchedVocabIds();
+    final touched = await user.touchedVocabIds(userId);
     final fresh = await content.untouchedWords(
       excludeIds: touched,
       level: level,
@@ -224,7 +228,7 @@ class VocabRepository {
 
     if (items.length < limit) {
       final studying = await _listFromProgress(
-        user.watchByStatus(WordStatus.learning.value).first,
+        user.watchByStatus(userId, WordStatus.learning.value).first,
       );
       for (final item in studying) {
         if (!seen.add(item.word.id)) continue;
@@ -240,7 +244,7 @@ class VocabRepository {
   /// lalu yang paling sering salah (lapses & rasio salah).
   Future<List<WordListItem>> reviewQueue({int limit = 30}) async {
     final now = DateTime.now();
-    final due = await user.dueWords(now, limit: 200);
+    final due = await user.dueWords(userId, now, limit: 200);
     if (due.isEmpty) return const [];
 
     final words = await content.vocabulariesByIds(due.map((row) => row.vocabId).toList());
@@ -284,7 +288,7 @@ class VocabRepository {
   }
 
   Future<List<WordListItem>> recentItems({int limit = 6}) async {
-    final rows = await user.recentlyTouched(limit: limit);
+    final rows = await user.recentlyTouched(userId, limit: limit);
     if (rows.isEmpty) return const [];
     final words = await content.vocabulariesByIds(rows.map((row) => row.vocabId).toList());
     final byId = {for (final word in words) word.id: word};
@@ -294,10 +298,10 @@ class VocabRepository {
     ];
   }
 
-  Future<List<WordListItem>> favorites() => _listFromProgress(user.watchFavorites().first);
+  Future<List<WordListItem>> favorites() => _listFromProgress(user.watchFavorites(userId).first);
 
   Future<List<WordListItem>> byStatus(WordStatus status) =>
-      _listFromProgress(user.watchByStatus(status.value).first);
+      _listFromProgress(user.watchByStatus(userId, status.value).first);
 
   Future<List<WordListItem>> _listFromProgress(Future<List<UserWord>> source) async {
     final rows = await source;
@@ -316,7 +320,7 @@ class VocabRepository {
       throw StateError('Kata $vocabId tidak ditemukan');
     }
     final category = await content.categoryOf(word.categoryId);
-    final progress = await user.progressFor(vocabId);
+    final progress = await user.progressFor(userId, vocabId);
     final item = WordListItem(word: word, progress: progress, category: category);
     return WordDetailData(
       item: item,
@@ -326,8 +330,8 @@ class VocabRepository {
   }
 
   Future<void> toggleFavorite(int vocabId) async {
-    final current = await user.progressFor(vocabId);
-    await user.setFavorite(vocabId, favorite: !(current?.isFavorite ?? false));
+    final current = await user.progressFor(userId, vocabId);
+    await user.setFavorite(userId, vocabId, favorite: !(current?.isFavorite ?? false));
   }
 
   /// Menjawab sebuah kata; memperbarui jadwal SM-2, log, dan aktivitas harian.
@@ -339,7 +343,7 @@ class VocabRepository {
     DateTime? at,
   }) async {
     final now = at ?? DateTime.now();
-    final currentRow = await user.progressFor(vocabId);
+    final currentRow = await user.progressFor(userId, vocabId);
     final current = currentRow == null
         ? const Sm2State.initial()
         : Sm2State(
@@ -357,7 +361,8 @@ class VocabRepository {
 
     await user.saveProgress(
       UserWordsCompanion.insert(
-        vocabId: Value(vocabId),
+        userId: Value(userId),
+        vocabId: vocabId,
         status: Value(result.status.value),
         repetitions: Value(result.repetitions),
         easeFactor: Value(result.easeFactor),
@@ -373,6 +378,7 @@ class VocabRepository {
     );
 
     await user.logReview(
+      userId: userId,
       vocabId: vocabId,
       mode: mode,
       quality: quality,
@@ -381,6 +387,7 @@ class VocabRepository {
     );
 
     await user.bumpActivity(
+      userId: userId,
       day: _dayKey(now),
       reviews: 1,
       correct: correct ? 1 : 0,

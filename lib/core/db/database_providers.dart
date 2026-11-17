@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../auth/session_controller.dart';
 import '../settings/settings_controller.dart';
 import '../srs/sm2.dart';
 import 'content/content_database.dart';
@@ -15,11 +16,15 @@ final userDbProvider = Provider<UserDatabase>(
   (ref) => throw StateError('UserDatabase belum di-bootstrap'),
 );
 
+/// Repository ikut dibuat ulang saat akun berganti atau pengaturan berubah,
+/// sehingga seluruh antrean & progres selalu milik pengguna aktif.
 final vocabRepositoryProvider = Provider<VocabRepository>((ref) {
   final settings = ref.watch(settingsProvider);
+  final session = ref.watch(sessionProvider);
   return VocabRepository(
     content: ref.watch(contentDbProvider),
     user: ref.watch(userDbProvider),
+    userId: session.userId,
     level: settings.level,
     dailyGoal: settings.dailyGoal,
   );

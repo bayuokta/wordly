@@ -1,8 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
+import '../core/auth/session_controller.dart';
+import '../core/design/app_palette.dart';
 import '../core/design/app_theme.dart';
 import '../core/settings/settings_controller.dart';
+import '../features/auth/presentation/auth_page.dart';
 import '../features/onboarding/presentation/onboarding_page.dart';
 import 'router.dart';
 
@@ -12,19 +15,7 @@ class WordlyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final settings = ref.watch(settingsProvider);
-
-    // Belum onboarding: tampilkan layar perkenalan dulu, tanpa router.
-    if (!settings.onboardingDone) {
-      return MaterialApp(
-        title: 'Wordly',
-        debugShowCheckedModeBanner: false,
-        theme: AppTheme.light(),
-        darkTheme: AppTheme.dark(),
-        themeMode: settings.themeMode,
-        builder: (context, child) => _scaled(context, child, settings.textScale),
-        home: const OnboardingPage(),
-      );
-    }
+    final session = ref.watch(sessionProvider);
 
     return MaterialApp.router(
       title: 'Wordly',
@@ -33,16 +24,35 @@ class WordlyApp extends ConsumerWidget {
       darkTheme: AppTheme.dark(),
       themeMode: settings.themeMode,
       routerConfig: appRouter,
-      builder: (context, child) => _scaled(context, child, settings.textScale),
+      builder: (context, child) {
+        final media = MediaQuery.of(context);
+        return MediaQuery(
+          data: media.copyWith(textScaler: TextScaler.linear(settings.textScale)),
+          child: _gate(child, settings.onboardingDone, session),
+        );
+      },
+
     );
   }
 
-  /// Menerapkan ukuran teks pilihan pengguna (0.85–1.3).
-  Widget _scaled(BuildContext context, Widget? child, double scale) {
-    final media = MediaQuery.of(context);
-    return MediaQuery(
-      data: media.copyWith(textScaler: TextScaler.linear(scale)),
-      child: child ?? const SizedBox.shrink(),
+  /// Urutan gerbang: onboarding → akun/tamu → aplikasi.
+  Widget _gate(Widget? child, bool onboardingDone, SessionState session) {
+    if (!onboardingDone) return const OnboardingPage();
+    if (session.isInitializing) return const _SessionLoading();
+    if (!session.signedIn && !session.isGuest) return const AuthPage();
+    return child ?? const SizedBox.shrink();
+  }
+}
+
+class _SessionLoading extends StatelessWidget {
+  const _SessionLoading();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: CircularProgressIndicator(color: context.palette.primary),
+      ),
     );
   }
 }

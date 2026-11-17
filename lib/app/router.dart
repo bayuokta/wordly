@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 
+import '../features/auth/presentation/auth_page.dart';
 import '../features/explore/presentation/category_page.dart';
 import '../features/explore/presentation/explore_page.dart';
 import '../features/flashcards/presentation/flashcards_page.dart';
@@ -47,6 +48,7 @@ final GoRouter appRouter = GoRouter(
         ),
       ],
     ),
+    GoRoute(path: '/auth', builder: (_, _) => const AuthPage()),
     GoRoute(path: '/flashcards', builder: (_, _) => const FlashcardsPage()),
     GoRoute(path: '/quiz', builder: (_, _) => const QuizPage()),
     GoRoute(path: '/review', builder: (_, _) => const ReviewPage()),

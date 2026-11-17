@@ -26,7 +26,8 @@
 
 **Prinsip produk**
 - **Offline penuh.** Tidak ada request jaringan saat belajar; TTS memakai mesin perangkat.
-- **Tanpa akun.** Data di perangkat; backend hanya untuk fase berikutnya.
+- **Akun opsional.** Mode tamu tetap bisa dipakai penuh; akun lokal hanya untuk
+  memisahkan progres antar pengguna di perangkat yang sama.
 - **Tanpa data palsu.** Semua angka di UI berasal dari `user.db`; kosong berarti kosong.
 - **Tidak ada tombol dekoratif.** Aksi mati dilarang; fitur yang belum ada ditandai jelas.
 
@@ -47,6 +48,7 @@
 | I | Spaced Repetition SM-2 | ✅ | Satu scheduler untuk semua mode |
 | J | Review terjadwal | ✅ | Prioritas keterlambatan & kesalahan |
 | K | Pengaturan | ✅ | Tema, level, target, ukuran teks |
+| Q | Akun lokal | ✅ | Daftar/masuk email + kata sandi, mode tamu, multi-akun, auto-login |
 | L | Statistik terperinci | ⏳ | Angka ringkas sudah ada; grafik aktivitas masih kosong |
 | M | Koleksi kata buatan sendiri | ⏳ | Tabel DB sudah ada, UI belum |
 | N | Notifikasi harian | ⏳ | Belum |
@@ -197,20 +199,53 @@ vocabulary_fts (FTS5: word, translation, content='vocabularies')
 ### 6.2 `user.db` — progres
 
 ```
-user_words(vocab_id PK, status, is_favorite, repetitions, ease_factor,
+users(id PK, email UNIQUE, display_name, password_hash, created_at, last_login_at)
+  -- id = 1 adalah akun bawaan "Tamu" (password_hash NULL)
+sessions(id PK, user_id → users.id, token, created_at, last_used_at)
+
+user_words(user_id, vocab_id, status, is_favorite, repetitions, ease_factor,
            interval_days, due_at, lapses, correct_count, wrong_count,
            first_seen_at, last_reviewed_at, updated_at, sync_state)
-review_logs(id, vocab_id, mode, quality, is_correct, reviewed_at)
-collections(id, name, created_at, updated_at)
-collection_words(collection_id, vocab_id, added_at)
-daily_activities(day PK, words_learned, reviews_done, correct, wrong, goal_met)
-word_of_day(day PK, vocab_id)
+  PK (user_id, vocab_id)
+review_logs(id, user_id, vocab_id, mode, quality, is_correct, reviewed_at)
+collections(id, user_id, name, created_at, updated_at)
+collection_words(user_id, collection_id, vocab_id, added_at)
+  PK (user_id, collection_id, vocab_id)
+daily_activities(user_id, day, words_learned, reviews_done, correct, wrong, goal_met)
+  PK (user_id, day)
+word_of_days(user_id, day, vocab_id)
+  PK (user_id, day)
 ```
 
 `vocab_id` tidak memakai foreign key karena beda file database; konsistensi
 dijaga di lapisan aplikasi + ID kata yang stabil.
 
-### 6.3 Seeding & versi konten
+### 6.3 Akun, sesi & isolasi data
+
+Aplikasi tetap bisa dipakai **tanpa akun** (mode Tamu). Akun lokal bersifat
+opsional dan hanya untuk memisahkan progres di perangkat yang sama.
+
+| Aspek | Keputusan |
+|---|---|
+| Identitas | Email (dinormalisasi lowercase), tanpa verifikasi karena offline |
+| Kata sandi | PBKDF2-HMAC-SHA256, 120.000 iterasi, salt 16 byte acak, dibandingkan constant-time |
+| Sesi | Token 32 byte di tabel `sessions` + `shared_preferences` → auto-login |
+| Tamu | Akun bawaan `id = 1`; data tamu tidak pernah hilang |
+| Akun pertama | Mewarisi (adopt) seluruh progres Tamu saat dibuat |
+| Akun berikutnya | Mulai dari nol; progres terisolasi lewat `user_id` |
+| Keluar | Token dihapus, data tetap tersimpan |
+| Hapus akun | Menghapus baris `users` + semua progres akun tersebut (Tamu dilindungi) |
+| Reset kata sandi | Tidak tersedia (tidak ada server); tersedia "Ubah kata sandi" setelah login |
+
+Batas keamanan: ini **profil lokal**, bukan autentikasi kuat. Siapa pun yang
+memegang perangkat dan bisa membaca file `user.db` dapat mengakses data; enkripsi
+database (SQLCipher) bisa ditambahkan pada rilis berikutnya.
+
+Migrasi `schemaVersion` 1 → 2: membuat tabel `users`/`sessions`, menambahkan
+`user_id` (default 1) ke semua tabel progres, dan membangun ulang tabel agar
+primary key menjadi komposit `(user_id, …)`. Data lama otomatis menjadi milik Tamu.
+
+### 6.4 Seeding & versi konten
 
 - `VocabSeeder` membaca semua `assets/vocab/*.json` lewat `AssetManifest`.
 - "Tanda tangan" konten = `path:version:jumlah_kata` per berkas. Bila berbeda
@@ -346,7 +381,7 @@ kedipan UI):
 | Aspek | Kondisi saat ini |
 |---|---|
 | `flutter analyze` | 0 issue |
-| `flutter test` | 12 tes (10 SM-2 + 2 pengaturan/tema) |
+| `flutter test` | 22 tes (10 SM-2, 10 autentikasi/validasi, 2 pengaturan/tema) |
 | Build | `flutter build apk --debug` sukses |
 | Verifikasi visual | Semua layar dijalankan di emulator Android 16 (lihat `docs/screenshots/`) |
 | Konten | 507 kata tervalidasi |
@@ -378,6 +413,8 @@ kedipan UI):
 | Kotlin gagal menutup cache di Windows | `kotlin.incremental=false` di `android/gradle.properties` |
 | Emulator crash dengan `-gpu auto` | Pakai `-gpu swiftshader_indirect` (lihat `CARA-JALAN.md`) |
 | TTS tidak tersedia di sebagian perangkat | Fallback snackbar, tidak memblokir alur |
+| Kata sandi lokal tidak bisa direset (tanpa server) | Tersedia "Ubah kata sandi"; akun bisa dihapus lalu dibuat ulang |
+| `user.db` tidak terenkripsi | Akun lokal = profil, bukan autentikasi kuat; SQLCipher direncanakan |
 | Ukuran layar 360 dp | Semua halaman memakai `ListView`/scroll; belum diuji menyeluruh |
 
 ---
