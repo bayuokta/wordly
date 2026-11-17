@@ -10,6 +10,8 @@ class AppSettings {
     required this.themeMode,
     required this.onboardingDone,
     required this.audioAutoplay,
+    required this.notificationsEnabled,
+    required this.notificationMinutes,
   });
 
   /// `beginner` | `intermediate` | `advanced`.
@@ -22,6 +24,10 @@ class AppSettings {
   final bool onboardingDone;
   final bool audioAutoplay;
 
+  /// Pengingat harian (jam disimpan sebagai menit sejak tengah malam).
+  final bool notificationsEnabled;
+  final int notificationMinutes;
+
   static const AppSettings defaults = AppSettings(
     level: 'intermediate',
     dailyGoal: 10,
@@ -29,7 +35,16 @@ class AppSettings {
     themeMode: ThemeMode.dark,
     onboardingDone: false,
     audioAutoplay: false,
+    notificationsEnabled: false,
+    notificationMinutes: 19 * 60,
   );
+
+  /// Contoh: `19:00`.
+  String get notificationTimeLabel {
+    final hour = (notificationMinutes ~/ 60).toString().padLeft(2, '0');
+    final minute = (notificationMinutes % 60).toString().padLeft(2, '0');
+    return '$hour:$minute';
+  }
 
   static const List<int> goalOptions = [5, 10, 20];
   static const List<double> textScaleOptions = [0.85, 1, 1.15, 1.3];
@@ -61,6 +76,8 @@ class AppSettings {
     ThemeMode? themeMode,
     bool? onboardingDone,
     bool? audioAutoplay,
+    bool? notificationsEnabled,
+    int? notificationMinutes,
   }) {
     return AppSettings(
       level: level ?? this.level,
@@ -69,6 +86,8 @@ class AppSettings {
       themeMode: themeMode ?? this.themeMode,
       onboardingDone: onboardingDone ?? this.onboardingDone,
       audioAutoplay: audioAutoplay ?? this.audioAutoplay,
+      notificationsEnabled: notificationsEnabled ?? this.notificationsEnabled,
+      notificationMinutes: notificationMinutes ?? this.notificationMinutes,
     );
   }
 }

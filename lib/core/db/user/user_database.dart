@@ -371,6 +371,27 @@ class UserDatabase extends _$UserDatabase {
     });
   }
 
+  /// Baris aktivitas dalam rentang YYYY-MM-DD (inklusif).
+  Future<List<DailyActivity>> activityRange(int userId, String fromDay, String toDay) {
+    return (select(dailyActivities)
+          ..where(
+            (t) => t.userId.equals(userId) & t.day.isBiggerOrEqualValue(fromDay) & t.day.isSmallerOrEqualValue(toDay),
+          )
+          ..orderBy([(t) => OrderingTerm.asc(t.day)]))
+        .get();
+  }
+
+  /// Total jawaban (semua waktu) untuk akurasi keseluruhan.
+  Future<({int total, int correct})> reviewTotals(int userId) async {
+    final total = countAll();
+    final correct = reviewLogs.id.count(filter: reviewLogs.isCorrect.equals(true));
+    final row = await (selectOnly(reviewLogs)
+          ..addColumns([total, correct])
+          ..where(reviewLogs.userId.equals(userId)))
+        .getSingle();
+    return (total: row.read(total) ?? 0, correct: row.read(correct) ?? 0);
+  }
+
   Future<List<DailyActivity>> recentActivity(int userId, {int days = 7}) {
     return (select(dailyActivities)
           ..where((t) => t.userId.equals(userId))

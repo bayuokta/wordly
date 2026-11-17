@@ -11,6 +11,7 @@ import '../../../core/design/app_typography.dart';
 import '../../../core/settings/app_settings.dart';
 import '../../../core/settings/settings_controller.dart';
 import '../../../core/utils/date_id.dart';
+import '../../../core/widgets/activity_chart.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/app_card.dart';
 import '../../../core/widgets/app_chip.dart';
@@ -146,6 +147,24 @@ class ProfilePage extends ConsumerWidget {
                 ),
                 const _RowDivider(),
                 _SettingsRow(
+                  icon: Icons.notifications_active_outlined,
+                  label: 'Notifikasi harian',
+                  value: settings.notificationsEnabled ? 'Aktif' : 'Mati',
+                  tone: IconTileTone.warning,
+                  onTap: () => _toggleNotifications(context, ref, settings),
+                ),
+                if (settings.notificationsEnabled) ...[
+                  const _RowDivider(),
+                  _SettingsRow(
+                    icon: Icons.schedule_rounded,
+                    label: 'Waktu pengingat',
+                    value: settings.notificationTimeLabel,
+                    tone: IconTileTone.neutral,
+                    onTap: () => _pickNotificationTime(context, ref, settings),
+                  ),
+                ],
+                const _RowDivider(),
+                _SettingsRow(
                   icon: Icons.info_outline_rounded,
                   label: 'Tentang Wordly',
                   tone: IconTileTone.primary,
@@ -214,6 +233,43 @@ class ProfilePage extends ConsumerWidget {
     );
     if (picked != null) {
       await ref.read(settingsProvider.notifier).setTextScale(picked);
+    }
+  }
+
+  Future<void> _toggleNotifications(
+    BuildContext context,
+    WidgetRef ref,
+    AppSettings settings,
+  ) async {
+    final ok = await ref
+        .read(settingsProvider.notifier)
+        .setNotificationsEnabled(enabled: !settings.notificationsEnabled);
+    if (!ok && context.mounted) {
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+          const SnackBar(content: Text('Izin notifikasi ditolak. Aktifkan lewat pengaturan Android.')),
+        );
+    }
+  }
+
+  Future<void> _pickNotificationTime(
+    BuildContext context,
+    WidgetRef ref,
+    AppSettings settings,
+  ) async {
+    final picked = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay(
+        hour: settings.notificationMinutes ~/ 60,
+        minute: settings.notificationMinutes % 60,
+      ),
+      helpText: 'Waktu pengingat harian',
+    );
+    if (picked != null) {
+      await ref
+          .read(settingsProvider.notifier)
+          .setNotificationTime(picked.hour * 60 + picked.minute);
     }
   }
 
@@ -347,16 +403,34 @@ class _StatTile extends StatelessWidget {
   }
 }
 
-class _WeeklyActivityCard extends StatelessWidget {
+class _WeeklyActivityCard extends ConsumerWidget {
   const _WeeklyActivityCard();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final p = context.palette;
+    final stats = ref.watch(statsProvider(7)).value;
+    final reviews = stats?.rangeReviews ?? 0;
+    final activeDays = stats?.activeDays ?? 0;
     final today = DateTime.now();
 
+    final bars = stats == null
+        ? const <({String label, int value, bool highlight})>[]
+        : [
+            for (final item in stats.series)
+              (
+                label: DateId.shortDay(item.date),
+                value: item.activity?.reviewsDone ?? 0,
+                highlight:
+                    item.date.year == today.year &&
+                    item.date.month == today.month &&
+                    item.date.day == today.day,
+              ),
+          ];
+
     return AppCard(
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 14),
+      padding: const EdgeInsets.fromLTRB(15, 14, 15, 12),
+      onTap: () => context.push('/statistics'),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -376,47 +450,29 @@ class _WeeklyActivityCard extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 4),
-                    Text('Belum ada aktivitas', style: context.tiny),
+                    Text(
+                      reviews == 0
+                          ? 'Belum ada aktivitas'
+                          : '$reviews ulasan · $activeDays hari aktif',
+                      style: context.tiny,
+                    ),
                   ],
                 ),
               ),
-              const AppChip(label: '0 hari', height: 22, fontSize: 10.5),
+              AppChip(label: 'Lihat', height: 22, fontSize: 10.5),
+              const SizedBox(width: 4),
+              Icon(Icons.chevron_right_rounded, size: 15, color: p.chevron),
             ],
           ),
           const SizedBox(height: 14),
-          SizedBox(
-            height: 96,
-            child: Row(
-              children: [
-                for (var i = 6; i >= 0; i--)
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Container(
-                          width: double.infinity,
-                          height: 4,
-                          margin: const EdgeInsets.symmetric(horizontal: 4),
-                          decoration: BoxDecoration(
-                            color: p.track,
-                            borderRadius: BorderRadius.circular(3),
-                          ),
-                        ),
-                        const SizedBox(height: 7),
-                        Text(
-                          DateId.shortDay(today.subtract(Duration(days: i))),
-                          style: TextStyle(
-                            fontFamily: AppFonts.body,
-                            fontSize: 10,
-                            color: i == 0 ? p.primaryText : p.textDim,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-              ],
+          if (stats == null)
+            const SizedBox(height: 96, child: Center(child: CircularProgressIndicator()))
+          else
+            ActivityChart(
+              bars: bars,
+              height: 96,
+              maxValue: stats.maxReviews,
             ),
-          ),
         ],
       ),
     );

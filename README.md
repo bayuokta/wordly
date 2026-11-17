@@ -23,6 +23,8 @@ pengulangan berjarak (SM-2). Offline-first, tanpa akun, tanpa iklan.
 | 🧭 **Explore** | 13 kategori, filter level, pencarian Inggris ↔ Indonesia |
 | 📖 **Detail kata** | Terjemahan, definisi, IPA, contoh kalimat + terjemahan, sinonim/antonim, jadwal ulangan |
 | ⭐ **Kata Saya** | Favorit, riwayat, belum dikuasai, dikuasai |
+| 📊 **Statistik** | Grafik 7/30 hari, akurasi, streak terbaik, total ulasan |
+| 🔔 **Notifikasi harian** | Pengingat belajar pada jam pilihan (lokal, tanpa server) |
 | 🃏 **Flashcard** | 5–20 kartu, ketuk untuk balik, geser kiri/kanan, kata salah muncul lagi |
 | ✅ **Quiz** | Pilihan ganda, EN→ID, ID→EN, isi rumpang, listening, ejaan |
 | 🔁 **Review terjadwal** | Antrean SM-2: prioritas kata paling terlambat & paling sering salah |
@@ -97,7 +99,7 @@ flutter build apk --release --split-per-abi
 flutter build appbundle --release
 ```
 
-Sebelum rilis, siapkan keystore dan `android/key.properties` (jangan di-commit),
+Keystore rilis sudah dikonfigurasi (lihat [docs/RILIS.md](docs/RILIS.md)); `android/key.properties` tidak di-commit.
 ganti `applicationId` bila perlu, lalu uji di perangkat nyata.
 
 ---
@@ -159,7 +161,7 @@ menghapus progres pengguna**. Detail skema & format ada di
 
 ## Status & lisensi
 
-Versi **0.1.0** — fungsional untuk dipakai harian; rilis toko belum disiapkan.
+Versi **0.1.1** — fungsional untuk dipakai harian; rilis toko belum disiapkan.
 
 - Kode: tentukan lisensi sebelum publikasi (proprietary atau MIT).
 - Font: SIL Open Font License (Plus Jakarta Sans, Inter, Noto Sans).

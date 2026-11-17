@@ -67,6 +67,11 @@ final categoryWordsProvider = FutureProvider.family<List<WordListItem>, int>(
   (ref, categoryId) => ref.watch(vocabRepositoryProvider).wordsInCategory(categoryId),
 );
 
+/// Statistik untuk [days] hari terakhir.
+final statsProvider = FutureProvider.family<StatsSnapshot, int>(
+  (ref, days) => ref.watch(vocabRepositoryProvider).stats(days: days),
+);
+
 /// Kumpulan kata untuk kuis.
 final quizPoolProvider = FutureProvider<List<Vocabulary>>(
   (ref) => ref.watch(vocabRepositoryProvider).quizPool(),

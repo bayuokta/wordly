@@ -49,9 +49,9 @@
 | J | Review terjadwal | ✅ | Prioritas keterlambatan & kesalahan |
 | K | Pengaturan | ✅ | Tema, level, target, ukuran teks |
 | Q | Akun lokal | ✅ | Daftar/masuk email + kata sandi, mode tamu, multi-akun, auto-login |
-| L | Statistik terperinci | ⏳ | Angka ringkas sudah ada; grafik aktivitas masih kosong |
+| L | Statistik terperinci | ✅ | Grafik 7/30 hari, akurasi, streak terbaik, total ulasan; halaman /statistics |
 | M | Koleksi kata buatan sendiri | ⏳ | Tabel DB sudah ada, UI belum |
-| N | Notifikasi harian | ⏳ | Belum |
+| N | Notifikasi harian | ✅ | Pengingat harian via flutter_local_notifications, jam dapat diubah |
 | O | Audio file/URL (selain TTS) | ⏳ | Kolom `audio_url` sudah tersedia |
 | P | Sinkronisasi cloud | ⏳ | Kolom `sync_state`, `updated_at` sudah disiapkan |
 
@@ -395,12 +395,11 @@ kedipan UI):
 
 | Prioritas | Pekerjaan |
 |---|---|
-| 1 | Build APK release + keystore + uji di perangkat nyata |
+| 1 | Uji APK rilis di perangkat nyata (TTS, ukuran layar 360 dp, notifikasi) |
 | 2 | Koleksi kata (tabel & UI) |
-| 3 | Statistik terperinci: grafik mingguan/bulanan dari `daily_activities` |
-| 4 | Notifikasi harian (`flutter_local_notifications` + `timezone`) |
-| 5 | Audio file/URL + atribusi lisensi di halaman Tentang |
-| 6 | Sinkronisasi cloud (FastAPI + PostgreSQL sesuai brief v0.1) |
+| 3 | Audio file/URL + atribusi lisensi di halaman Tentang |
+| 4 | Sinkronisasi cloud (FastAPI + PostgreSQL sesuai brief v0.1) |
+| 5 | Enkripsi database (SQLCipher) untuk akun lokal |
 
 ---
 

@@ -240,6 +240,60 @@ class VocabRepository {
     return items;
   }
 
+  /// Ringkasan statistik untuk [days] hari terakhir.
+  Future<StatsSnapshot> stats({int days = 7}) async {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final from = today.subtract(Duration(days: days - 1));
+
+    final rows = await user.activityRange(userId, _dayKey(from), _dayKey(today));
+    final byDay = {for (final row in rows) row.day: row};
+
+    final series = [
+      for (var i = 0; i < days; i++)
+        (date: from.add(Duration(days: i)), activity: byDay[_dayKey(from.add(Duration(days: i)))]),
+    ];
+
+    final all = await user.recentActivity(userId, days: 400);
+    final totals = await user.reviewTotals(userId);
+    final learned = await user.countLearned(userId);
+    final mastered = await user.countByStatus(userId, WordStatus.mastered.value);
+    final due = await user.countDue(userId, now);
+
+    var bestStreak = 0;
+    var run = 0;
+    final daysWithActivity = {
+      for (final row in all)
+        if (row.reviewsDone > 0) row.day,
+    };
+    for (var i = 0; i < 400; i++) {
+      final key = _dayKey(today.subtract(Duration(days: i)));
+      if (daysWithActivity.contains(key)) {
+        run++;
+        if (run > bestStreak) bestStreak = run;
+      } else {
+        run = 0;
+      }
+    }
+
+    final rangeReviews = series.fold<int>(0, (sum, item) => sum + (item.activity?.reviewsDone ?? 0));
+    final rangeCorrect = series.fold<int>(0, (sum, item) => sum + (item.activity?.correct ?? 0));
+
+    return StatsSnapshot(
+      days: days,
+      series: series,
+      rangeReviews: rangeReviews,
+      rangeAccuracy: rangeReviews == 0 ? null : rangeCorrect / rangeReviews,
+      totalReviews: totals.total,
+      totalAccuracy: totals.total == 0 ? null : totals.correct / totals.total,
+      learned: learned,
+      mastered: mastered,
+      due: due,
+      activeDays: daysWithActivity.length,
+      bestStreak: bestStreak,
+    );
+  }
+
   /// Antrean review: kata jatuh tempo, diurutkan dari yang paling terlambat,
   /// lalu yang paling sering salah (lapses & rasio salah).
   Future<List<WordListItem>> reviewQueue({int limit = 30}) async {
@@ -413,4 +467,38 @@ class VocabRepository {
     if (days == 1) return 'Besok';
     return '$days hari lagi';
   }
+}
+
+/// Data untuk layar Statistik.
+class StatsSnapshot {
+  const StatsSnapshot({
+    required this.days,
+    required this.series,
+    required this.rangeReviews,
+    required this.totalReviews,
+    required this.learned,
+    required this.mastered,
+    required this.due,
+    required this.activeDays,
+    required this.bestStreak,
+    this.rangeAccuracy,
+    this.totalAccuracy,
+  });
+
+  final int days;
+  final List<({DateTime date, DailyActivity? activity})> series;
+  final int rangeReviews;
+  final int totalReviews;
+  final int learned;
+  final int mastered;
+  final int due;
+  final int activeDays;
+  final int bestStreak;
+  final double? rangeAccuracy;
+  final double? totalAccuracy;
+
+  int get maxReviews => series.fold<int>(1, (max, item) {
+    final value = item.activity?.reviewsDone ?? 0;
+    return value > max ? value : max;
+  });
 }

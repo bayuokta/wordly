@@ -49,3 +49,8 @@ app.*.map.json
 
 # Kotlin incremental cache (Windows)
 android/.kotlin/
+
+# Rahasia rilis - JANGAN di-commit
+android/key.properties
+*.jks
+*.keystore
