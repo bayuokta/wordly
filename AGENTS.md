@@ -9,7 +9,7 @@ Baca `docs/PERANCANGAN.md` dulu untuk memahami produk; dokumen ini fokus pada
 ## 1. Ringkasan proyek
 
 Wordly adalah aplikasi Flutter (Android, offline-first) untuk belajar kosakata
-Inggris–Indonesia: 507 kata dalam 13 kategori, latihan (flashcard & 6 mode kuis),
+Inggris–Indonesia: 591 kata dalam 13 kategori, latihan (flashcard & 6 mode kuis),
 dan pengulangan berjarak SM-2. Tanpa akun, tanpa jaringan.
 
 - Flutter 3.50.0 · Dart 3.14 · material_ui (bukan `flutter/material.dart`)

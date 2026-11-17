@@ -9,9 +9,11 @@ import '../../../core/design/app_spacing.dart';
 import '../../../core/design/app_typography.dart';
 import '../../../core/utils/date_id.dart';
 import '../../../core/widgets/activity_chart.dart';
+import '../../../core/widgets/streak_heatmap.dart';
 import '../../../core/widgets/app_card.dart';
 import '../../../core/widgets/app_chip.dart';
 import '../../../core/widgets/app_progress.dart';
+import '../../../core/widgets/word_row.dart';
 
 /// Statistik aktivitas dan penguasaan kosakata.
 class StatsPage extends ConsumerStatefulWidget {
@@ -84,13 +86,13 @@ class _StatsPageState extends ConsumerState<StatsPage> {
   }
 }
 
-class _Body extends StatelessWidget {
+class _Body extends ConsumerWidget {
   const _Body({required this.stats});
 
   final StatsSnapshot stats;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final p = context.palette;
     final today = DateTime.now();
     final accuracy = stats.rangeAccuracy == null ? '—' : '${(stats.rangeAccuracy! * 100).round()}%';
@@ -201,6 +203,159 @@ class _Body extends StatelessWidget {
               ),
               const SizedBox(height: 14),
               ActivityChart(bars: bars, labelEvery: stats.days > 10 ? 5 : 1),
+            ],
+          ),
+        ),
+        const SizedBox(height: 12),
+        AppCard(
+          padding: const EdgeInsets.all(15),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Kalender aktivitas',
+                      style: TextStyle(
+                        fontFamily: AppFonts.body,
+                        fontSize: 13.5,
+                        fontWeight: FontWeight.w600,
+                        color: p.textPrimary,
+                      ),
+                    ),
+                  ),
+                  AppChip(label: '35 hari', height: 22, fontSize: 10),
+                ],
+              ),
+              const SizedBox(height: 12),
+              ref.watch(statsProvider(35)).when(
+                loading: () => const SizedBox(
+                  height: 120,
+                  child: Center(child: CircularProgressIndicator()),
+                ),
+                error: (_, _) => Text('Grafik tidak tersedia.', style: context.tiny),
+                data: (heat) => StreakHeatmap(
+                  days: [
+                    for (final item in heat.series)
+                      (date: item.date, reviews: item.activity?.reviewsDone ?? 0),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 12),
+        AppCard(
+          padding: const EdgeInsets.fromLTRB(15, 14, 15, 6),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Progres per kategori',
+                style: TextStyle(
+                  fontFamily: AppFonts.body,
+                  fontSize: 13.5,
+                  fontWeight: FontWeight.w600,
+                  color: p.textPrimary,
+                ),
+              ),
+              const SizedBox(height: 10),
+              ref.watch(categoriesProvider).when(
+                loading: () => const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  child: Center(child: CircularProgressIndicator()),
+                ),
+                error: (_, _) => Text('Kategori tidak tersedia.', style: context.tiny),
+                data: (categories) => Column(
+                  children: [
+                    for (final category in categories.take(6))
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex: 5,
+                              child: Text(
+                                category.name,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontFamily: AppFonts.body,
+                                  fontSize: 12,
+                                  color: p.textSoft,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              flex: 4,
+                              child: AppProgressBar(value: category.progress, height: 5),
+                            ),
+                            const SizedBox(width: 10),
+                            SizedBox(
+                              width: 54,
+                              child: Text(
+                                '${category.learned}/${category.total}',
+                                textAlign: TextAlign.right,
+                                style: context.tiny.copyWith(fontSize: 10.5),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 12),
+        AppCard(
+          padding: const EdgeInsets.fromLTRB(14, 14, 14, 8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Kata tersulit',
+                style: TextStyle(
+                  fontFamily: AppFonts.body,
+                  fontSize: 13.5,
+                  fontWeight: FontWeight.w600,
+                  color: p.textPrimary,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text('Paling sering kamu jawab salah.', style: context.tiny),
+              const SizedBox(height: 8),
+              ref.watch(hardestWordsProvider).when(
+                loading: () => const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  child: Center(child: CircularProgressIndicator()),
+                ),
+                error: (_, _) => Text('Daftar tidak tersedia.', style: context.tiny),
+                data: (words) => words.isEmpty
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        child: Text(
+                          'Belum ada kata yang salah. Pertahankan!',
+                          style: context.tiny,
+                        ),
+                      )
+                    : Column(
+                        children: [
+                          for (final (index, item) in words.indexed) ...[
+                            if (index > 0)
+                              Divider(height: 1, color: p.divider),
+                            WordRow(
+                              item: item,
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              onTap: () => context.push('/word/${item.word.id}'),
+                            ),
+                          ],
+                        ],
+                      ),
+              ),
             ],
           ),
         ),

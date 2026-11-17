@@ -1,12 +1,15 @@
 import 'package:go_router/go_router.dart';
 
 import '../features/auth/presentation/auth_page.dart';
+import '../features/collections/presentation/collection_detail_page.dart';
+import '../features/collections/presentation/collections_page.dart';
 import '../features/explore/presentation/category_page.dart';
 import '../features/explore/presentation/explore_page.dart';
 import '../features/flashcards/presentation/flashcards_page.dart';
 import '../features/home/presentation/home_page.dart';
 import '../features/my_words/presentation/my_words_page.dart';
 import '../features/practice/presentation/practice_page.dart';
+import '../features/privacy/presentation/privacy_page.dart';
 import '../features/quiz/presentation/quiz_page.dart';
 import '../features/review/presentation/review_page.dart';
 import '../features/stats/presentation/stats_page.dart';
@@ -54,6 +57,15 @@ final GoRouter appRouter = GoRouter(
     GoRoute(path: '/quiz', builder: (_, _) => const QuizPage()),
     GoRoute(path: '/review', builder: (_, _) => const ReviewPage()),
     GoRoute(path: '/statistics', builder: (_, _) => const StatsPage()),
+    GoRoute(path: '/privacy', builder: (_, _) => const PrivacyPage()),
+    GoRoute(path: '/collections', builder: (_, _) => const CollectionsPage()),
+    GoRoute(
+      path: '/collections/:id',
+      builder: (context, state) => CollectionDetailPage(
+        collectionId: int.tryParse(state.pathParameters['id'] ?? '') ?? 0,
+        title: state.uri.queryParameters['title'] ?? 'Koleksi',
+      ),
+    ),
     GoRoute(
       path: '/word/:id',
       builder: (context, state) => WordDetailPage(

@@ -64,7 +64,7 @@ Di VS Code, cukup tekan `F5` (pilih device `Wordly_Pixel`).
 - **Onboarding** — sekali saat pertama buka: pilih level (Pemula/Menengah/Mahir) + target harian (5/10/20).
 - **Akun lokal** — daftar/masuk dengan email + kata sandi, atau lanjut sebagai tamu. Progres tiap akun terpisah; akun pertama mewarisi progres tamu.
 - **Home** — kata hari ini, target harian, streak, jatuh tempo, riwayat singkat.
-- **Explore** — 13 kategori (507 kata), filter level, pencarian Inggris ↔ Indonesia.
+- **Explore** — 13 kategori (591 kata), filter level, pencarian Inggris ↔ Indonesia.
 - **Detail kata** — 11 field, audio TTS (tombol "Dengarkan"), jadwal ulangan, bookmark, tombol "Sudah paham"/"Pelajari lagi" (SM-2).
 - **Kata Saya** — Favorit, Riwayat, Belum Dikuasai, Dikuasai.
 - **Practice → Flashcard** — pilih 5/10/12/20 kartu, balik kartu, geser kiri/kanan, ringkasan sesi, ulangi kata yang salah.

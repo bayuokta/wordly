@@ -240,6 +240,93 @@ class VocabRepository {
     return items;
   }
 
+  // ------------------------------------------------------------- koleksi
+
+  Future<List<CollectionSummary>> collections() async {
+    final rows = await user.collectionsOf(userId);
+    final result = <CollectionSummary>[];
+    for (final row in rows) {
+      result.add(
+        CollectionSummary(
+          id: row.id,
+          name: row.name,
+          wordCount: await user.countCollectionWords(userId, row.id),
+        ),
+      );
+    }
+    return result;
+  }
+
+  Future<int> createCollection(String name) async {
+    final row = await user.createCollection(userId, name);
+    return row.id;
+  }
+
+  Future<void> renameCollection(int id, String name) => user.renameCollection(userId, id, name);
+
+  Future<void> deleteCollection(int id) => user.deleteCollection(userId, id);
+
+  Future<List<WordListItem>> collectionItems(int collectionId) async {
+    final rows = await user.collectionWordRows(userId, collectionId);
+    if (rows.isEmpty) return const [];
+    final words = await content.vocabulariesByIds(rows.map((row) => row.vocabId).toList());
+    final byId = {for (final word in words) word.id: word};
+    return [
+      for (final row in rows)
+        if (byId[row.vocabId] case final word?) WordListItem(word: word),
+    ];
+  }
+
+  Future<void> addToCollection(int collectionId, int vocabId) =>
+      user.addToCollection(userId, collectionId, vocabId);
+
+  Future<void> removeFromCollection(int collectionId, int vocabId) =>
+      user.removeFromCollection(userId, collectionId, vocabId);
+
+  Future<Set<int>> collectionsContaining(int vocabId) async {
+    final rows = await user.collectionsOf(userId);
+    final result = <int>{};
+    for (final row in rows) {
+      final words = await user.collectionWordRows(userId, row.id);
+      if (words.any((word) => word.vocabId == vocabId)) result.add(row.id);
+    }
+    return result;
+  }
+
+  // ------------------------------------------------- latihan adaptif
+
+  /// Kata yang paling perlu diulang: rasio salah & lapses tertinggi.
+  Future<List<WordListItem>> weakWords({int limit = 20}) async {
+    final rows = await user.allProgress(userId);
+    final candidates = rows.where((row) => row.wrongCount > 0 || row.lapses > 0).toList()
+      ..sort((a, b) {
+        final ratioA = a.correctCount + a.wrongCount == 0
+            ? 0.0
+            : a.wrongCount / (a.correctCount + a.wrongCount);
+        final ratioB = b.correctCount + b.wrongCount == 0
+            ? 0.0
+            : b.wrongCount / (b.correctCount + b.wrongCount);
+        final byLapses = b.lapses.compareTo(a.lapses);
+        if (byLapses != 0) return byLapses;
+        return ratioB.compareTo(ratioA);
+      });
+    if (candidates.isEmpty) return const [];
+    final words = await content.vocabulariesByIds(
+      candidates.take(limit).map((row) => row.vocabId).toList(),
+    );
+    final byId = {for (final word in words) word.id: word};
+    return [
+      for (final row in candidates.take(limit))
+        if (byId[row.vocabId] case final word?) WordListItem(word: word, progress: row),
+    ];
+  }
+
+  /// Daftar kata tersulit untuk halaman statistik.
+  Future<List<WordListItem>> hardestWords({int limit = 5}) => weakWords(limit: limit);
+
+  /// Jumlah kata yang sudah jatuh tempo (untuk teks notifikasi).
+  Future<int> dueCount() => user.countDue(userId, DateTime.now());
+
   /// Ringkasan statistik untuk [days] hari terakhir.
   Future<StatsSnapshot> stats({int days = 7}) async {
     final now = DateTime.now();
@@ -501,4 +588,12 @@ class StatsSnapshot {
     final value = item.activity?.reviewsDone ?? 0;
     return value > max ? value : max;
   });
+}
+/// Ringkasan koleksi untuk daftar.
+class CollectionSummary {
+  const CollectionSummary({required this.id, required this.name, required this.wordCount});
+
+  final int id;
+  final String name;
+  final int wordCount;
 }

@@ -80,7 +80,7 @@ class SettingsController extends Notifier<AppSettings> {
   /// Mengaktifkan/mematikan pengingat harian.
   ///
   /// Mengembalikan `false` bila izin notifikasi ditolak perangkat.
-  Future<bool> setNotificationsEnabled({required bool enabled}) async {
+  Future<bool> setNotificationsEnabled({required bool enabled, String? body}) async {
     final service = ref.read(notificationServiceProvider);
 
     if (enabled) {
@@ -88,7 +88,7 @@ class SettingsController extends Notifier<AppSettings> {
       if (!granted) return false;
       await service.scheduleDaily(
         minutes: state.notificationMinutes,
-        body: reminderBody,
+        body: body ?? reminderBody,
       );
       await service.showTest();
     } else {

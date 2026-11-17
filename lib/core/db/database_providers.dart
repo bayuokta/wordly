@@ -67,6 +67,26 @@ final categoryWordsProvider = FutureProvider.family<List<WordListItem>, int>(
   (ref, categoryId) => ref.watch(vocabRepositoryProvider).wordsInCategory(categoryId),
 );
 
+/// Daftar koleksi kata milik pengguna.
+final collectionsProvider = FutureProvider<List<CollectionSummary>>(
+  (ref) => ref.watch(vocabRepositoryProvider).collections(),
+);
+
+/// Kata di dalam satu koleksi.
+final collectionItemsProvider = FutureProvider.family<List<WordListItem>, int>(
+  (ref, collectionId) => ref.watch(vocabRepositoryProvider).collectionItems(collectionId),
+);
+
+/// Koleksi yang memuat kata tertentu (untuk sheet "simpan ke koleksi").
+final collectionsForWordProvider = FutureProvider.family<Set<int>, int>(
+  (ref, vocabId) => ref.watch(vocabRepositoryProvider).collectionsContaining(vocabId),
+);
+
+/// Kata tersulit untuk halaman statistik.
+final hardestWordsProvider = FutureProvider<List<WordListItem>>(
+  (ref) => ref.watch(vocabRepositoryProvider).hardestWords(),
+);
+
 /// Statistik untuk [days] hari terakhir.
 final statsProvider = FutureProvider.family<StatsSnapshot, int>(
   (ref, days) => ref.watch(vocabRepositoryProvider).stats(days: days),

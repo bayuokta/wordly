@@ -53,6 +53,118 @@ class _WordDetailPageState extends ConsumerState<WordDetailPage> {
     }
   }
 
+  /// Bottom sheet untuk menambah/menghapus kata dari koleksi.
+  Future<void> _openCollectionSheet() async {
+    final repo = ref.read(vocabRepositoryProvider);
+    final initialCollections = await repo.collections();
+    final containing = await repo.collectionsContaining(widget.vocabId);
+    if (!mounted) return;
+
+    await showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: context.palette.surfaceElevated,
+      showDragHandle: true,
+      builder: (sheetContext) => StatefulBuilder(
+        builder: (sheetContext, setSheetState) {
+          Future<void> toggle(int collectionId, bool selected) async {
+            if (selected) {
+              await repo.removeFromCollection(collectionId, widget.vocabId);
+            } else {
+              await repo.addToCollection(collectionId, widget.vocabId);
+            }
+            setSheetState(() {
+              if (selected) {
+                containing.remove(collectionId);
+              } else {
+                containing.add(collectionId);
+              }
+            });
+            ref.invalidate(collectionsProvider);
+            ref.invalidate(collectionItemsProvider(collectionId));
+          }
+
+          return SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(AppSpacing.page, 0, AppSpacing.page, AppSpacing.lg),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Simpan ke koleksi',
+                    style: Theme.of(sheetContext).textTheme.titleMedium?.copyWith(fontSize: 16),
+                  ),
+                  const SizedBox(height: 8),
+                  if (initialCollections.isEmpty)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Text('Belum ada koleksi.', style: context.tiny),
+                    ),
+                  for (final collection in initialCollections)
+                    ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      title: Text(collection.name),
+                      subtitle: Text('${collection.wordCount} kata'),
+                      trailing: Icon(
+                        containing.contains(collection.id)
+                            ? Icons.check_circle_rounded
+                            : Icons.circle_outlined,
+                        color: containing.contains(collection.id)
+                            ? sheetContext.palette.primary
+                            : sheetContext.palette.chevron,
+                      ),
+                      onTap: () => toggle(collection.id, containing.contains(collection.id)),
+                    ),
+                  const SizedBox(height: 4),
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    leading: const Icon(Icons.add_rounded),
+                    title: const Text('Koleksi baru…'),
+                    onTap: () async {
+                      final name = await _askCollectionName(sheetContext);
+                      if (name == null || name.isEmpty) return;
+                      final id = await repo.createCollection(name);
+                      await repo.addToCollection(id, widget.vocabId);
+                      ref.invalidate(collectionsProvider);
+                      if (sheetContext.mounted) Navigator.pop(sheetContext);
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Future<String?> _askCollectionName(BuildContext context) async {
+    final controller = TextEditingController();
+    final name = await showDialog<String>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        backgroundColor: dialogContext.palette.surfaceElevated,
+        title: const Text('Koleksi baru'),
+        content: TextField(
+          controller: controller,
+          autofocus: true,
+          maxLength: 40,
+          decoration: const InputDecoration(labelText: 'Nama koleksi'),
+          onSubmitted: (value) => Navigator.pop(dialogContext, value),
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(dialogContext), child: const Text('Batal')),
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, controller.text),
+            child: const Text('Buat'),
+          ),
+        ],
+      ),
+    );
+    controller.dispose();
+    return name?.trim();
+  }
+
   Future<void> _toggleFavorite() async {
     await ref.read(vocabRepositoryProvider).toggleFavorite(widget.vocabId);
     ref.invalidate(wordDetailProvider(widget.vocabId));
@@ -79,6 +191,7 @@ class _WordDetailPageState extends ConsumerState<WordDetailPage> {
             detail: detail,
             busy: _busy,
             onFavorite: _toggleFavorite,
+            onSaveToCollection: _openCollectionSheet,
             onAnswer: (correct) => _answer(correct: correct),
           ),
         ),
@@ -92,12 +205,14 @@ class _DetailBody extends StatelessWidget {
     required this.detail,
     required this.busy,
     required this.onFavorite,
+    required this.onSaveToCollection,
     required this.onAnswer,
   });
 
   final WordDetailData detail;
   final bool busy;
   final VoidCallback onFavorite;
+  final VoidCallback onSaveToCollection;
   final void Function(bool correct) onAnswer;
 
   @override
@@ -124,6 +239,11 @@ class _DetailBody extends StatelessWidget {
                     onTap: () => context.pop(),
                   ),
                   const Spacer(),
+                  _IconButton(
+                    icon: Icons.playlist_add_rounded,
+                    onTap: onSaveToCollection,
+                  ),
+                  const SizedBox(width: 4),
                   _IconButton(
                     icon: favorites ? Icons.bookmark : Icons.bookmark_border,
                     color: favorites ? p.primary : p.iconSoft,

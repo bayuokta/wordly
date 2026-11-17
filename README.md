@@ -3,7 +3,7 @@
 Aplikasi Android untuk belajar kosakata **Inggris–Indonesia** dengan
 pengulangan berjarak (SM-2). Offline-first, tanpa akun, tanpa iklan.
 
-13 kategori · **507 kata** · flashcard · 6 mode kuis · review terjadwal otomatis.
+13 kategori · **591 kata** · flashcard · 6 mode kuis · review terjadwal otomatis.
 
 <p align="center">
   <img src="docs/screenshots/29-onboarding.png" width="240" alt="Onboarding" />
@@ -26,6 +26,8 @@ pengulangan berjarak (SM-2). Offline-first, tanpa akun, tanpa iklan.
 | 📊 **Statistik** | Grafik 7/30 hari, akurasi, streak terbaik, total ulasan |
 | 🔔 **Notifikasi harian** | Pengingat belajar pada jam pilihan (lokal, tanpa server) |
 | 🃏 **Flashcard** | 5–20 kartu, ketuk untuk balik, geser kiri/kanan, kata salah muncul lagi |
+| 📚 **Koleksi kata** | Kelompokkan kata sendiri (mis. "Interview"), tambah dari detail kata |
+| 🧠 **Latihan adaptif** | Quiz & flashcard memprioritaskan kata yang sering salah dan yang jatuh tempo |
 | ✅ **Quiz** | Pilihan ganda, EN→ID, ID→EN, isi rumpang, listening, ejaan |
 | 🔁 **Review terjadwal** | Antrean SM-2: prioritas kata paling terlambat & paling sering salah |
 | ⚙️ **Pengaturan** | Tema gelap/terang, level, target harian, ukuran teks 85–130% |
@@ -119,7 +121,7 @@ lib/
 └─ features/       # onboarding, home, explore, word_detail, my_words,
                    # flashcards, quiz, review, practice, profile
 assets/
-├─ vocab/          # 13 berkas JSON konten (507 kata)
+├─ vocab/          # 13 berkas JSON konten (591 kata)
 ├─ fonts/          # TTF: Plus Jakarta Sans, Inter, Noto Sans
 └─ branding/       # ikon & logo splash
 tool/              # validator konten, generator aset
@@ -139,7 +141,7 @@ Konten divalidasi dengan:
 
 ```bash
 dart run tool/validate_vocab.dart
-# 13 kategori · 507 kata · 0 error · 0 peringatan
+# 13 kategori · 591 kata · 0 error · 0 peringatan
 ```
 
 Aplikasi mengimpor ulang konten secara otomatis ketika isi aset berubah, **tanpa

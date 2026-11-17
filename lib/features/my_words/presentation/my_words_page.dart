@@ -102,33 +102,11 @@ class _MyWordsPageState extends ConsumerState<MyWordsPage> {
               },
             ),
             const SizedBox(height: 12),
-            AppCard(
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-              child: Row(
-                children: [
-                  const IconTile(icon: Icons.folder_outlined),
-                  const SizedBox(width: 11),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Koleksi saya',
-                          style: TextStyle(
-                            fontFamily: AppFonts.body,
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
-                            color: p.textPrimary,
-                          ),
-                        ),
-                        const SizedBox(height: 3),
-                        Text('Belum ada koleksi', style: context.tiny),
-                      ],
-                    ),
-                  ),
-                  Icon(Icons.chevron_right_rounded, size: 15, color: p.chevron),
-                ],
-              ),
+            _CollectionsCard(
+              onTap: () {
+                ref.invalidate(collectionsProvider);
+                context.push('/collections');
+              },
             ),
           ],
         ),
@@ -191,6 +169,57 @@ class _SegmentedTabs extends StatelessWidget {
                 ),
               ),
             ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Kartu ringkas menuju daftar koleksi.
+class _CollectionsCard extends ConsumerWidget {
+  const _CollectionsCard({required this.onTap});
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final p = context.palette;
+    final collections = ref.watch(collectionsProvider).value;
+    final totalWords = collections?.fold<int>(0, (sum, item) => sum + item.wordCount) ?? 0;
+
+    return AppCard(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      onTap: onTap,
+      child: Row(
+        children: [
+          const IconTile(icon: Icons.folder_outlined),
+          const SizedBox(width: 11),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Koleksi saya',
+                  style: TextStyle(
+                    fontFamily: AppFonts.body,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: p.textPrimary,
+                  ),
+                ),
+                const SizedBox(height: 3),
+                Text(
+                  collections == null
+                      ? 'Memuat…'
+                      : collections.isEmpty
+                      ? 'Belum ada koleksi'
+                      : '${collections.length} koleksi · $totalWords kata',
+                  style: context.tiny,
+                ),
+              ],
+            ),
+          ),
+          Icon(Icons.chevron_right_rounded, size: 15, color: p.chevron),
         ],
       ),
     );

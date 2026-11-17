@@ -99,11 +99,13 @@ class _ExplorePageState extends ConsumerState<ExplorePage> {
               data: (list) => GridView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   mainAxisSpacing: 10,
                   crossAxisSpacing: 10,
-                  mainAxisExtent: 112,
+                  // Tinggi kartu mengikuti ukuran teks pengguna (85-130%).
+                  mainAxisExtent: (112 * MediaQuery.textScalerOf(context).scale(1.0))
+                      .clamp(112.0, 164.0),
                 ),
                 itemCount: list.length,
                 itemBuilder: (context, index) =>

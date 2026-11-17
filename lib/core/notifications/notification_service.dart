@@ -14,14 +14,21 @@ class NotificationService {
   final FlutterLocalNotificationsPlugin _plugin;
   bool _timezoneReady = false;
 
-  static Future<NotificationService> create() async {
+  /// [onSelect] dipanggil saat pengguna mengetuk notifikasi (payload = rute).
+  static Future<NotificationService> create({void Function(String route)? onSelect}) async {
     final plugin = FlutterLocalNotificationsPlugin();
     tzdata.initializeTimeZones();
 
     const settings = InitializationSettings(
       android: AndroidInitializationSettings('@mipmap/ic_launcher'),
     );
-    await plugin.initialize(settings: settings);
+    await plugin.initialize(
+      settings: settings,
+      onDidReceiveNotificationResponse: (response) {
+        final payload = response.payload;
+        if (payload != null && payload.isNotEmpty) onSelect?.call(payload);
+      },
+    );
 
     final service = NotificationService._(plugin);
     await service._setupTimezone();
@@ -79,12 +86,20 @@ class NotificationService {
           priority: Priority.defaultPriority,
         ),
       ),
+      payload: '/review',
       androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
       matchDateTimeComponents: DateTimeComponents.time,
     );
   }
 
   Future<void> cancelDaily() => _plugin.cancel(id: dailyId);
+
+  /// Rute dari notifikasi yang meluncurkan aplikasi (cold start).
+  Future<String?> initialRoute() async {
+    final details = await _plugin.getNotificationAppLaunchDetails();
+    final payload = details?.notificationResponse?.payload;
+    return (payload != null && payload.isNotEmpty) ? payload : null;
+  }
 
   /// Notifikasi percobaan agar pengguna langsung melihat hasilnya.
   Future<void> showTest() => _plugin.show(

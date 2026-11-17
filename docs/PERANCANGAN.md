@@ -10,7 +10,7 @@
 | Platform | Android (Flutter), offline-first |
 | Versi | 0.1.0+1 |
 | Status | Fungsional: belajar → latihan → ulang terjadwal sudah menutup siklus |
-| Ukuran konten | 13 kategori · 507 kata |
+| Ukuran konten | 13 kategori · 591 kata |
 | Bahasa UI | Indonesia |
 
 ---
@@ -50,7 +50,8 @@
 | K | Pengaturan | ✅ | Tema, level, target, ukuran teks |
 | Q | Akun lokal | ✅ | Daftar/masuk email + kata sandi, mode tamu, multi-akun, auto-login |
 | L | Statistik terperinci | ✅ | Grafik 7/30 hari, akurasi, streak terbaik, total ulasan; halaman /statistics |
-| M | Koleksi kata buatan sendiri | ⏳ | Tabel DB sudah ada, UI belum |
+| M | Koleksi kata buatan sendiri | ✅ | Buat/hapus koleksi, tambah kata dari detail |
+| R | Latihan adaptif | ✅ | Quiz & flashcard memprioritaskan kata lemah + jatuh tempo |
 | N | Notifikasi harian | ✅ | Pengingat harian via flutter_local_notifications, jam dapat diubah |
 | O | Audio file/URL (selain TTS) | ⏳ | Kolom `audio_url` sudah tersedia |
 | P | Sinkronisasi cloud | ⏳ | Kolom `sync_state`, `updated_at` sudah disiapkan |
@@ -290,7 +291,7 @@ dan `daily_activities` sekaligus.
 
 ## 8. Konten Kosakata
 
-- 13 kategori × 39 kata = **507 kata** (target minimum 500 tercapai).
+- 13 kategori × 39 kata = **591 kata** (target minimum 500 tercapai).
 - Berkas: `assets/vocab/NN-nama-kategori.json` dengan struktur:
 
 ```json
@@ -313,7 +314,7 @@ dan `daily_activities` sekaligus.
 
 ```bash
 dart run tool/validate_vocab.dart
-# 13 kategori · 507 kata · 0 error · 0 peringatan
+# 13 kategori · 591 kata · 0 error · 0 peringatan
 ```
 
 Validator memeriksa: field wajib, format IPA, level/CEFR/POS sah, ID & kata
@@ -384,7 +385,7 @@ kedipan UI):
 | `flutter test` | 22 tes (10 SM-2, 10 autentikasi/validasi, 2 pengaturan/tema) |
 | Build | `flutter build apk --debug` sukses |
 | Verifikasi visual | Semua layar dijalankan di emulator Android 16 (lihat `docs/screenshots/`) |
-| Konten | 507 kata tervalidasi |
+| Konten | 591 kata tervalidasi |
 
 **Belum ada:** tes widget per layar, tes integrasi end-to-end, tes performa pada
 10.000 kata, dan build release yang ditandatangani.
@@ -396,10 +397,11 @@ kedipan UI):
 | Prioritas | Pekerjaan |
 |---|---|
 | 1 | Uji APK rilis di perangkat nyata (TTS, ukuran layar 360 dp, notifikasi) |
-| 2 | Koleksi kata (tabel & UI) |
+| 2 | Lengkapi konten ke ~1.000 kata (sekarang 591) |
 | 3 | Audio file/URL + atribusi lisensi di halaman Tentang |
-| 4 | Sinkronisasi cloud (FastAPI + PostgreSQL sesuai brief v0.1) |
-| 5 | Enkripsi database (SQLCipher) untuk akun lokal |
+| 4 | Publikasi Google Play (lihat `docs/PLAY_STORE.md`) |
+| 5 | Sinkronisasi cloud (FastAPI + PostgreSQL sesuai brief v0.1) |
+| 6 | Enkripsi database (SQLCipher) untuk akun lokal |
 
 ---
 

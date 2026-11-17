@@ -400,6 +400,78 @@ class UserDatabase extends _$UserDatabase {
         .get();
   }
 
+  // ------------------------------------------------------------- koleksi
+
+  Future<List<Collection>> collectionsOf(int userId) => (select(collections)
+        ..where((t) => t.userId.equals(userId))
+        ..orderBy([(t) => OrderingTerm.desc(t.updatedAt)]))
+      .get();
+
+  Future<Collection?> collectionById(int userId, int collectionId) => (select(collections)
+        ..where((t) => t.userId.equals(userId) & t.id.equals(collectionId)))
+      .getSingleOrNull();
+
+  Future<Collection> createCollection(int userId, String name) => into(collections).insertReturning(
+    CollectionsCompanion.insert(
+      userId: Value(userId),
+      name: name.trim(),
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+    ),
+  );
+
+  Future<void> renameCollection(int userId, int collectionId, String name) =>
+      (update(collections)..where((t) => t.userId.equals(userId) & t.id.equals(collectionId)))
+          .write(CollectionsCompanion(name: Value(name.trim()), updatedAt: Value(DateTime.now())));
+
+  Future<void> deleteCollection(int userId, int collectionId) async {
+    await transaction(() async {
+      await (delete(collectionWords)
+            ..where((t) => t.userId.equals(userId) & t.collectionId.equals(collectionId)))
+          .go();
+      await (delete(collections)..where((t) => t.userId.equals(userId) & t.id.equals(collectionId)))
+          .go();
+    });
+  }
+
+  Future<List<CollectionWord>> collectionWordRows(int userId, int collectionId) =>
+      (select(collectionWords)
+            ..where((t) => t.userId.equals(userId) & t.collectionId.equals(collectionId))
+            ..orderBy([(t) => OrderingTerm.desc(t.addedAt)]))
+          .get();
+
+  Future<void> addToCollection(int userId, int collectionId, int vocabId) =>
+      into(collectionWords).insertOnConflictUpdate(
+        CollectionWordsCompanion.insert(
+          userId: Value(userId),
+          collectionId: collectionId,
+          vocabId: vocabId,
+          addedAt: DateTime.now(),
+        ),
+      );
+
+  Future<void> removeFromCollection(int userId, int collectionId, int vocabId) =>
+      (delete(collectionWords)..where(
+            (t) =>
+                t.userId.equals(userId) &
+                t.collectionId.equals(collectionId) &
+                t.vocabId.equals(vocabId),
+          ))
+          .go();
+
+  Future<int> countCollectionWords(int userId, int collectionId) async {
+    final count = countAll();
+    final row = await (selectOnly(collectionWords)
+          ..addColumns([count])
+          ..where(collectionWords.userId.equals(userId) & collectionWords.collectionId.equals(collectionId)))
+        .getSingle();
+    return row.read(count) ?? 0;
+  }
+
+  /// Semua progres mentah milik satu akun (untuk analisis adaptif).
+  Future<List<UserWord>> allProgress(int userId) =>
+      (select(userWords)..where((t) => t.userId.equals(userId))).get();
+
   // ------------------------------------------------------------ word of day
 
   Future<int?> wordOfDayId(int userId, String day) async {
