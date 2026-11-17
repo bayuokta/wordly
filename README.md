@@ -5,7 +5,7 @@
 Aplikasi Android untuk belajar kosakata **Inggris–Indonesia** dengan
 pengulangan berjarak (SM-2). Offline-first, tanpa akun, tanpa iklan.
 
-13 kategori · **747 kata** · flashcard · 6 mode kuis · review terjadwal otomatis.
+13 kategori · **1.007 kata** · flashcard · 6 mode kuis · review terjadwal otomatis.
 
 <p align="center">
   <img src="docs/screenshots/29-onboarding.png" width="240" alt="Onboarding" />
@@ -125,7 +125,7 @@ lib/
 └─ features/       # onboarding, home, explore, word_detail, my_words,
                    # flashcards, quiz, review, practice, profile
 assets/
-├─ vocab/          # 13 berkas JSON konten (747 kata)
+├─ vocab/          # 13 berkas JSON konten (1.007 kata)
 ├─ fonts/          # TTF: Plus Jakarta Sans, Inter, Noto Sans
 └─ branding/       # ikon & logo splash
 tool/              # validator konten, generator aset
@@ -145,7 +145,7 @@ Konten divalidasi dengan:
 
 ```bash
 dart run tool/validate_vocab.dart
-# 13 kategori · 747 kata · 0 error · 0 peringatan
+# 13 kategori · 1.007 kata · 0 error · 0 peringatan
 ```
 
 Aplikasi mengimpor ulang konten secara otomatis ketika isi aset berubah, **tanpa
