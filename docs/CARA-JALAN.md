@@ -32,9 +32,13 @@ Kalau emulator belum hidup:
 
 ```powershell
 # lewat Android Studio: Device Manager → Wordly_Pixel → ▶
-# atau lewat terminal:
-& "$env:LOCALAPPDATA\Android\Sdk\emulator\emulator.exe" -avd Wordly_Pixel -no-boot-anim -gpu auto
+# atau lewat terminal (renderer software — paling stabil di mesin ini):
+& "$env:LOCALAPPDATA\Android\Sdk\emulator\emulator.exe" -avd Wordly_Pixel -no-boot-anim -no-snapshot-load -gpu swiftshader_indirect
 ```
+
+> Catatan: `-gpu auto` (bawaan) sempat membuat emulator crash di mesin ini.
+> `swiftshader_indirect` lebih lambat sedikit tetapi stabil. Screenshot yang
+> diambil langsung setelah interaksi kadang masih frame lama — beri jeda 2–3 detik.
 
 Cek perangkat yang terdeteksi:
 
