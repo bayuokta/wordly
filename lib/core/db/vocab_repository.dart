@@ -230,6 +230,46 @@ class VocabRepository {
     return items;
   }
 
+  /// Antrean review: kata jatuh tempo, diurutkan dari yang paling terlambat,
+  /// lalu yang paling sering salah (lapses & rasio salah).
+  Future<List<WordListItem>> reviewQueue({int limit = 30}) async {
+    final now = DateTime.now();
+    final due = await user.dueWords(now, limit: 200);
+    if (due.isEmpty) return const [];
+
+    final words = await content.vocabulariesByIds(due.map((row) => row.vocabId).toList());
+    final byId = {for (final word in words) word.id: word};
+
+    final items = [
+      for (final row in due)
+        if (byId[row.vocabId] case final word?) WordListItem(word: word, progress: row),
+    ];
+
+    int overdueScore(WordListItem item) {
+      final dueAt = item.progress?.dueAt;
+      if (dueAt == null) return 0;
+      return now.difference(dueAt).inMinutes;
+    }
+
+    double wrongRatio(WordListItem item) {
+      final progress = item.progress;
+      if (progress == null) return 0;
+      final total = progress.correctCount + progress.wrongCount;
+      if (total == 0) return 0;
+      return progress.wrongCount / total;
+    }
+
+    items.sort((a, b) {
+      final byOverdue = overdueScore(b).compareTo(overdueScore(a));
+      if (byOverdue != 0) return byOverdue;
+      final byLapses = (b.progress?.lapses ?? 0).compareTo(a.progress?.lapses ?? 0);
+      if (byLapses != 0) return byLapses;
+      return wrongRatio(b).compareTo(wrongRatio(a));
+    });
+
+    return items.take(limit).toList();
+  }
+
   /// Kumpulan kata untuk kuis: level pengguna, dengan fallback semua kata.
   Future<List<Vocabulary>> quizPool() async {
     final level = await content.wordsForLevel(defaultLevel, limit: 400);

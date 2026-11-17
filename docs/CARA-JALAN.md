@@ -67,8 +67,9 @@ Di VS Code, cukup tekan `F5` (pilih device `Wordly_Pixel`).
 - **Kata Saya** — Favorit, Riwayat, Belum Dikuasai, Dikuasai.
 - **Practice → Flashcard** — pilih 5/10/12/20 kartu, balik kartu, geser kiri/kanan, ringkasan sesi, ulangi kata yang salah.
 - **Practice → Quiz** — 6 mode (pilihan ganda, EN→ID, ID→EN, isi rumpang, listening, ejaan), skor +10, feedback, ringkasan. Mode audio memakai TTS perangkat (offline).
+- **Practice → Review terjadwal** — antrean SM-2: hanya kata jatuh tempo, diurutkan dari yang paling terlambat lalu paling sering salah; ringkasan + kondisi "semua beres".
 
-Belum dibangun: sesi Review terjadwal, audio file (baru TTS), onboarding, pengaturan (target, ukuran teks), koleksi.
+Belum dibangun: audio file (baru TTS), onboarding, pengaturan (target harian, ukuran teks), koleksi, statistik terperinci.
 
 ## Konten kosakata & basis data
 

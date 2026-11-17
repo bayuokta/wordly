@@ -63,6 +63,11 @@ final quizPoolProvider = FutureProvider<List<Vocabulary>>(
   (ref) => ref.watch(vocabRepositoryProvider).quizPool(),
 );
 
+/// Antrean review terjadwal (SM-2).
+final reviewQueueProvider = FutureProvider<List<WordListItem>>(
+  (ref) => ref.watch(vocabRepositoryProvider).reviewQueue(),
+);
+
 /// Daftar kata untuk filter level di Explore.
 final browseProvider = FutureProvider.family<List<WordListItem>, String?>(
   (ref, level) => ref.watch(vocabRepositoryProvider).browse(level: level),

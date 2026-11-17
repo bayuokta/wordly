@@ -75,12 +75,13 @@ class PracticePage extends StatelessWidget {
             onTap: () => context.push('/quiz'),
           ),
           const SizedBox(height: 10),
-          const _PracticeTile(
+          _PracticeTile(
             icon: Icons.repeat_rounded,
             tone: IconTileTone.accent,
             title: 'Review terjadwal',
             description: 'Pengulangan berjarak (SM-2) memprioritaskan kata yang sering salah.',
-            phase: 'Fase 9',
+            phase: 'Siap',
+            onTap: () => context.push('/review'),
           ),
         ],
       ),
