@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wordly — Flashcard</title>
+<link rel="stylesheet" href="../assets/app.css">
+</head>
+<body class="stage">
+<div class="phone">
+  <div class="punch"></div>
+  <div class="screen">
+    <div class="statusbar">
+      <span>9:41</span>
+      <div class="sbar-icons">
+        <svg width="16" height="12" viewBox="0 0 16 12" aria-hidden="true"><g fill="currentColor"><rect x="0" y="8" width="2.5" height="4" rx="1"/><rect x="4.5" y="5.6" width="2.5" height="6.4" rx="1"/><rect x="9" y="3.2" width="2.5" height="8.8" rx="1"/><rect x="13.5" y=".8" width="2.5" height="11.2" rx="1"/></g></svg>
+        <svg width="15" height="12" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M1.6 4.3a10 10 0 0 1 12.8 0"/><path d="M4 7a6.4 6.4 0 0 1 8 0"/><path d="M6.6 9.6a2.8 2.8 0 0 1 2.8 0"/><circle cx="8" cy="11" r=".9" fill="currentColor" stroke="none"/></svg>
+        <svg width="23" height="12" viewBox="0 0 23 12" fill="none" aria-hidden="true"><rect x=".75" y=".75" width="18.5" height="10.5" rx="3" stroke="currentColor" stroke-opacity=".45" stroke-width="1.2"/><rect x="2.5" y="2.5" width="12.5" height="7" rx="1.6" fill="currentColor"/><path d="M21 4.2v3.6c1-.3 1.4-.9 1.4-1.8s-.4-1.5-1.4-1.8z" fill="currentColor" fill-opacity=".5"/></svg>
+      </div>
+    </div>
+
+    <div class="content" style="padding-bottom:16px">
+      <div class="appbar">
+        <div class="iconbtn plain">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+        </div>
+        <div class="apptitle">Flashcard<small>Feelings &amp; Emotions</small></div>
+        <span class="chip" style="justify-self:end">3 / 12</span>
+      </div>
+
+      <div style="margin-top:4px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:7px">
+          <span class="tiny dim">Progres sesi</span>
+          <span class="tiny t-primary" style="font-weight:600">25%</span>
+        </div>
+        <div class="progress"><i style="width:25%"></i></div>
+      </div>
+
+      <div class="flashcard" style="flex:1;margin-top:16px;min-height:0">
+        <div class="eyebrow">Kartu 3 dari 12</div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px">
+          <div style="font:700 42px/1.1 var(--display);letter-spacing:-1.2px">meticulous</div>
+          <div class="ipa" style="font-size:14px;margin-top:8px">/məˈtɪk.jə.ləs/</div>
+          <div style="display:flex;gap:6px;margin-top:14px">
+            <span class="chip">adjective</span>
+            <span class="chip primary">B2</span>
+          </div>
+        </div>
+        <div class="t-muted" style="display:flex;align-items:center;gap:7px;font:500 11.5px/1 var(--body)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11a8 8 0 1 1 2.4 5.7"/><path d="M4 4.5V10h5.5"/></svg>
+          Ketuk kartu untuk melihat arti
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:13px;padding:0 2px">
+        <span class="tiny" style="display:flex;align-items:center;gap:6px"><i style="width:6px;height:6px;border-radius:50%;background:var(--success);display:block"></i><b style="font-weight:600">2</b> <span class="dim">benar</span></span>
+        <span class="tiny" style="display:flex;align-items:center;gap:6px"><i style="width:6px;height:6px;border-radius:50%;background:var(--warning);display:block"></i><b style="font-weight:600">0</b> <span class="dim">diulang</span></span>
+        <span class="tiny dim">± 6 menit tersisa</span>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1.2fr;gap:10px;margin-top:14px">
+        <div class="btn btn-warn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 5.5 2.5 12l7 6.5"/><path d="M2.5 12h12a6 6 0 0 1 6 6v.5"/></svg>
+          Ulangi
+        </div>
+        <div class="btn btn-success">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4.5 12.5 4.7 4.7L19.5 6.8"/></svg>
+          Sudah paham
+        </div>
+      </div>
+      <div class="tiny dim" style="text-align:center;margin-top:11px">Geser kiri untuk ulangi · kanan untuk paham</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

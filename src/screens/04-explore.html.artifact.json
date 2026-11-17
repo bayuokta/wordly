@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "src/screens/04-explore.html",
+  "entry": "src/screens/04-explore.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-11-17T05:43:23.523Z",
+  "updatedAt": "2026-11-17T05:43:23.523Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}

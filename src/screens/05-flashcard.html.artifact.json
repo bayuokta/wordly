@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "src/screens/05-flashcard.html",
+  "entry": "src/screens/05-flashcard.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-11-17T05:43:41.165Z",
+  "updatedAt": "2026-11-17T05:43:41.165Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}

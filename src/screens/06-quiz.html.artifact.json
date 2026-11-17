@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "src/screens/06-quiz.html",
+  "entry": "src/screens/06-quiz.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-11-17T05:43:55.443Z",
+  "updatedAt": "2026-11-17T05:43:55.443Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}

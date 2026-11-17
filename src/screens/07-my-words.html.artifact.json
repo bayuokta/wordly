@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "src/screens/07-my-words.html",
+  "entry": "src/screens/07-my-words.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-11-17T05:44:19.668Z",
+  "updatedAt": "2026-11-17T05:44:19.668Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}

@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wordly — Papan Prototype (Light)</title>
+<link rel="stylesheet" href="assets/app.css">
+<style>
+  html, body { margin: 0; }
+  body {
+    width: 1960px;
+    height: 2230px;
+    padding: 88px 104px 80px;
+    background:
+      radial-gradient(70% 42% at 24% 0%, rgba(74, 107, 224, 0.12), transparent 62%),
+      radial-gradient(50% 40% at 92% 18%, rgba(217, 154, 43, 0.09), transparent 60%),
+      #f1f4f9;
+    color: #151922;
+    font-family: var(--body);
+    overflow: hidden;
+  }
+  .head { display: flex; align-items: flex-end; justify-content: space-between; }
+  .brand { display: flex; align-items: center; gap: 20px; }
+  .brand .mark {
+    width: 66px; height: 66px; border-radius: 20px;
+    display: grid; place-items: center;
+    background: linear-gradient(150deg, #7c96ff, #4a6be0 58%, #3c59c2);
+    color: #ffffff; font: 800 32px/1 var(--display);
+    box-shadow: 0 16px 30px -16px rgba(58, 91, 208, 0.75);
+    flex: none;
+  }
+  .brand h1 { font: 700 54px/1 var(--display); letter-spacing: -1.6px; margin: 0; color: #151922; }
+  .brand .sub { font: 400 19px/1.4 var(--body); color: #5c6578; margin-top: 10px; }
+  .brand .sub b { color: #151922; font-weight: 600; }
+  .meta { text-align: right; }
+  .meta .line { font: 500 15px/1 var(--body); color: #6e7789; margin-bottom: 12px; }
+  .meta .chips { display: flex; gap: 8px; justify-content: flex-end; }
+  .meta .tag {
+    height: 30px; padding: 0 13px; display: inline-flex; align-items: center; gap: 7px;
+    border-radius: 999px; border: 1px solid rgba(74, 107, 224, 0.24);
+    background: #ffffff; color: #3a5bd0;
+    font: 600 12.5px/1 var(--body);
+    box-shadow: 0 1px 2px rgba(21, 25, 34, 0.04);
+  }
+  .meta .tag i { width: 5px; height: 5px; border-radius: 50%; background: #4a6be0; display: block; }
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 44px 56px; margin-top: 56px; }
+  figure { margin: 0; }
+  .shot {
+    width: 100%; height: auto; display: block; border-radius: 0;
+    filter: drop-shadow(0 20px 34px rgba(21, 25, 34, 0.22));
+  }
+  figcaption { display: flex; align-items: baseline; gap: 10px; margin-top: 14px; padding-left: 4px; }
+  figcaption .idx { font: 700 12px/1 var(--display); color: #4a6be0; letter-spacing: 0.5px; }
+  figcaption .name { font: 600 15.5px/1.2 var(--body); letter-spacing: -0.1px; color: #151922; }
+  figcaption .note { font: 400 12.5px/1.2 var(--body); color: #7b8497; margin-left: auto; }
+</style>
+</head>
+<body>
+  <div class="head">
+    <div class="brand">
+      <div class="mark">W</div>
+      <div>
+        <h1>Wordly</h1>
+        <div class="sub"><b>English · Indonesia</b> — prototype aplikasi belajar kosakata, tema terang.</div>
+      </div>
+    </div>
+    <div class="meta">
+      <div class="line">Android 412 × 915 dp · tema terang</div>
+      <div class="chips">
+        <span class="tag"><i></i>Spaced repetition</span>
+        <span class="tag"><i></i>Offline-first</span>
+        <span class="tag"><i></i>13 kategori</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <figure>
+      <img class="shot" src="../mockups/light/01-onboarding.png" alt="Layar onboarding Wordly tema terang">
+      <figcaption><span class="idx">01</span><span class="name">Onboarding</span><span class="note">Level &amp; target</span></figcaption>
+    </figure>
+    <figure>
+      <img class="shot" src="../mockups/light/02-home.png" alt="Layar Home Wordly tema terang">
+      <figcaption><span class="idx">02</span><span class="name">Home</span><span class="note">Streak &amp; kata harian</span></figcaption>
+    </figure>
+    <figure>
+      <img class="shot" src="../mockups/light/03-word-detail.png" alt="Layar detail kata Wordly tema terang">
+      <figcaption><span class="idx">03</span><span class="name">Detail Kata</span><span class="note">11 field + audio</span></figcaption>
+    </figure>
+    <figure>
+      <img class="shot" src="../mockups/light/04-explore.png" alt="Layar Explore Wordly tema terang">
+      <figcaption><span class="idx">04</span><span class="name">Explore</span><span class="note">Kategori &amp; pencarian</span></figcaption>
+    </figure>
+    <figure>
+      <img class="shot" src="../mockups/light/05-flashcard.png" alt="Layar flashcard Wordly tema terang">
+      <figcaption><span class="idx">05</span><span class="name">Flashcard</span><span class="note">Geser untuk menilai</span></figcaption>
+    </figure>
+    <figure>
+      <img class="shot" src="../mockups/light/06-quiz.png" alt="Layar quiz Wordly tema terang">
+      <figcaption><span class="idx">06</span><span class="name">Quiz</span><span class="note">6 mode latihan</span></figcaption>
+    </figure>
+    <figure>
+      <img class="shot" src="../mockups/light/07-my-words.png" alt="Layar Kata Saya Wordly tema terang">
+      <figcaption><span class="idx">07</span><span class="name">Kata Saya</span><span class="note">Favorit &amp; status</span></figcaption>
+    </figure>
+    <figure>
+      <img class="shot" src="../mockups/light/08-profile.png" alt="Layar profil dan statistik Wordly tema terang">
+      <figcaption><span class="idx">08</span><span class="name">Profil &amp; Statistik</span><span class="note">Progres mingguan</span></figcaption>
+    </figure>
+  </div>
+</body>
+</html>
