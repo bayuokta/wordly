@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
+import '../../../core/audio/tts_service.dart';
 import '../../../core/db/database_providers.dart';
 import '../../../core/db/vocab_repository.dart';
 import '../../../core/design/app_palette.dart';
@@ -191,16 +192,19 @@ class _WordOfDayCard extends StatelessWidget {
                   ],
                 ),
               ),
-              Container(
-                width: 40,
-                height: 40,
-                margin: const EdgeInsets.only(top: 6, left: 8),
-                decoration: BoxDecoration(
-                  color: p.primarySoft,
-                  border: Border.all(color: p.primaryLine),
-                  shape: BoxShape.circle,
+              GestureDetector(
+                onTap: () => speakWord(context, word.word),
+                child: Container(
+                  width: 40,
+                  height: 40,
+                  margin: const EdgeInsets.only(top: 6, left: 8),
+                  decoration: BoxDecoration(
+                    color: p.primarySoft,
+                    border: Border.all(color: p.primaryLine),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(Icons.volume_up_outlined, size: 18, color: p.primaryText),
                 ),
-                child: Icon(Icons.volume_up_outlined, size: 18, color: p.primaryText),
               ),
             ],
           ),

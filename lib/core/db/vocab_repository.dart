@@ -70,13 +70,19 @@ class WordDetailData {
 
 /// Menyatukan konten (`vocab.db`) dan progres (`user.db`).
 class VocabRepository {
-  VocabRepository({required this.content, required this.user});
+  VocabRepository({
+    required this.content,
+    required this.user,
+    this.level = 'intermediate',
+    this.dailyGoal = 10,
+  });
 
   final ContentDatabase content;
   final UserDatabase user;
 
-  static const String defaultLevel = 'intermediate';
-  static const int dailyGoal = 10;
+  /// Level & target harian mengikuti pengaturan pengguna.
+  final String level;
+  final int dailyGoal;
 
   Future<HomeSnapshot> home(DateTime now) async {
     final day = _dayKey(now);
@@ -135,7 +141,7 @@ class VocabRepository {
       final word = await content.vocabularyById(pinned);
       if (word != null) return word;
     }
-    final picked = await content.pickWordOfDay(now, level: defaultLevel);
+    final picked = await content.pickWordOfDay(now, level: level);
     if (picked != null) {
       await user.pinWordOfDay(day, picked.id);
     }
@@ -208,7 +214,7 @@ class VocabRepository {
     final touched = await user.touchedVocabIds();
     final fresh = await content.untouchedWords(
       excludeIds: touched,
-      level: defaultLevel,
+      level: level,
       limit: limit - items.length,
     );
     for (final word in fresh) {
@@ -272,8 +278,8 @@ class VocabRepository {
 
   /// Kumpulan kata untuk kuis: level pengguna, dengan fallback semua kata.
   Future<List<Vocabulary>> quizPool() async {
-    final level = await content.wordsForLevel(defaultLevel, limit: 400);
-    if (level.length >= 20) return level;
+    final words = await content.wordsForLevel(level, limit: 400);
+    if (words.length >= 20) return words;
     return content.allWords(limit: 600);
   }
 

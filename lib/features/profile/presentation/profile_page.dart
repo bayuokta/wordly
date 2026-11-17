@@ -1,14 +1,16 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
+import '../../../core/db/database_providers.dart';
 import '../../../core/design/app_palette.dart';
 import '../../../core/design/app_spacing.dart';
 import '../../../core/design/app_typography.dart';
+import '../../../core/settings/app_settings.dart';
+import '../../../core/settings/settings_controller.dart';
 import '../../../core/utils/date_id.dart';
 import '../../../core/widgets/app_card.dart';
 import '../../../core/widgets/app_chip.dart';
 import '../../../core/widgets/app_surfaces.dart';
-import '../../settings/presentation/theme_controller.dart';
 
 class ProfilePage extends ConsumerWidget {
   const ProfilePage({super.key});
@@ -16,7 +18,8 @@ class ProfilePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final p = context.palette;
-    final themeMode = ref.watch(themeModeProvider);
+    final settings = ref.watch(settingsProvider);
+    final snapshot = ref.watch(homeSnapshotProvider).value;
 
     return SafeArea(
       bottom: false,
@@ -50,7 +53,7 @@ class ProfilePage extends ConsumerWidget {
                   children: [
                     Text('Pengguna', style: Theme.of(context).textTheme.headlineSmall),
                     const SizedBox(height: 5),
-                    Text('Tanpa akun · data di perangkat', style: context.tiny),
+                    Text('Level ${settings.levelLabel} · ${settings.levelDetail}', style: context.tiny),
                   ],
                 ),
               ),
@@ -58,19 +61,42 @@ class ProfilePage extends ConsumerWidget {
           ),
           const SizedBox(height: 16),
           Row(
-            children: const [
-              Expanded(child: _StatTile(label: 'DIPELAJARI', value: '0', caption: 'kata sejauh ini')),
-              SizedBox(width: 10),
-              Expanded(child: _StatTile(label: 'DIKUASAI', value: '0', caption: 'siap dipakai aktif')),
+            children: [
+              Expanded(
+                child: _StatTile(
+                  label: 'DIPELAJARI',
+                  value: '${snapshot?.learned ?? 0}',
+                  caption: 'kata sejauh ini',
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: _StatTile(
+                  label: 'DIKUASAI',
+                  value: '${snapshot?.mastered ?? 0}',
+                  caption: 'siap dipakai aktif',
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 10),
           Row(
-            children: const [
-              Expanded(child: _StatTile(label: 'AKURASI', value: '—', caption: 'belum ada jawaban')),
-              SizedBox(width: 10),
+            children: [
               Expanded(
-                child: _StatTile(label: 'STREAK', value: '0', caption: 'rekor pribadi 0', tone: StatTone.accent),
+                child: _StatTile(
+                  label: 'JATUH TEMPO',
+                  value: '${snapshot?.due ?? 0}',
+                  caption: 'perlu diulang',
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: _StatTile(
+                  label: 'STREAK',
+                  value: '${snapshot?.streakDays ?? 0}',
+                  caption: 'hari berurutan',
+                  tone: StatTone.accent,
+                ),
               ),
             ],
           ),
@@ -86,24 +112,31 @@ class ProfilePage extends ConsumerWidget {
                 _SettingsRow(
                   icon: Icons.dark_mode_outlined,
                   label: 'Tema',
-                  value: themeMode == ThemeMode.dark ? 'Gelap' : 'Terang',
-                  onTap: () => ref.read(themeModeProvider.notifier).toggle(),
+                  value: settings.themeMode == ThemeMode.dark ? 'Gelap' : 'Terang',
+                  onTap: () => ref.read(settingsProvider.notifier).toggleTheme(),
+                ),
+                const _RowDivider(),
+                _SettingsRow(
+                  icon: Icons.school_outlined,
+                  label: 'Level belajar',
+                  value: settings.levelLabel,
+                  onTap: () => _pickLevel(context, ref, settings),
                 ),
                 const _RowDivider(),
                 _SettingsRow(
                   icon: Icons.track_changes_rounded,
                   label: 'Target harian',
-                  value: '10 kata',
+                  value: '${settings.dailyGoal} kata',
                   tone: IconTileTone.success,
-                  onTap: () => _notReady(context, 'Target harian'),
+                  onTap: () => _pickGoal(context, ref, settings),
                 ),
                 const _RowDivider(),
                 _SettingsRow(
                   icon: Icons.format_size_rounded,
                   label: 'Ukuran teks',
-                  value: 'Normal',
+                  value: settings.textScaleLabel,
                   tone: IconTileTone.accent,
-                  onTap: () => _notReady(context, 'Ukuran teks'),
+                  onTap: () => _pickTextScale(context, ref, settings),
                 ),
                 const _RowDivider(),
                 _SettingsRow(
@@ -120,10 +153,124 @@ class ProfilePage extends ConsumerWidget {
     );
   }
 
-  void _notReady(BuildContext context, String feature) {
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(SnackBar(content: Text('$feature tersedia pada fase pengaturan.')));
+  Future<void> _pickLevel(BuildContext context, WidgetRef ref, AppSettings settings) async {
+    final picked = await _showOptions<String>(
+      context,
+      title: 'Level belajar',
+      options: [
+        for (final level in AppSettings.levelOptions)
+          (
+            value: level,
+            label: AppSettings.defaults.copyWith(level: level).levelLabel,
+            detail: AppSettings.defaults.copyWith(level: level).levelDetail,
+          ),
+      ],
+      selected: settings.level,
+    );
+    if (picked != null) {
+      await ref.read(settingsProvider.notifier).setLevel(picked);
+      ref.invalidate(homeSnapshotProvider);
+      ref.invalidate(categoriesProvider);
+      ref.invalidate(browseProvider);
+      ref.invalidate(quizPoolProvider);
+    }
+  }
+
+  Future<void> _pickGoal(BuildContext context, WidgetRef ref, AppSettings settings) async {
+    final picked = await _showOptions<int>(
+      context,
+      title: 'Target harian',
+      options: [
+        for (final goal in AppSettings.goalOptions)
+          (value: goal, label: '$goal kata', detail: 'per hari'),
+      ],
+      selected: settings.dailyGoal,
+    );
+    if (picked != null) {
+      await ref.read(settingsProvider.notifier).setDailyGoal(picked);
+      ref.invalidate(homeSnapshotProvider);
+    }
+  }
+
+  Future<void> _pickTextScale(BuildContext context, WidgetRef ref, AppSettings settings) async {
+    final picked = await _showOptions<double>(
+      context,
+      title: 'Ukuran teks',
+      options: [
+        for (final scale in AppSettings.textScaleOptions)
+          (
+            value: scale,
+            label: AppSettings.defaults.copyWith(textScale: scale).textScaleLabel,
+            detail: '${(scale * 100).round()}%',
+          ),
+      ],
+      selected: settings.textScale,
+    );
+    if (picked != null) {
+      await ref.read(settingsProvider.notifier).setTextScale(picked);
+    }
+  }
+
+  /// Bottom sheet pilihan tunggal.
+  Future<T?> _showOptions<T>(
+    BuildContext context, {
+    required String title,
+    required List<({T value, String label, String detail})> options,
+    required T selected,
+  }) {
+    return showModalBottomSheet<T>(
+      context: context,
+      backgroundColor: context.palette.surfaceElevated,
+      showDragHandle: true,
+      builder: (context) {
+        final p = context.palette;
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(AppSpacing.page, 0, AppSpacing.page, AppSpacing.lg),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title, style: Theme.of(context).textTheme.titleMedium?.copyWith(fontSize: 16)),
+                const SizedBox(height: 10),
+                for (final option in options)
+                  GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () => Navigator.pop(context, option.value),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              option.label,
+                              style: TextStyle(
+                                fontFamily: AppFonts.body,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: p.textPrimary,
+                              ),
+                            ),
+                          ),
+                          Text(option.detail, style: context.tiny),
+                          const SizedBox(width: 10),
+                          Icon(
+                            option.value == selected
+                                ? Icons.radio_button_checked
+                                : Icons.radio_button_off,
+                            size: 20,
+                            color: option.value == selected ? p.primary : p.chevron,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   void _showAbout(BuildContext context) {

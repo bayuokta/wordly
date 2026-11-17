@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
 /// Pembaca teks perangkat (TTS). Dipakai mode listening & spelling.
@@ -54,3 +55,17 @@ final ttsServiceProvider = Provider<TtsService>((ref) {
   ref.onDispose(service.stop);
   return service;
 });
+
+/// Mengucapkan [text] dari widget mana pun.
+///
+/// Memakai ProviderScope.containerOf supaya tidak perlu mengubah widget
+/// menjadi ConsumerWidget hanya untuk satu tombol audio.
+Future<void> speakWord(BuildContext context, String text) async {
+  final container = ProviderScope.containerOf(context, listen: false);
+  final ok = await container.read(ttsServiceProvider).speak(text);
+  if (!ok && context.mounted) {
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(const SnackBar(content: Text('Audio tidak tersedia di perangkat ini.')));
+  }
+}

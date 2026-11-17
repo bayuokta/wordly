@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../settings/settings_controller.dart';
 import '../srs/sm2.dart';
 import 'content/content_database.dart';
 import 'user/user_database.dart';
@@ -14,12 +15,15 @@ final userDbProvider = Provider<UserDatabase>(
   (ref) => throw StateError('UserDatabase belum di-bootstrap'),
 );
 
-final vocabRepositoryProvider = Provider<VocabRepository>(
-  (ref) => VocabRepository(
+final vocabRepositoryProvider = Provider<VocabRepository>((ref) {
+  final settings = ref.watch(settingsProvider);
+  return VocabRepository(
     content: ref.watch(contentDbProvider),
     user: ref.watch(userDbProvider),
-  ),
-);
+    level: settings.level,
+    dailyGoal: settings.dailyGoal,
+  );
+});
 
 /// Ringkasan layar Home.
 final homeSnapshotProvider = FutureProvider<HomeSnapshot>(

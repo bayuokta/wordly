@@ -61,15 +61,17 @@ Di VS Code, cukup tekan `F5` (pilih device `Wordly_Pixel`).
 
 ## Fitur yang sudah bisa dipakai
 
+- **Onboarding** — sekali saat pertama buka: pilih level (Pemula/Menengah/Mahir) + target harian (5/10/20).
 - **Home** — kata hari ini, target harian, streak, jatuh tempo, riwayat singkat.
 - **Explore** — 13 kategori (507 kata), filter level, pencarian Inggris ↔ Indonesia.
-- **Detail kata** — 11 field, jadwal ulangan, bookmark, tombol "Sudah paham"/"Pelajari lagi" (SM-2).
+- **Detail kata** — 11 field, audio TTS (tombol "Dengarkan"), jadwal ulangan, bookmark, tombol "Sudah paham"/"Pelajari lagi" (SM-2).
 - **Kata Saya** — Favorit, Riwayat, Belum Dikuasai, Dikuasai.
 - **Practice → Flashcard** — pilih 5/10/12/20 kartu, balik kartu, geser kiri/kanan, ringkasan sesi, ulangi kata yang salah.
 - **Practice → Quiz** — 6 mode (pilihan ganda, EN→ID, ID→EN, isi rumpang, listening, ejaan), skor +10, feedback, ringkasan. Mode audio memakai TTS perangkat (offline).
 - **Practice → Review terjadwal** — antrean SM-2: hanya kata jatuh tempo, diurutkan dari yang paling terlambat lalu paling sering salah; ringkasan + kondisi "semua beres".
+- **Pengaturan** — tema gelap/terang, level belajar, target harian, ukuran teks (85–130%). Semua tersimpan di perangkat dan langsung memengaruhi kata harian, antrean, serta ukuran font.
 
-Belum dibangun: audio file (baru TTS), onboarding, pengaturan (target harian, ukuran teks), koleksi, statistik terperinci.
+Belum dibangun: audio file (baru TTS), koleksi kata, notifikasi harian, statistik terperinci, sinkronisasi cloud.
 
 ## Konten kosakata & basis data
 
