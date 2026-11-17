@@ -155,6 +155,25 @@ class ContentDatabase extends _$ContentDatabase {
         .get();
   }
 
+  /// Kata yang belum pernah disentuh pengguna.
+  Future<List<Vocabulary>> untouchedWords({
+    required Set<int> excludeIds,
+    String? level,
+    int limit = 20,
+  }) {
+    final query = select(vocabularies);
+    if (level != null) {
+      query.where((t) => t.difficultyLevel.equals(level));
+    }
+    if (excludeIds.isNotEmpty) {
+      query.where((t) => t.id.isNotIn(excludeIds.toList()));
+    }
+    query
+      ..orderBy([(t) => OrderingTerm.asc(t.id)])
+      ..limit(limit);
+    return query.get();
+  }
+
   /// Pilih kata untuk hari tertentu secara deterministik.
   Future<Vocabulary?> pickWordOfDay(DateTime day, {String level = 'intermediate'}) async {
     final total = await (selectOnly(vocabularies)

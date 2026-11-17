@@ -59,6 +59,16 @@ Saat app berjalan, terminal `flutter run` menerima tombol:
 
 Di VS Code, cukup tekan `F5` (pilih device `Wordly_Pixel`).
 
+## Fitur yang sudah bisa dipakai
+
+- **Home** — kata hari ini, target harian, streak, jatuh tempo, riwayat singkat.
+- **Explore** — 13 kategori (507 kata), filter level, pencarian Inggris ↔ Indonesia.
+- **Detail kata** — 11 field, jadwal ulangan, bookmark, tombol "Sudah paham"/"Pelajari lagi" (SM-2).
+- **Kata Saya** — Favorit, Riwayat, Belum Dikuasai, Dikuasai.
+- **Practice → Flashcard** — pilih 5/10/12/20 kartu, balik kartu, geser kiri/kanan, ringkasan sesi, ulangi kata yang salah.
+
+Belum dibangun: Quiz (6 mode), sesi Review terjadwal, audio/TTS, onboarding, pengaturan (target, ukuran teks), koleksi.
+
 ## Konten kosakata & basis data
 
 ```powershell

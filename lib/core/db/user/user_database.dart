@@ -45,6 +45,13 @@ class UserDatabase extends _$UserDatabase {
         ..limit(limit))
       .get();
 
+  /// Kata yang sudah jatuh tempo, paling terlambat lebih dulu.
+  Future<List<UserWord>> dueWords(DateTime now, {int limit = 100}) => (select(userWords)
+        ..where((t) => t.dueAt.isNotNull() & t.dueAt.isSmallerOrEqualValue(now))
+        ..orderBy([(t) => OrderingTerm.asc(t.dueAt)])
+        ..limit(limit))
+      .get();
+
   Future<int> countLearned() async {
     final row = await (selectOnly(userWords)..addColumns([countAll()])).getSingle();
     return row.read(countAll()) ?? 0;

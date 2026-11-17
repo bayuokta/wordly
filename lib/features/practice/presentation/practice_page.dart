@@ -1,3 +1,4 @@
+import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../../../core/design/app_palette.dart';
@@ -56,12 +57,13 @@ class PracticePage extends StatelessWidget {
           const SizedBox(height: 18),
           const SectionHeader(title: 'Pilih latihan'),
           const SizedBox(height: 10),
-          const _PracticeTile(
+          _PracticeTile(
             icon: Icons.layers_outlined,
             tone: IconTileTone.primary,
             title: 'Flashcard',
             description: 'Balik kartu, geser kiri untuk ulangi, kanan untuk paham.',
-            phase: 'Fase 7',
+            phase: 'Siap',
+            onTap: () => context.push('/flashcards'),
           ),
           const SizedBox(height: 10),
           const _PracticeTile(
@@ -92,6 +94,7 @@ class _PracticeTile extends StatelessWidget {
     required this.title,
     required this.description,
     required this.phase,
+    this.onTap,
   });
 
   final IconData icon;
@@ -99,6 +102,7 @@ class _PracticeTile extends StatelessWidget {
   final String title;
   final String description;
   final String phase;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -106,6 +110,7 @@ class _PracticeTile extends StatelessWidget {
 
     return AppCard(
       padding: const EdgeInsets.all(14),
+      onTap: onTap,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

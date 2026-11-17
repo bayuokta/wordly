@@ -186,6 +186,50 @@ class VocabRepository {
     ];
   }
 
+  /// Antrean kartu untuk sesi flashcard: kata jatuh tempo lebih dulu, lalu
+  /// kata baru sesuai level, lalu kata yang sedang dipelajari.
+  Future<List<WordListItem>> flashcardQueue({int limit = 12}) async {
+    final now = DateTime.now();
+    final items = <WordListItem>[];
+    final seen = <int>{};
+
+    final due = await user.dueWords(now, limit: limit);
+    if (due.isNotEmpty) {
+      final words = await content.vocabulariesByIds(due.map((row) => row.vocabId).toList());
+      final byId = {for (final word in words) word.id: word};
+      for (final row in due) {
+        final word = byId[row.vocabId];
+        if (word == null || !seen.add(word.id)) continue;
+        items.add(WordListItem(word: word, progress: row));
+        if (items.length >= limit) return items;
+      }
+    }
+
+    final touched = await user.touchedVocabIds();
+    final fresh = await content.untouchedWords(
+      excludeIds: touched,
+      level: defaultLevel,
+      limit: limit - items.length,
+    );
+    for (final word in fresh) {
+      if (!seen.add(word.id)) continue;
+      items.add(WordListItem(word: word));
+    }
+
+    if (items.length < limit) {
+      final studying = await _listFromProgress(
+        user.watchByStatus(WordStatus.learning.value).first,
+      );
+      for (final item in studying) {
+        if (!seen.add(item.word.id)) continue;
+        items.add(item);
+        if (items.length >= limit) break;
+      }
+    }
+
+    return items;
+  }
+
   Future<List<WordListItem>> recentItems({int limit = 6}) async {
     final rows = await user.recentlyTouched(limit: limit);
     if (rows.isEmpty) return const [];

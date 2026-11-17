@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 
 import '../features/explore/presentation/category_page.dart';
 import '../features/explore/presentation/explore_page.dart';
+import '../features/flashcards/presentation/flashcards_page.dart';
 import '../features/home/presentation/home_page.dart';
 import '../features/my_words/presentation/my_words_page.dart';
 import '../features/practice/presentation/practice_page.dart';
@@ -44,6 +45,7 @@ final GoRouter appRouter = GoRouter(
         ),
       ],
     ),
+    GoRoute(path: '/flashcards', builder: (_, _) => const FlashcardsPage()),
     GoRoute(
       path: '/word/:id',
       builder: (context, state) => WordDetailPage(
