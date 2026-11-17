@@ -59,6 +59,20 @@ Saat app berjalan, terminal `flutter run` menerima tombol:
 
 Di VS Code, cukup tekan `F5` (pilih device `Wordly_Pixel`).
 
+## Konten kosakata & basis data
+
+```powershell
+dart run tool\validate_vocab.dart     # validasi assets\vocab\*.json
+```
+
+- Konten ada di `assets/vocab/NN-kategori.json` (satu berkas per kategori).
+- Aplikasi mengisi `vocab.db` otomatis saat pertama dijalankan. Versi konten
+  dihitung dari isi berkas; **naikkan `"version"`** di berkas JSON setiap kali
+  mengubah kata agar konten di perangkat diperbarui.
+- Progres pengguna tersimpan terpisah di `user.db`, jadi impor ulang konten
+  tidak menghapus progres.
+- Setelah mengubah skema Drift: `dart run build_runner build`.
+
 ## Struktur folder
 
 ```
@@ -92,3 +106,4 @@ python tools\render_mockups.py
 | Gradle gagal soal Java version | `JAVA_HOME` bukan JDK 21 | set `JAVA_HOME` ke JDK 21 |
 | Emulator tidak muncul di `flutter devices` | emulator belum boot | tunggu, cek `adb devices` |
 | Build lambat sekali | build pertama unduh Gradle | normal, hanya sekali |
+| `Could not close incremental caches ... kotlin` | bug Kotlin di Windows | sudah diatasi lewat `kotlin.incremental=false` di `android/gradle.properties` |
