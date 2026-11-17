@@ -666,9 +666,13 @@ class _CardFront extends StatelessWidget {
               GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: () => speakWord(context, word.word),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 8),
-                  child: Icon(Icons.volume_up_outlined, size: 18, color: p.primaryText),
+                child: Semantics(
+                  button: true,
+                  label: 'Dengarkan kata',
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Icon(Icons.volume_up_outlined, size: 18, color: p.primaryText),
+                  ),
                 ),
               ),
             ],
@@ -741,9 +745,13 @@ class _CardBack extends StatelessWidget {
                 GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: () => speakWord(context, word.word),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 8),
-                    child: Icon(Icons.volume_up_outlined, size: 18, color: p.primaryText),
+                  child: Semantics(
+                    button: true,
+                    label: 'Dengarkan kata',
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Icon(Icons.volume_up_outlined, size: 18, color: p.primaryText),
+                    ),
                   ),
                 ),
               ],

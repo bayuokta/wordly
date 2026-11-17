@@ -249,16 +249,19 @@ class _DetailBody extends StatelessWidget {
                 children: [
                   _IconButton(
                     icon: Icons.arrow_back_ios_new_rounded,
+                    label: 'Kembali',
                     onTap: () => context.pop(),
                   ),
                   const Spacer(),
                   _IconButton(
                     icon: Icons.playlist_add_rounded,
+                    label: 'Simpan ke koleksi',
                     onTap: onSaveToCollection,
                   ),
                   const SizedBox(width: 4),
                   _IconButton(
                     icon: favorites ? Icons.bookmark : Icons.bookmark_border,
+                    label: favorites ? 'Hapus dari favorit' : 'Tambah ke favorit',
                     color: favorites ? p.primary : p.iconSoft,
                     onTap: onFavorite,
                   ),
@@ -494,20 +497,34 @@ class _Metric extends StatelessWidget {
 }
 
 class _IconButton extends StatelessWidget {
-  const _IconButton({required this.icon, required this.onTap, this.color});
+  const _IconButton({
+    required this.icon,
+    required this.onTap,
+    required this.label,
+    this.color,
+  });
 
   final IconData icon;
   final VoidCallback onTap;
+  final String label;
   final Color? color;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 4),
-        child: Icon(icon, size: 20, color: color ?? context.palette.iconSoft),
+    return Semantics(
+      button: true,
+      label: label,
+      child: Tooltip(
+        message: label,
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: onTap,
+          child: SizedBox(
+            width: 44,
+            height: 44,
+            child: Icon(icon, size: 20, color: color ?? context.palette.iconSoft),
+          ),
+        ),
       ),
     );
   }

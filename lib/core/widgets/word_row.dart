@@ -81,12 +81,20 @@ class WordRow extends StatelessWidget {
               ),
             ),
             if (withAudio) ...[
-              GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: () => speakWord(context, item.word.word),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-                  child: Icon(Icons.volume_up_outlined, size: 16, color: p.primaryText),
+              Semantics(
+                button: true,
+                label: 'Dengarkan ',
+                child: Tooltip(
+                  message: 'Dengarkan',
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () => speakWord(context, item.word.word),
+                    child: SizedBox(
+                      width: 44,
+                      height: 44,
+                      child: Icon(Icons.volume_up_outlined, size: 18, color: p.primaryText),
+                    ),
+                  ),
                 ),
               ),
             ],
