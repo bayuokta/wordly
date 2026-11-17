@@ -9,6 +9,7 @@ import '../features/flashcards/presentation/flashcards_page.dart';
 import '../features/home/presentation/home_page.dart';
 import '../features/my_words/presentation/my_words_page.dart';
 import '../features/practice/presentation/practice_page.dart';
+import '../features/pronunciation/presentation/pronunciation_page.dart';
 import '../features/privacy/presentation/privacy_page.dart';
 import '../features/quiz/presentation/quiz_page.dart';
 import '../features/review/presentation/review_page.dart';
@@ -58,6 +59,7 @@ final GoRouter appRouter = GoRouter(
     GoRoute(path: '/review', builder: (_, _) => const ReviewPage()),
     GoRoute(path: '/statistics', builder: (_, _) => const StatsPage()),
     GoRoute(path: '/privacy', builder: (_, _) => const PrivacyPage()),
+    GoRoute(path: '/pronunciation', builder: (_, _) => const PronunciationPage()),
     GoRoute(path: '/collections', builder: (_, _) => const CollectionsPage()),
     GoRoute(
       path: '/collections/:id',

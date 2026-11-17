@@ -32,9 +32,10 @@ class PrivacyPage extends StatelessWidget {
     (
       'Izin perangkat',
       '• Notifikasi: hanya untuk pengingat belajar harian yang kamu aktifkan sendiri.\n'
-          '• Teks-ke-suara (TTS): memakai mesin TTS bawaan perangkat untuk melafalkan kata; '
-          'audio tidak dikirim ke internet.\n'
-          'Aplikasi tidak meminta izin lokasi, kamera, kontak, atau mikrofon.',
+          '• Teks-ke-suara (TTS): memakai mesin TTS bawaan perangkat untuk melafalkan kata.\n'
+          '• Mikrofon: hanya dipakai saat kamu memulai Latihan pelafalan. Suara diproses oleh '
+          'layanan pengenalan suara perangkat dan tidak direkam atau dikirim oleh aplikasi.\n'
+          'Aplikasi tidak meminta izin lokasi, kamera, atau kontak.',
     ),
     (
       'Berbagi data',

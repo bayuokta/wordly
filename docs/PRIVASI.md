@@ -30,8 +30,9 @@ pembuat aplikasi.
 |---|---|
 | Notifikasi | Pengingat belajar harian yang diaktifkan pengguna |
 | Teks-ke-suara (TTS) | Melafalkan kata memakai mesin TTS bawaan perangkat |
+| Mikrofon | Hanya saat Latihan pelafalan; suara diproses layanan pengenalan suara perangkat, tidak direkam/dikirim aplikasi |
 
-Aplikasi **tidak** meminta izin lokasi, kamera, kontak, atau mikrofon.
+Aplikasi **tidak** meminta izin lokasi, kamera, atau kontak.
 
 ## Berbagi data
 

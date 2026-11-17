@@ -30,6 +30,7 @@ pengulangan berjarak (SM-2). Offline-first, tanpa akun, tanpa iklan.
 | 🔊 **Audio di mana-mana** | Ikon speaker di setiap daftar kata, tombol kata & kalimat di detail, audio di flashcard/review, mode lambat di listening |
 | 🃏 **Flashcard** | 5–20 kartu, ketuk untuk balik, geser kiri/kanan, kata salah muncul lagi |
 | 📚 **Koleksi kata** | Kelompokkan kata sendiri (mis. "Interview"), tambah dari detail kata |
+| 🎤 **Latihan pelafalan** | Ucapkan kata, lalu lihat skor kemiripan (pengenalan suara perangkat) |
 | 🧠 **Latihan adaptif** | Quiz & flashcard memprioritaskan kata yang sering salah dan yang jatuh tempo |
 | ✅ **Quiz** | Pilihan ganda, EN→ID, ID→EN, isi rumpang, listening, ejaan |
 | 🔁 **Review terjadwal** | Antrean SM-2: prioritas kata paling terlambat & paling sering salah |

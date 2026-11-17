@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter/services.dart';
 import 'package:material_ui/material_ui.dart';
 
+import '../../../core/audio/sound_service.dart';
 import '../../../core/audio/tts_service.dart';
 import '../../../core/db/content/content_database.dart';
 import '../../../core/settings/settings_controller.dart';
@@ -42,14 +43,18 @@ class _FlashcardsPageState extends ConsumerState<FlashcardsPage> {
   int _answered = 0;
   bool _flipped = false;
   bool _busy = false;
+  int? _lastSpokenId;
 
   WordListItem? get _current => _index < _queue.length ? _queue[_index] : null;
 
   /// Ucapkan kata pada kartu baru bila pengguna mengaktifkan putar otomatis.
   void _speakIfAutoplay() {
+    // Sekali per kartu: membalik kartu tidak memicu pengucapan ulang.
     final card = _current;
     if (card == null) return;
     if (!ref.read(settingsProvider).audioAutoplay) return;
+    if (_lastSpokenId == card.word.id) return;
+    _lastSpokenId = card.word.id;
     speakWord(context, card.word.word);
   }
   int get _total => _queue.length;
@@ -73,6 +78,7 @@ class _FlashcardsPageState extends ConsumerState<FlashcardsPage> {
         _answered = 0;
         _flipped = false;
         _repeats.clear();
+        _lastSpokenId = null;
         _phase = _Phase.session;
       });
       _speakIfAutoplay();
@@ -95,7 +101,7 @@ class _FlashcardsPageState extends ConsumerState<FlashcardsPage> {
       if (correct) {
         HapticFeedback.selectionClick();
         if (ref.read(settingsProvider).soundEffects) {
-          SystemSound.play(SystemSoundType.click);
+          ref.read(soundServiceProvider).play(SoundService.correct);
         }
       } else {
         HapticFeedback.mediumImpact();

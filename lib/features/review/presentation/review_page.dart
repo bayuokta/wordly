@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter/services.dart';
 import 'package:material_ui/material_ui.dart';
 
+import '../../../core/audio/sound_service.dart';
 import '../../../core/audio/tts_service.dart';
 import '../../../core/db/database_providers.dart';
 import '../../../core/settings/settings_controller.dart';
@@ -32,12 +33,16 @@ class _ReviewPageState extends ConsumerState<ReviewPage> {
   int _wrong = 0;
   bool _flipped = false;
   bool _busy = false;
+  int? _lastSpokenId;
   bool _finished = false;
 
   void _speakIfAutoplay() {
+    // Sekali per kartu: membalik kartu tidak memicu pengucapan ulang.
     final card = _current;
     if (card == null) return;
     if (!ref.read(settingsProvider).audioAutoplay) return;
+    if (_lastSpokenId == card.word.id) return;
+    _lastSpokenId = card.word.id;
     speakWord(context, card.word.word);
   }
 
@@ -72,8 +77,14 @@ class _ReviewPageState extends ConsumerState<ReviewPage> {
       if (!mounted) return;
       if (correct) {
         HapticFeedback.selectionClick();
+        if (ref.read(settingsProvider).soundEffects) {
+          ref.read(soundServiceProvider).play(SoundService.correct);
+        }
       } else {
         HapticFeedback.mediumImpact();
+        if (ref.read(settingsProvider).soundEffects) {
+          ref.read(soundServiceProvider).play(SoundService.wrong);
+        }
       }
       setState(() {
         if (correct) {

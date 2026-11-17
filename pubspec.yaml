@@ -1,12 +1,13 @@
 name: wordly
 description: "Wordly — belajar kosakata Inggris–Indonesia dengan pengulangan berjarak, offline-first."
 publish_to: 'none'
-version: 0.1.5+6
+version: 0.1.6+7
 
 environment:
   sdk: ^3.14.0
 
 dependencies:
+  audioplayers: ^6.8.1
   crypto: ^3.0.8
   drift: ^2.35.4
   drift_flutter: ^0.3.1
@@ -19,6 +20,7 @@ dependencies:
   go_router: ^18.1.4
   material_ui: ^1.1.0
   shared_preferences: ^2.5.6
+  speech_to_text: ^7.5.0
   timezone: ^0.11.2
 
 dev_dependencies:
@@ -35,6 +37,7 @@ flutter:
 
   assets:
     - assets/vocab/
+    - assets/sounds/
 
   fonts:
     # Display face — judul, angka, kata utama.

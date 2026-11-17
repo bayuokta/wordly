@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter/services.dart';
 import 'package:material_ui/material_ui.dart';
 
+import '../../../core/audio/sound_service.dart';
 import '../../../core/audio/tts_service.dart';
 import '../../../core/db/database_providers.dart';
 import '../../../core/settings/settings_controller.dart';
@@ -122,7 +123,7 @@ class _QuizPageState extends ConsumerState<QuizPage> {
       if (correct) {
         HapticFeedback.selectionClick();
         if (ref.read(settingsProvider).soundEffects) {
-          SystemSound.play(SystemSoundType.click);
+          ref.read(soundServiceProvider).play(SoundService.correct);
         }
       } else {
         HapticFeedback.mediumImpact();

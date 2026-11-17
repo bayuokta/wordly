@@ -52,6 +52,8 @@
 | L | Statistik terperinci | ✅ | Grafik 7/30 hari, akurasi, streak terbaik, total ulasan; halaman /statistics |
 | M | Koleksi kata buatan sendiri | ✅ | Buat/hapus koleksi, tambah kata dari detail |
 | R | Latihan adaptif | ✅ | Quiz & flashcard memprioritaskan kata lemah + jatuh tempo |
+| S | Latihan pelafalan | ✅ | Ucapkan kata, skor kemiripan via pengenalan suara perangkat |
+| T | Efek suara | ✅ | Chime benar/salah (aset WAV) + getaran; dapat dimatikan |
 | N | Notifikasi harian | ✅ | Pengingat harian via flutter_local_notifications, jam dapat diubah |
 | O | Audio file/URL (selain TTS) | ⏳ | Kolom `audio_url` sudah tersedia |
 | P | Sinkronisasi cloud | ⏳ | Kolom `sync_state`, `updated_at` sudah disiapkan |

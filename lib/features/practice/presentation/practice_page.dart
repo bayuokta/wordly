@@ -76,6 +76,15 @@ class PracticePage extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           _PracticeTile(
+            icon: Icons.mic_none_rounded,
+            tone: IconTileTone.primary,
+            title: 'Latihan pelafalan',
+            description: 'Ucapkan kata, lalu lihat seberapa dekat dengan pengucapan asli.',
+            phase: 'Baru',
+            onTap: () => context.push('/pronunciation'),
+          ),
+          const SizedBox(height: 10),
+          _PracticeTile(
             icon: Icons.repeat_rounded,
             tone: IconTileTone.accent,
             title: 'Review terjadwal',
