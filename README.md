@@ -140,7 +140,7 @@ dart run tool/validate_vocab.dart
 
 Aplikasi mengimpor ulang konten secara otomatis ketika isi aset berubah, **tanpa
 menghapus progres pengguna**. Detail skema & format ada di
-[`PERANCANGAN.md`](PERANCANGAN.md).
+[`docs/PERANCANGAN.md`](docs/PERANCANGAN.md).
 
 ---
 
@@ -148,7 +148,7 @@ menghapus progres pengguna**. Detail skema & format ada di
 
 | Berkas | Isi |
 |---|---|
-| [`PERANCANGAN.md`](PERANCANGAN.md) | Perancangan terkini: fitur, design system, arsitektur, skema DB, SM-2, roadmap |
+| [`docs/PERANCANGAN.md`](docs/PERANCANGAN.md) | Perancangan terkini: fitur, design system, arsitektur, skema DB, SM-2, roadmap |
 | [`AGENTS.md`](AGENTS.md) | Aturan kontribusi/agen: konvensi kode, perintah, definition of done |
 | [`docs/CARA-JALAN.md`](docs/CARA-JALAN.md) | Setup mesin pengembangan & troubleshooting |
 | [`docs/arsip/perancangan-v0.1.md`](docs/arsip/perancangan-v0.1.md) | Brief awal + rencana backend (FastAPI/PostgreSQL) |

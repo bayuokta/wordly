@@ -2,7 +2,7 @@
 
 > Dokumen perancangan **terkini (v0.2)** — menggambarkan aplikasi yang sudah
 > dibangun, bukan sekadar rencana. Dokumen brief awal (v0.1) diarsipkan di
-> [`docs/arsip/perancangan-v0.1.md`](docs/arsip/perancangan-v0.1.md).
+> [`arsip/perancangan-v0.1.md`](arsip/perancangan-v0.1.md).
 
 | | |
 |---|---|
@@ -376,7 +376,7 @@ kedipan UI):
 | Flutter 3.50 memakai paket `material_ui`, bukan `flutter/material.dart` | Semua impor memakai `package:material_ui/material_ui.dart` |
 | JDK 25 tidak didukung Gradle | Dipakai JDK 21 (`JAVA_HOME` + `flutter config --jdk-dir`) |
 | Kotlin gagal menutup cache di Windows | `kotlin.incremental=false` di `android/gradle.properties` |
-| Emulator crash dengan `-gpu auto` | Pakai `-gpu swiftshader_indirect` (lihat `docs/CARA-JALAN.md`) |
+| Emulator crash dengan `-gpu auto` | Pakai `-gpu swiftshader_indirect` (lihat `CARA-JALAN.md`) |
 | TTS tidak tersedia di sebagian perangkat | Fallback snackbar, tidak memblokir alur |
 | Ukuran layar 360 dp | Semua halaman memakai `ListView`/scroll; belum diuji menyeluruh |
 
@@ -384,7 +384,7 @@ kedipan UI):
 
 ## 16. Referensi
 
-- Brief awal & rencana backend lengkap: [`docs/arsip/perancangan-v0.1.md`](docs/arsip/perancangan-v0.1.md)
-- Panduan menjalankan di mesin pengembangan: [`docs/CARA-JALAN.md`](docs/CARA-JALAN.md)
-- Panduan kontribusi/agen: [`AGENTS.md`](AGENTS.md)
+- Brief awal & rencana backend lengkap: [`arsip/perancangan-v0.1.md`](arsip/perancangan-v0.1.md)
+- Panduan menjalankan di mesin pengembangan: [`CARA-JALAN.md`](CARA-JALAN.md)
+- Panduan kontribusi/agen: [`AGENTS.md`](../AGENTS.md)
 - Mockup HTML & screenshot desain: `src/` dan `mockups/`

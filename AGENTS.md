@@ -1,7 +1,7 @@
 # AGENTS.md
 
 Panduan untuk agen AI dan kontributor manusia yang mengubah repo ini.
-Baca `PERANCANGAN.md` dulu untuk memahami produk; dokumen ini fokus pada
+Baca `docs/PERANCANGAN.md` dulu untuk memahami produk; dokumen ini fokus pada
 **cara kerja yang benar di dalam kode**.
 
 ---
@@ -91,7 +91,7 @@ Aturan penempatan:
 
 ### Menambah kata
 
-1. Edit `assets/vocab/NN-kategori.json` (13 field wajib, lihat `PERANCANGAN.md` §8).
+1. Edit `assets/vocab/NN-kategori.json` (13 field wajib, lihat `docs/PERANCANGAN.md` §8).
 2. ID baru melanjutkan rentang kategori (mis. kategori 1 → `10xx`).
 3. Naikkan `"version"` berkas (opsional; tanda tangan konten juga berubah karena
    jumlah kata berubah).
