@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "category": {
+    "id": 3,
+    "slug": "academic-english",
+    "name": "Academic English",
+    "description": "Menulis dan membaca teks ilmiah: argumentasi, metode, dan analisis.",
+    "icon": "book",
+    "order": 3
+  },
+  "words": [
+    {"id": 3001, "word": "hypothesis", "translation": "hipotesis", "definition": "An idea suggested as an explanation, to be tested.", "ipa": "/haɪˈpɒθ.ə.sɪs/", "pos": "noun", "level": "advanced", "cefr": "C1", "example": "The data supports our hypothesis.", "example_id": "Data itu mendukung hipotesis kami.", "synonyms": ["theory"], "antonyms": ["fact"]},
+    {"id": 3002, "word": "analyse", "translation": "menganalisis", "definition": "To examine something in detail to understand it.", "ipa": "/ˈæn.əl.aɪz/", "pos": "verb", "level": "advanced", "cefr": "B2", "example": "Researchers analyse the results carefully.", "example_id": "Para peneliti menganalisis hasilnya dengan cermat.", "synonyms": ["examine"], "antonyms": ["ignore"]},
+    {"id": 3003, "word": "cite", "translation": "mengutip; merujuk", "definition": "To mention a source as evidence in academic writing.", "ipa": "/saɪt/", "pos": "verb", "level": "advanced", "cefr": "C1", "example": "You must cite every source you use.", "example_id": "Kamu wajib mengutip setiap sumber yang dipakai.", "synonyms": ["reference", "quote"], "antonyms": []},
+    {"id": 3004, "word": "coherent", "translation": "runtut; koheren", "definition": "Logical and well organised, easy to follow.", "ipa": "/kəʊˈhɪə.rənt/", "pos": "adjective", "level": "advanced", "cefr": "C1", "example": "Her essay presents a coherent argument.", "example_id": "Esainya menyajikan argumen yang runtut.", "synonyms": ["logical", "consistent"], "antonyms": ["confusing"]},
+    {"id": 3005, "word": "empirical", "translation": "berbasis pengamatan; empiris", "definition": "Based on observation or experience rather than theory.", "ipa": "/ɪmˈpɪr.ɪ.kəl/", "pos": "adjective", "level": "advanced", "cefr": "C1", "example": "The claim needs empirical evidence.", "example_id": "Klaim itu membutuhkan bukti empiris.", "synonyms": ["observed"], "antonyms": ["theoretical"]},
+    {"id": 3006, "word": "methodology", "translation": "metodologi", "definition": "The set of methods used in a study.", "ipa": "/ˌmeθ.əˈdɒl.ə.dʒi/", "pos": "noun", "level": "advanced", "cefr": "C1", "example": "The paper explains its methodology in detail.", "example_id": "Makalah itu menjelaskan metodologinya secara rinci.", "synonyms": ["approach"], "antonyms": []},
+    {"id": 3007, "word": "significant", "translation": "signifikan; berarti", "definition": "Large or important enough to have an effect.", "ipa": "/sɪɡˈnɪf.ɪ.kənt/", "pos": "adjective", "level": "advanced", "cefr": "B2", "example": "There was a significant improvement in scores.", "example_id": "Ada peningkatan yang signifikan pada skor.", "synonyms": ["notable"], "antonyms": ["insignificant"]},
+    {"id": 3008, "word": "phenomenon", "translation": "fenomena; gejala", "definition": "A fact or event that can be observed.", "ipa": "/fəˈnɒm.ɪ.nən/", "pos": "noun", "level": "advanced", "cefr": "C1", "example": "Social media is a global phenomenon.", "example_id": "Media sosial adalah fenomena global.", "synonyms": ["occurrence"], "antonyms": []},
+    {"id": 3009, "word": "evaluate", "translation": "mengevaluasi", "definition": "To judge the value or quality of something.", "ipa": "/ɪˈvæl.ju.eɪt/", "pos": "verb", "level": "advanced", "cefr": "B2", "example": "We evaluate each method before choosing one.", "example_id": "Kami mengevaluasi setiap metode sebelum memilih.", "synonyms": ["assess"], "antonyms": []},
+    {"id": 3010, "word": "framework", "translation": "kerangka kerja", "definition": "A basic structure used to organise ideas or systems.", "ipa": "/ˈfreɪm.wɜːk/", "pos": "noun", "level": "advanced", "cefr": "B2", "example": "The study uses a simple theoretical framework.", "example_id": "Penelitian itu memakai kerangka teoretis sederhana.", "synonyms": ["structure"], "antonyms": []}
+  ]
+}

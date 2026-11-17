@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "category": {
+    "id": 2,
+    "slug": "business-english",
+    "name": "Business English",
+    "description": "Dunia kerja: rapat, negosiasi, dan komunikasi profesional.",
+    "icon": "briefcase",
+    "order": 2
+  },
+  "words": [
+    {"id": 2001, "word": "negotiate", "translation": "bernegosiasi", "definition": "To discuss something in order to reach an agreement.", "ipa": "/nəˈɡəʊ.ʃi.eɪt/", "pos": "verb", "level": "intermediate", "cefr": "B2", "example": "We need to negotiate the price with the supplier.", "example_id": "Kita perlu menegosiasikan harga dengan pemasok.", "synonyms": ["bargain"], "antonyms": []},
+    {"id": 2002, "word": "deadline", "translation": "tenggat waktu", "definition": "The latest time by which something must be finished.", "ipa": "/ˈded.laɪn/", "pos": "noun", "level": "intermediate", "cefr": "B1", "example": "The deadline for the report is Friday.", "example_id": "Tenggat laporan itu hari Jumat.", "synonyms": ["due date"], "antonyms": []},
+    {"id": 2003, "word": "revenue", "translation": "pendapatan", "definition": "The money a company receives from sales.", "ipa": "/ˈrev.ən.juː/", "pos": "noun", "level": "intermediate", "cefr": "B2", "example": "Our revenue grew by ten percent this year.", "example_id": "Pendapatan kami naik sepuluh persen tahun ini.", "synonyms": ["income"], "antonyms": ["expense"]},
+    {"id": 2004, "word": "colleague", "translation": "rekan kerja", "definition": "A person you work with.", "ipa": "/ˈkɒl.iːɡ/", "pos": "noun", "level": "intermediate", "cefr": "B1", "example": "My colleague helped me finish the presentation.", "example_id": "Rekan kerja saya membantu menyelesaikan presentasi.", "synonyms": ["coworker"], "antonyms": []},
+    {"id": 2005, "word": "invoice", "translation": "faktur; tagihan", "definition": "A document listing goods or services and the amount owed.", "ipa": "/ˈɪn.vɔɪs/", "pos": "noun", "level": "intermediate", "cefr": "B2", "example": "Please send the invoice to our finance team.", "example_id": "Mohon kirim faktur ke tim keuangan kami.", "synonyms": ["bill"], "antonyms": []},
+    {"id": 2006, "word": "promote", "translation": "memperkenalkan; menaikkan jabatan", "definition": "To raise someone to a higher position or to advertise something.", "ipa": "/prəˈməʊt/", "pos": "verb", "level": "intermediate", "cefr": "B1", "example": "She was promoted to team leader.", "example_id": "Dia dipromosikan menjadi ketua tim.", "synonyms": ["upgrade"], "antonyms": ["demote"]},
+    {"id": 2007, "word": "budget", "translation": "anggaran", "definition": "A plan for how much money will be spent.", "ipa": "/ˈbʌdʒ.ɪt/", "pos": "noun", "level": "intermediate", "cefr": "B1", "example": "The project is still within budget.", "example_id": "Proyek itu masih sesuai anggaran.", "synonyms": ["allocation"], "antonyms": []},
+    {"id": 2008, "word": "client", "translation": "klien", "definition": "A person or company that buys services.", "ipa": "/ˈklaɪ.ənt/", "pos": "noun", "level": "intermediate", "cefr": "B1", "example": "The client approved our design.", "example_id": "Klien menyetujui desain kami.", "synonyms": ["customer"], "antonyms": []},
+    {"id": 2009, "word": "contract", "translation": "kontrak", "definition": "A written legal agreement between two parties.", "ipa": "/ˈkɒn.trækt/", "pos": "noun", "level": "intermediate", "cefr": "B1", "example": "Both sides signed the contract yesterday.", "example_id": "Kedua pihak menandatangani kontrak kemarin.", "synonyms": ["agreement"], "antonyms": []},
+    {"id": 2010, "word": "schedule", "translation": "jadwal", "definition": "A plan of activities and the times they happen.", "ipa": "/ˈʃed.juːl/", "pos": "noun", "level": "intermediate", "cefr": "B1", "example": "The meeting is on the schedule for Monday.", "example_id": "Rapat itu ada di jadwal hari Senin.", "synonyms": ["timetable"], "antonyms": []}
+  ]
+}

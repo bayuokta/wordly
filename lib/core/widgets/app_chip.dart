@@ -3,6 +3,7 @@ import 'package:material_ui/material_ui.dart';
 import '../design/app_palette.dart';
 import '../design/app_spacing.dart';
 import '../design/app_typography.dart';
+import '../srs/sm2.dart';
 
 enum AppChipTone { neutral, primary, accent, success, warning, error }
 
@@ -73,9 +74,7 @@ class AppChip extends StatelessWidget {
   }
 }
 
-/// Status belajar sebuah kata.
-enum WordStatus { newWord, repeat, mastered }
-
+/// Status belajar sebuah kata (label untuk UI).
 class StatusPill extends StatelessWidget {
   const StatusPill({super.key, required this.status});
 
@@ -85,7 +84,8 @@ class StatusPill extends StatelessWidget {
   Widget build(BuildContext context) {
     final (String label, AppChipTone tone) = switch (status) {
       WordStatus.newWord => ('Baru', AppChipTone.primary),
-      WordStatus.repeat => ('Perlu diulang', AppChipTone.warning),
+      WordStatus.learning => ('Perlu diulang', AppChipTone.warning),
+      WordStatus.review => ('Diulang', AppChipTone.neutral),
       WordStatus.mastered => ('Dikuasai', AppChipTone.success),
     };
 

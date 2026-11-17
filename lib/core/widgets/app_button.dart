@@ -67,14 +67,19 @@ class _AppButtonState extends State<AppButton> {
               ? null
               : Icon(widget.icon, size: isSmall ? 16 : 17, color: foreground));
 
-    final label = Text(
-      widget.label,
-      style: TextStyle(
-        fontFamily: AppFonts.body,
-        fontSize: fontSize,
-        height: 1,
-        fontWeight: FontWeight.w600,
-        color: foreground,
+    final label = Flexible(
+      child: Text(
+        widget.label,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontFamily: AppFonts.body,
+          fontSize: fontSize,
+          height: 1,
+          fontWeight: FontWeight.w600,
+          color: foreground,
+        ),
       ),
     );
 

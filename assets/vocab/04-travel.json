@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "category": {
+    "id": 4,
+    "slug": "travel",
+    "name": "Travel",
+    "description": "Bandara, hotel, dan percakapan saat bepergian.",
+    "icon": "plane",
+    "order": 4
+  },
+  "words": [
+    {"id": 4001, "word": "luggage", "translation": "bagasi", "definition": "The bags and suitcases you take when travelling.", "ipa": "/ˈlʌɡ.ɪdʒ/", "pos": "noun", "level": "intermediate", "cefr": "A2", "example": "My luggage is too heavy to carry.", "example_id": "Bagasi saya terlalu berat untuk dibawa.", "synonyms": ["baggage"], "antonyms": []},
+    {"id": 4002, "word": "itinerary", "translation": "rencana perjalanan", "definition": "A detailed plan of a journey.", "ipa": "/aɪˈtɪn.ər.ər.i/", "pos": "noun", "level": "intermediate", "cefr": "B2", "example": "Our itinerary includes three cities.", "example_id": "Rencana perjalanan kami mencakup tiga kota.", "synonyms": ["schedule"], "antonyms": []},
+    {"id": 4003, "word": "boarding", "translation": "naik ke pesawat", "definition": "The act of getting on a plane or ship.", "ipa": "/ˈbɔː.dɪŋ/", "pos": "noun", "level": "intermediate", "cefr": "A2", "example": "Boarding starts thirty minutes before departure.", "example_id": "Boarding dimulai tiga puluh menit sebelum keberangkatan.", "synonyms": [], "antonyms": []},
+    {"id": 4004, "word": "passport", "translation": "paspor", "definition": "An official document needed to travel abroad.", "ipa": "/ˈpɑːs.pɔːt/", "pos": "noun", "level": "beginner", "cefr": "A2", "example": "Keep your passport in a safe place.", "example_id": "Simpan paspormu di tempat aman.", "synonyms": [], "antonyms": []},
+    {"id": 4005, "word": "departure", "translation": "keberangkatan", "definition": "The act of leaving, especially on a journey.", "ipa": "/dɪˈpɑː.tʃər/", "pos": "noun", "level": "intermediate", "cefr": "A2", "example": "The departure time is six in the morning.", "example_id": "Waktu keberangkatan pukul enam pagi.", "synonyms": ["leaving"], "antonyms": ["arrival"]},
+    {"id": 4006, "word": "accommodation", "translation": "akomodasi; penginapan", "definition": "A place to stay while travelling.", "ipa": "/əˌkɒm.əˈdeɪ.ʃən/", "pos": "noun", "level": "intermediate", "cefr": "B1", "example": "We booked cheap accommodation near the beach.", "example_id": "Kami memesan penginapan murah dekat pantai.", "synonyms": ["lodging"], "antonyms": []},
+    {"id": 4007, "word": "souvenir", "translation": "oleh-oleh; cendera mata", "definition": "Something you buy to remember a place.", "ipa": "/ˌsuː.vənˈɪər/", "pos": "noun", "level": "beginner", "cefr": "A2", "example": "I bought a small souvenir for my sister.", "example_id": "Saya membeli cendera mata kecil untuk adik saya.", "synonyms": ["memento"], "antonyms": []},
+    {"id": 4008, "word": "transit", "translation": "transit; singgah", "definition": "Stopping at a place on the way to another.", "ipa": "/ˈtræn.zɪt/", "pos": "noun", "level": "intermediate", "cefr": "B1", "example": "We have a two-hour transit in Singapore.", "example_id": "Kami transit dua jam di Singapura.", "synonyms": ["stopover"], "antonyms": []},
+    {"id": 4009, "word": "currency", "translation": "mata uang", "definition": "The money used in a particular country.", "ipa": "/ˈkʌr.ən.si/", "pos": "noun", "level": "intermediate", "cefr": "B1", "example": "Where can I exchange foreign currency?", "example_id": "Di mana saya bisa menukar mata uang asing?", "synonyms": ["money"], "antonyms": []},
+    {"id": 4010, "word": "reservation", "translation": "pemesanan", "definition": "An arrangement to keep a seat or room for you.", "ipa": "/ˌrez.əˈveɪ.ʃən/", "pos": "noun", "level": "intermediate", "cefr": "A2", "example": "I have a reservation for two nights.", "example_id": "Saya punya pemesanan untuk dua malam.", "synonyms": ["booking"], "antonyms": []}
+  ]
+}

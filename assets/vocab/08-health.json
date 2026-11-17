@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "category": {
+    "id": 8,
+    "slug": "health",
+    "name": "Health",
+    "description": "Tubuh, penyakit, dan layanan kesehatan.",
+    "icon": "pulse",
+    "order": 8
+  },
+  "words": [
+    {"id": 8001, "word": "symptom", "translation": "gejala", "definition": "A sign that shows you may be ill.", "ipa": "/ˈsɪmp.təm/", "pos": "noun", "level": "intermediate", "cefr": "B1", "example": "Fever is a common symptom of flu.", "example_id": "Demam adalah gejala flu yang umum.", "synonyms": ["sign"], "antonyms": []},
+    {"id": 8002, "word": "recover", "translation": "pulih", "definition": "To become healthy again after illness.", "ipa": "/rɪˈkʌv.ər/", "pos": "verb", "level": "intermediate", "cefr": "B1", "example": "She recovered quickly after the surgery.", "example_id": "Dia pulih dengan cepat setelah operasi.", "synonyms": ["heal"], "antonyms": ["worsen"]},
+    {"id": 8003, "word": "prescription", "translation": "resep obat", "definition": "A doctor's written order for medicine.", "ipa": "/prɪˈskrɪp.ʃən/", "pos": "noun", "level": "advanced", "cefr": "B2", "example": "You need a prescription for this antibiotic.", "example_id": "Kamu perlu resep untuk antibiotik ini.", "synonyms": [], "antonyms": []},
+    {"id": 8004, "word": "appointment", "translation": "janji temu", "definition": "An arranged time to meet a doctor or professional.", "ipa": "/əˈpɔɪnt.mənt/", "pos": "noun", "level": "intermediate", "cefr": "B1", "example": "I booked an appointment with the dentist.", "example_id": "Saya membuat janji temu dengan dokter gigi.", "synonyms": ["booking"], "antonyms": []},
+    {"id": 8005, "word": "immune", "translation": "kebal", "definition": "Protected against a disease.", "ipa": "/ɪˈmjuːn/", "pos": "adjective", "level": "advanced", "cefr": "B2", "example": "Vaccines help the body become immune.", "example_id": "Vaksin membantu tubuh menjadi kebal.", "synonyms": ["resistant"], "antonyms": ["vulnerable"]},
+    {"id": 8006, "word": "injury", "translation": "cedera", "definition": "Physical damage to the body.", "ipa": "/ˈɪn.dʒər.i/", "pos": "noun", "level": "intermediate", "cefr": "B1", "example": "He suffered a knee injury while running.", "example_id": "Dia mengalami cedera lutut saat berlari.", "synonyms": ["wound"], "antonyms": []},
+    {"id": 8007, "word": "nutritious", "translation": "bergizi", "definition": "Containing substances that keep you healthy.", "ipa": "/nuːˈtrɪʃ.əs/", "pos": "adjective", "level": "advanced", "cefr": "B2", "example": "Vegetables are cheap and nutritious.", "example_id": "Sayuran itu murah dan bergizi.", "synonyms": ["healthy"], "antonyms": ["unhealthy"]},
+    {"id": 8008, "word": "pharmacy", "translation": "apotek", "definition": "A shop where medicines are sold.", "ipa": "/ˈfɑː.mə.si/", "pos": "noun", "level": "beginner", "cefr": "A2", "example": "The pharmacy is open until nine.", "example_id": "Apoteknya buka sampai pukul sembilan.", "synonyms": ["drugstore"], "antonyms": []},
+    {"id": 8009, "word": "fatigue", "translation": "kelelahan", "definition": "A feeling of being extremely tired.", "ipa": "/fəˈtiːɡ/", "pos": "noun", "level": "advanced", "cefr": "C1", "example": "Fatigue can affect your memory.", "example_id": "Kelelahan dapat memengaruhi ingatanmu.", "synonyms": ["exhaustion"], "antonyms": ["energy"]},
+    {"id": 8010, "word": "breathe", "translation": "bernapas", "definition": "To take air into your lungs and let it out.", "ipa": "/briːð/", "pos": "verb", "level": "beginner", "cefr": "A2", "example": "Try to breathe slowly and relax.", "example_id": "Coba bernapas perlahan dan rileks.", "synonyms": ["inhale"], "antonyms": []}
+  ]
+}

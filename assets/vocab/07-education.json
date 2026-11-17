@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "category": {
+    "id": 7,
+    "slug": "education",
+    "name": "Education",
+    "description": "Sekolah, kampus, dan kegiatan belajar.",
+    "icon": "graduation",
+    "order": 7
+  },
+  "words": [
+    {"id": 7001, "word": "assignment", "translation": "tugas", "definition": "Work given to students by a teacher.", "ipa": "/əˈsaɪn.mənt/", "pos": "noun", "level": "beginner", "cefr": "A2", "example": "I finished the assignment before midnight.", "example_id": "Saya menyelesaikan tugas sebelum tengah malam.", "synonyms": ["task"], "antonyms": []},
+    {"id": 7002, "word": "lecture", "translation": "kuliah", "definition": "A formal talk given to students.", "ipa": "/ˈlek.tʃər/", "pos": "noun", "level": "intermediate", "cefr": "B1", "example": "The lecture starts at eight o'clock.", "example_id": "Kuliahnya mulai pukul delapan.", "synonyms": ["class"], "antonyms": []},
+    {"id": 7003, "word": "semester", "translation": "semester", "definition": "One of the two main parts of a school year.", "ipa": "/sɪˈmes.tər/", "pos": "noun", "level": "beginner", "cefr": "A2", "example": "Next semester I will take statistics.", "example_id": "Semester depan saya akan mengambil statistika.", "synonyms": ["term"], "antonyms": []},
+    {"id": 7004, "word": "scholarship", "translation": "beasiswa", "definition": "Money given to a student to help pay for study.", "ipa": "/ˈskɒl.ə.ʃɪp/", "pos": "noun", "level": "intermediate", "cefr": "B1", "example": "She won a scholarship to study abroad.", "example_id": "Dia mendapat beasiswa untuk belajar di luar negeri.", "synonyms": ["grant"], "antonyms": []},
+    {"id": 7005, "word": "curriculum", "translation": "kurikulum", "definition": "The subjects taught in a school or course.", "ipa": "/kəˈrɪk.jə.ləm/", "pos": "noun", "level": "advanced", "cefr": "B2", "example": "The school updated its curriculum this year.", "example_id": "Sekolah itu memperbarui kurikulumnya tahun ini.", "synonyms": ["syllabus"], "antonyms": []},
+    {"id": 7006, "word": "revise", "translation": "mengulang pelajaran", "definition": "To study again before an exam.", "ipa": "/rɪˈvaɪz/", "pos": "verb", "level": "intermediate", "cefr": "B1", "example": "I need to revise for tomorrow's test.", "example_id": "Saya perlu mengulang pelajaran untuk ujian besok.", "synonyms": ["review"], "antonyms": []},
+    {"id": 7007, "word": "attendance", "translation": "kehadiran", "definition": "Being present at a class or event.", "ipa": "/əˈten.dəns/", "pos": "noun", "level": "intermediate", "cefr": "B2", "example": "Attendance is checked every morning.", "example_id": "Kehadiran diperiksa setiap pagi.", "synonyms": ["presence"], "antonyms": ["absence"]},
+    {"id": 7008, "word": "graduate", "translation": "lulus", "definition": "To finish a course of study successfully.", "ipa": "/ˈɡrædʒ.u.ət/", "pos": "verb", "level": "intermediate", "cefr": "B1", "example": "He will graduate next June.", "example_id": "Dia akan lulus Juni depan.", "synonyms": ["complete"], "antonyms": []},
+    {"id": 7009, "word": "textbook", "translation": "buku pelajaran", "definition": "A book used for studying a subject.", "ipa": "/ˈtekst.bʊk/", "pos": "noun", "level": "beginner", "cefr": "A2", "example": "Open your textbook to page ten.", "example_id": "Buka buku pelajaranmu halaman sepuluh.", "synonyms": ["coursebook"], "antonyms": []},
+    {"id": 7010, "word": "tutor", "translation": "pengajar privat", "definition": "A person who teaches one student or a small group.", "ipa": "/ˈtʃuː.tər/", "pos": "noun", "level": "intermediate", "cefr": "B1", "example": "My tutor explains grammar clearly.", "example_id": "Pengajar privat saya menjelaskan tata bahasa dengan jelas.", "synonyms": ["teacher"], "antonyms": []}
+  ]
+}

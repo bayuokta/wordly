@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "category": {
+    "id": 13,
+    "slug": "slang-informal",
+    "name": "Slang & Informal English",
+    "description": "Bahasa sehari-hari yang santai dan informal.",
+    "icon": "spark",
+    "order": 13
+  },
+  "words": [
+    {"id": 13001, "word": "chill", "translation": "santai", "definition": "Relaxed and calm, or to relax.", "ipa": "/tʃɪl/", "pos": "adjective", "level": "intermediate", "cefr": "B1", "example": "Let's stay home and chill tonight.", "example_id": "Ayo di rumah saja dan santai malam ini.", "synonyms": ["relaxed"], "antonyms": ["tense"]},
+    {"id": 13002, "word": "hang out", "translation": "nongkrong; berkumpul", "definition": "To spend time with people informally.", "ipa": "/hæŋ aʊt/", "pos": "phrasal_verb", "level": "intermediate", "cefr": "B1", "example": "We hang out at the cafe after class.", "example_id": "Kami nongkrong di kafe setelah kelas.", "synonyms": ["socialise"], "antonyms": []},
+    {"id": 13003, "word": "awesome", "translation": "keren; hebat", "definition": "Extremely good (informal).", "ipa": "/ˈɔː.səm/", "pos": "adjective", "level": "intermediate", "cefr": "B1", "example": "That concert was awesome!", "example_id": "Konser itu keren sekali!", "synonyms": ["great"], "antonyms": ["awful"]},
+    {"id": 13004, "word": "broke", "translation": "bokek; tidak punya uang", "definition": "Having no money (informal).", "ipa": "/brəʊk/", "pos": "adjective", "level": "intermediate", "cefr": "B1", "example": "I can't go out, I'm broke.", "example_id": "Saya tidak bisa keluar, saya bokek.", "synonyms": ["penniless"], "antonyms": ["wealthy"]},
+    {"id": 13005, "word": "buddy", "translation": "teman; sobat", "definition": "A friend (informal, often American English).", "ipa": "/ˈbʌd.i/", "pos": "noun", "level": "beginner", "cefr": "A2", "example": "He's my biking buddy.", "example_id": "Dia sobat sepedaan saya.", "synonyms": ["friend"], "antonyms": ["stranger"]},
+    {"id": 13006, "word": "weird", "translation": "aneh", "definition": "Strange or unusual (informal).", "ipa": "/wɪəd/", "pos": "adjective", "level": "beginner", "cefr": "A2", "example": "That smell is really weird.", "example_id": "Bau itu benar-benar aneh.", "synonyms": ["strange"], "antonyms": ["normal"]},
+    {"id": 13007, "word": "bummer", "translation": "sayang sekali", "definition": "A disappointing situation (informal).", "ipa": "/ˈbʌm.ər/", "pos": "noun", "level": "intermediate", "cefr": "B2", "example": "The trip was cancelled? What a bummer.", "example_id": "Perjalanannya dibatalkan? Sayang sekali.", "synonyms": ["disappointment"], "antonyms": []},
+    {"id": 13008, "word": "rip off", "translation": "menipu; terlalu mahal", "definition": "To charge too much money (informal).", "ipa": "/rɪp ɒf/", "pos": "phrasal_verb", "level": "advanced", "cefr": "B2", "example": "That taxi driver ripped us off.", "example_id": "Pengemudi taksi itu menipu kami.", "synonyms": ["overcharge"], "antonyms": []},
+    {"id": 13009, "word": "hyped", "translation": "sangat antusias", "definition": "Very excited about something (informal).", "ipa": "/haɪpt/", "pos": "adjective", "level": "advanced", "cefr": "C1", "example": "Everyone is hyped for the final match.", "example_id": "Semua orang sangat antusias menanti pertandingan final.", "synonyms": ["excited"], "antonyms": ["indifferent"]},
+    {"id": 13010, "word": "no worries", "translation": "tidak masalah", "definition": "A casual way to say it is not a problem.", "ipa": "/nəʊ ˈwʌr.iz/", "pos": "idiom", "level": "beginner", "cefr": "A2", "example": "No worries, I can wait.", "example_id": "Tidak masalah, saya bisa menunggu.", "synonyms": ["it's fine"], "antonyms": []}
+  ]
+}

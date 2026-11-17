@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "category": {
+    "id": 12,
+    "slug": "idioms",
+    "name": "Idioms",
+    "description": "Ungkapan yang maknanya tidak bisa diterjemahkan kata per kata.",
+    "icon": "quote",
+    "order": 12
+  },
+  "words": [
+    {"id": 12001, "word": "break the ice", "translation": "mencairkan suasana", "definition": "To start a conversation in a social situation.", "ipa": "/breɪk ði aɪs/", "pos": "idiom", "level": "intermediate", "cefr": "B2", "example": "He told a joke to break the ice.", "example_id": "Dia melontarkan lelucon untuk mencairkan suasana.", "synonyms": [], "antonyms": []},
+    {"id": 12002, "word": "piece of cake", "translation": "sangat mudah", "definition": "Something very easy to do.", "ipa": "/piːs əv keɪk/", "pos": "idiom", "level": "intermediate", "cefr": "B1", "example": "The test was a piece of cake.", "example_id": "Ujiannya sangat mudah.", "synonyms": ["easy"], "antonyms": ["difficult"]},
+    {"id": 12003, "word": "hit the books", "translation": "mulai belajar serius", "definition": "To begin studying hard.", "ipa": "/hɪt ðə bʊks/", "pos": "idiom", "level": "intermediate", "cefr": "B2", "example": "I have to hit the books tonight.", "example_id": "Malam ini saya harus belajar serius.", "synonyms": ["study"], "antonyms": []},
+    {"id": 12004, "word": "under the weather", "translation": "kurang enak badan", "definition": "Feeling slightly ill.", "ipa": "/ˈʌn.dər ðə ˈweð.ər/", "pos": "idiom", "level": "intermediate", "cefr": "B2", "example": "She is a bit under the weather today.", "example_id": "Dia agak kurang enak badan hari ini.", "synonyms": ["unwell"], "antonyms": ["healthy"]},
+    {"id": 12005, "word": "once in a blue moon", "translation": "sangat jarang", "definition": "Something that happens very rarely.", "ipa": "/wʌns ɪn ə bluː muːn/", "pos": "idiom", "level": "advanced", "cefr": "C1", "example": "He eats out once in a blue moon.", "example_id": "Dia makan di luar sangat jarang.", "synonyms": ["rarely"], "antonyms": ["often"]},
+    {"id": 12006, "word": "cost an arm and a leg", "translation": "sangat mahal", "definition": "To be extremely expensive.", "ipa": "/kɒst ən ɑːm ənd ə leɡ/", "pos": "idiom", "level": "advanced", "cefr": "C1", "example": "That laptop cost an arm and a leg.", "example_id": "Laptop itu sangat mahal.", "synonyms": ["expensive"], "antonyms": ["cheap"]},
+    {"id": 12007, "word": "let the cat out of the bag", "translation": "membocorkan rahasia", "definition": "To reveal a secret by accident.", "ipa": "/let ðə kæt aʊt əv ðə bæɡ/", "pos": "idiom", "level": "advanced", "cefr": "C1", "example": "He let the cat out of the bag about the surprise.", "example_id": "Dia membocorkan rahasia tentang kejutan itu.", "synonyms": ["reveal"], "antonyms": ["keep secret"]},
+    {"id": 12008, "word": "on the same page", "translation": "punya pemahaman yang sama", "definition": "Agreeing or understanding the same thing.", "ipa": "/ɒn ðə seɪm peɪdʒ/", "pos": "idiom", "level": "intermediate", "cefr": "B2", "example": "Let's make sure we are on the same page.", "example_id": "Mari pastikan kita punya pemahaman yang sama.", "synonyms": ["aligned"], "antonyms": []},
+    {"id": 12009, "word": "spill the beans", "translation": "membongkar rahasia", "definition": "To tell secret information.", "ipa": "/spɪl ðə biːnz/", "pos": "idiom", "level": "advanced", "cefr": "C1", "example": "Don't spill the beans before the party.", "example_id": "Jangan bongkar rahasianya sebelum pesta.", "synonyms": ["disclose"], "antonyms": []},
+    {"id": 12010, "word": "pull someone's leg", "translation": "bercanda; mengerjai", "definition": "To joke with someone by saying something untrue.", "ipa": "/pʊl ˈsʌm.wʌnz leɡ/", "pos": "idiom", "level": "advanced", "cefr": "C1", "example": "Relax, I'm just pulling your leg.", "example_id": "Tenang, saya hanya bercanda.", "synonyms": ["tease"], "antonyms": []}
+  ]
+}

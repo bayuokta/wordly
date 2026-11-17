@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "category": {
+    "id": 11,
+    "slug": "phrasal-verbs",
+    "name": "Phrasal Verbs",
+    "description": "Verba gabungan yang paling sering dipakai penutur asli.",
+    "icon": "swap",
+    "order": 11
+  },
+  "words": [
+    {"id": 11001, "word": "give up", "translation": "menyerah", "definition": "To stop trying to do something.", "ipa": "/ɡɪv ʌp/", "pos": "phrasal_verb", "level": "intermediate", "cefr": "B1", "example": "Don't give up after one mistake.", "example_id": "Jangan menyerah setelah satu kesalahan.", "synonyms": ["quit"], "antonyms": ["persist"]},
+    {"id": 11002, "word": "look after", "translation": "merawat; menjaga", "definition": "To take care of someone or something.", "ipa": "/lʊk ˈɑːf.tər/", "pos": "phrasal_verb", "level": "intermediate", "cefr": "B1", "example": "She looks after her younger brother.", "example_id": "Dia merawat adik laki-lakinya.", "synonyms": ["take care of"], "antonyms": ["neglect"]},
+    {"id": 11003, "word": "figure out", "translation": "memahami; mencari tahu", "definition": "To understand or solve something.", "ipa": "/ˈfɪɡ.ər aʊt/", "pos": "phrasal_verb", "level": "intermediate", "cefr": "B2", "example": "I finally figured out the problem.", "example_id": "Akhirnya saya memahami masalahnya.", "synonyms": ["solve"], "antonyms": []},
+    {"id": 11004, "word": "run out of", "translation": "kehabisan", "definition": "To have no more of something.", "ipa": "/rʌn aʊt ɒv/", "pos": "phrasal_verb", "level": "intermediate", "cefr": "B1", "example": "We ran out of coffee this morning.", "example_id": "Kami kehabisan kopi pagi ini.", "synonyms": ["use up"], "antonyms": ["stock up"]},
+    {"id": 11005, "word": "turn down", "translation": "menolak", "definition": "To refuse an offer or request.", "ipa": "/tɜːn daʊn/", "pos": "phrasal_verb", "level": "intermediate", "cefr": "B1", "example": "He turned down the job offer.", "example_id": "Dia menolak tawaran pekerjaan itu.", "synonyms": ["reject"], "antonyms": ["accept"]},
+    {"id": 11006, "word": "bring up", "translation": "membesarkan; mengangkat topik", "definition": "To raise a child, or to mention a topic.", "ipa": "/brɪŋ ʌp/", "pos": "phrasal_verb", "level": "intermediate", "cefr": "B2", "example": "She brought up an important question.", "example_id": "Dia mengangkat pertanyaan penting.", "synonyms": ["mention"], "antonyms": []},
+    {"id": 11007, "word": "get along", "translation": "akur; cocok", "definition": "To have a good relationship with someone.", "ipa": "/ɡet əˈlɒŋ/", "pos": "phrasal_verb", "level": "intermediate", "cefr": "B1", "example": "I get along well with my teammates.", "example_id": "Saya akur dengan rekan satu tim.", "synonyms": ["click"], "antonyms": ["clash"]},
+    {"id": 11008, "word": "put off", "translation": "menunda", "definition": "To delay something to a later time.", "ipa": "/pʊt ɒf/", "pos": "phrasal_verb", "level": "intermediate", "cefr": "B1", "example": "They put off the meeting until Friday.", "example_id": "Mereka menunda rapat sampai Jumat.", "synonyms": ["postpone"], "antonyms": ["advance"]},
+    {"id": 11009, "word": "come across", "translation": "menemukan secara tidak sengaja", "definition": "To find something by chance.", "ipa": "/kʌm əˈkrɒs/", "pos": "phrasal_verb", "level": "advanced", "cefr": "B2", "example": "I came across an old photo yesterday.", "example_id": "Saya menemukan foto lama kemarin secara tidak sengaja.", "synonyms": ["stumble upon"], "antonyms": []},
+    {"id": 11010, "word": "take off", "translation": "lepas landas; melepas", "definition": "When a plane leaves the ground, or to remove clothing.", "ipa": "/teɪk ɒf/", "pos": "phrasal_verb", "level": "beginner", "cefr": "A2", "example": "The plane takes off at seven.", "example_id": "Pesawat lepas landas pukul tujuh.", "synonyms": ["depart"], "antonyms": ["land"]}
+  ]
+}

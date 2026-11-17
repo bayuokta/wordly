@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "category": {
+    "id": 1,
+    "slug": "daily-conversation",
+    "name": "Daily Conversation",
+    "description": "Percakapan sehari-hari: sapaan, keluarga, dan kebutuhan dasar.",
+    "icon": "chat",
+    "order": 1
+  },
+  "words": [
+    {"id": 1001, "word": "hello", "translation": "halo", "definition": "A greeting used when you meet someone.", "ipa": "/həˈləʊ/", "pos": "interjection", "level": "beginner", "cefr": "A1", "example": "Hello, nice to meet you.", "example_id": "Halo, senang bertemu denganmu.", "synonyms": ["hi"], "antonyms": []},
+    {"id": 1002, "word": "goodbye", "translation": "selamat tinggal", "definition": "Something you say when you leave someone.", "ipa": "/ɡʊdˈbaɪ/", "pos": "interjection", "level": "beginner", "cefr": "A1", "example": "Goodbye, see you tomorrow.", "example_id": "Selamat tinggal, sampai jumpa besok.", "synonyms": ["bye"], "antonyms": []},
+    {"id": 1003, "word": "please", "translation": "tolong; silakan", "definition": "A polite word used when asking for something.", "ipa": "/pliːz/", "pos": "adverb", "level": "beginner", "cefr": "A1", "example": "Please close the door.", "example_id": "Tolong tutup pintunya.", "synonyms": [], "antonyms": []},
+    {"id": 1004, "word": "sorry", "translation": "maaf", "definition": "Feeling sad or sympathetic about something you did.", "ipa": "/ˈsɒr.i/", "pos": "adjective", "level": "beginner", "cefr": "A1", "example": "Sorry, I am late.", "example_id": "Maaf, saya terlambat.", "synonyms": ["apologetic"], "antonyms": []},
+    {"id": 1005, "word": "thank", "translation": "berterima kasih", "definition": "To tell someone you are grateful for something.", "ipa": "/θæŋk/", "pos": "verb", "level": "beginner", "cefr": "A1", "example": "I want to thank you for your help.", "example_id": "Saya ingin berterima kasih atas bantuanmu.", "synonyms": ["appreciate"], "antonyms": []},
+    {"id": 1006, "word": "morning", "translation": "pagi", "definition": "The early part of the day, before noon.", "ipa": "/ˈmɔː.nɪŋ/", "pos": "noun", "level": "beginner", "cefr": "A1", "example": "I drink coffee every morning.", "example_id": "Saya minum kopi setiap pagi.", "synonyms": ["dawn"], "antonyms": ["evening"]},
+    {"id": 1007, "word": "family", "translation": "keluarga", "definition": "A group of people related to each other.", "ipa": "/ˈfæm.əl.i/", "pos": "noun", "level": "beginner", "cefr": "A1", "example": "My family lives in Bandung.", "example_id": "Keluarga saya tinggal di Bandung.", "synonyms": ["relatives"], "antonyms": []},
+    {"id": 1008, "word": "hungry", "translation": "lapar", "definition": "Wanting or needing food.", "ipa": "/ˈhʌŋ.ɡri/", "pos": "adjective", "level": "beginner", "cefr": "A1", "example": "I am hungry, let's eat.", "example_id": "Saya lapar, ayo makan.", "synonyms": ["starving"], "antonyms": ["full"]},
+    {"id": 1009, "word": "borrow", "translation": "meminjam", "definition": "To take something from someone and return it later.", "ipa": "/ˈbɒr.əʊ/", "pos": "verb", "level": "beginner", "cefr": "A2", "example": "Can I borrow your pen?", "example_id": "Boleh saya pinjam pulpenmu?", "synonyms": ["loan"], "antonyms": ["lend"]},
+    {"id": 1010, "word": "invite", "translation": "mengundang", "definition": "To ask someone to come to an event.", "ipa": "/ɪnˈvaɪt/", "pos": "verb", "level": "beginner", "cefr": "A2", "example": "She invited me to her birthday party.", "example_id": "Dia mengundang saya ke pesta ulang tahunnya.", "synonyms": ["ask"], "antonyms": ["exclude"]}
+  ]
+}

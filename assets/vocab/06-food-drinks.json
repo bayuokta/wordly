@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "category": {
+    "id": 6,
+    "slug": "food-drinks",
+    "name": "Food & Drinks",
+    "description": "Makanan, minuman, rasa, dan memesan di restoran.",
+    "icon": "cup",
+    "order": 6
+  },
+  "words": [
+    {"id": 6001, "word": "spicy", "translation": "pedas", "definition": "Having a strong hot flavour.", "ipa": "/ˈspaɪ.si/", "pos": "adjective", "level": "beginner", "cefr": "A2", "example": "This sambal is very spicy.", "example_id": "Sambal ini sangat pedas.", "synonyms": ["hot"], "antonyms": ["mild"]},
+    {"id": 6002, "word": "sour", "translation": "asam", "definition": "Having a taste like lemon or vinegar.", "ipa": "/saʊər/", "pos": "adjective", "level": "beginner", "cefr": "A2", "example": "The mango is still sour.", "example_id": "Mangga itu masih asam.", "synonyms": ["tart"], "antonyms": ["sweet"]},
+    {"id": 6003, "word": "boil", "translation": "merebus", "definition": "To cook food in very hot water.", "ipa": "/bɔɪl/", "pos": "verb", "level": "beginner", "cefr": "A2", "example": "Boil the noodles for three minutes.", "example_id": "Rebus mi selama tiga menit.", "synonyms": ["cook"], "antonyms": []},
+    {"id": 6004, "word": "recipe", "translation": "resep", "definition": "Instructions for cooking a dish.", "ipa": "/ˈres.ɪ.pi/", "pos": "noun", "level": "beginner", "cefr": "A2", "example": "My mother gave me her rendang recipe.", "example_id": "Ibu memberi saya resep rendangnya.", "synonyms": ["instructions"], "antonyms": []},
+    {"id": 6005, "word": "beverage", "translation": "minuman", "definition": "Any kind of drink.", "ipa": "/ˈbev.ər.ɪdʒ/", "pos": "noun", "level": "intermediate", "cefr": "B1", "example": "Cold beverages are served at the counter.", "example_id": "Minuman dingin disajikan di konter.", "synonyms": ["drink"], "antonyms": []},
+    {"id": 6006, "word": "appetiser", "translation": "makanan pembuka", "definition": "A small dish eaten before the main meal.", "ipa": "/ˈæp.ə.taɪ.zər/", "pos": "noun", "level": "intermediate", "cefr": "B2", "example": "We ordered soup as an appetiser.", "example_id": "Kami memesan sup sebagai makanan pembuka.", "synonyms": ["starter"], "antonyms": []},
+    {"id": 6007, "word": "grill", "translation": "memanggang", "definition": "To cook food over direct heat.", "ipa": "/ɡrɪl/", "pos": "verb", "level": "beginner", "cefr": "A2", "example": "They grill the fish with coconut oil.", "example_id": "Mereka memanggang ikan dengan minyak kelapa.", "synonyms": ["roast"], "antonyms": []},
+    {"id": 6008, "word": "savoury", "translation": "gurih; asin", "definition": "Salty or spicy in taste, not sweet.", "ipa": "/ˈseɪ.vər.i/", "pos": "adjective", "level": "intermediate", "cefr": "B2", "example": "I prefer savoury snacks to sweets.", "example_id": "Saya lebih suka camilan gurih daripada yang manis.", "synonyms": ["salty"], "antonyms": ["sweet"]},
+    {"id": 6009, "word": "leftover", "translation": "sisa makanan", "definition": "Food that remains after a meal.", "ipa": "/ˈleftˌəʊ.vər/", "pos": "noun", "level": "intermediate", "cefr": "B1", "example": "We ate the leftovers for lunch.", "example_id": "Kami makan sisa makanannya untuk makan siang.", "synonyms": ["remainder"], "antonyms": []},
+    {"id": 6010, "word": "bland", "translation": "hambar; tawar", "definition": "Having little flavour.", "ipa": "/blænd/", "pos": "adjective", "level": "intermediate", "cefr": "B2", "example": "The soup tastes a bit bland.", "example_id": "Supnya terasa agak hambar.", "synonyms": ["tasteless"], "antonyms": ["flavourful"]}
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "category": {
+    "id": 10,
+    "slug": "feelings-emotions",
+    "name": "Feelings & Emotions",
+    "description": "Perasaan, suasana hati, dan reaksi emosional.",
+    "icon": "heart",
+    "order": 10
+  },
+  "words": [
+    {"id": 10001, "word": "anxious", "translation": "cemas", "definition": "Worried or nervous about something.", "ipa": "/ˈæŋk.ʃəs/", "pos": "adjective", "level": "intermediate", "cefr": "B2", "example": "I felt anxious before the interview.", "example_id": "Saya merasa cemas sebelum wawancara.", "synonyms": ["nervous"], "antonyms": ["calm"]},
+    {"id": 10002, "word": "grateful", "translation": "bersyukur", "definition": "Feeling thankful for something.", "ipa": "/ˈɡreɪt.fəl/", "pos": "adjective", "level": "intermediate", "cefr": "B1", "example": "I am grateful for your support.", "example_id": "Saya bersyukur atas dukunganmu.", "synonyms": ["thankful"], "antonyms": ["ungrateful"]},
+    {"id": 10003, "word": "frustrated", "translation": "frustrasi; kesal", "definition": "Annoyed because you cannot do what you want.", "ipa": "/frʌsˈtreɪ.tɪd/", "pos": "adjective", "level": "intermediate", "cefr": "B2", "example": "He was frustrated with the slow internet.", "example_id": "Dia frustrasi dengan internet yang lambat.", "synonyms": ["annoyed"], "antonyms": ["satisfied"]},
+    {"id": 10004, "word": "excited", "translation": "bersemangat", "definition": "Very happy and interested about something.", "ipa": "/ɪkˈsaɪ.tɪd/", "pos": "adjective", "level": "beginner", "cefr": "A2", "example": "The kids are excited about the trip.", "example_id": "Anak-anak bersemangat tentang perjalanan itu.", "synonyms": ["thrilled"], "antonyms": ["bored"]},
+    {"id": 10005, "word": "lonely", "translation": "kesepian", "definition": "Sad because you are alone.", "ipa": "/ˈləʊn.li/", "pos": "adjective", "level": "beginner", "cefr": "A2", "example": "She felt lonely in the new city.", "example_id": "Dia merasa kesepian di kota baru itu.", "synonyms": ["isolated"], "antonyms": ["accompanied"]},
+    {"id": 10006, "word": "confident", "translation": "percaya diri", "definition": "Feeling sure about your own ability.", "ipa": "/ˈkɒn.fɪ.dənt/", "pos": "adjective", "level": "intermediate", "cefr": "B1", "example": "Practice made her more confident.", "example_id": "Latihan membuatnya lebih percaya diri.", "synonyms": ["self-assured"], "antonyms": ["insecure"]},
+    {"id": 10007, "word": "overwhelmed", "translation": "kewalahan", "definition": "Feeling unable to cope with too much.", "ipa": "/ˌəʊ.vəˈwelmd/", "pos": "adjective", "level": "advanced", "cefr": "C1", "example": "I felt overwhelmed by the schedule.", "example_id": "Saya merasa kewalahan dengan jadwalnya.", "synonyms": ["swamped"], "antonyms": []},
+    {"id": 10008, "word": "relief", "translation": "lega", "definition": "The good feeling when worry or pain stops.", "ipa": "/rɪˈliːf/", "pos": "noun", "level": "intermediate", "cefr": "B1", "example": "It was a relief to finish the exam.", "example_id": "Sungguh lega bisa menyelesaikan ujian.", "synonyms": ["comfort"], "antonyms": ["stress"]},
+    {"id": 10009, "word": "jealous", "translation": "cemburu", "definition": "Unhappy because someone has what you want.", "ipa": "/ˈdʒel.əs/", "pos": "adjective", "level": "intermediate", "cefr": "B1", "example": "Don't be jealous of other people's success.", "example_id": "Jangan cemburu pada kesuksesan orang lain.", "synonyms": ["envious"], "antonyms": ["content"]},
+    {"id": 10010, "word": "calm", "translation": "tenang", "definition": "Peaceful and not worried.", "ipa": "/kɑːm/", "pos": "adjective", "level": "beginner", "cefr": "A2", "example": "Take a breath and stay calm.", "example_id": "Tarik napas dan tetap tenang.", "synonyms": ["relaxed"], "antonyms": ["anxious"]}
+  ]
+}

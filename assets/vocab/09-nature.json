@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "category": {
+    "id": 9,
+    "slug": "nature",
+    "name": "Nature",
+    "description": "Alam, cuaca, dan lingkungan.",
+    "icon": "leaf",
+    "order": 9
+  },
+  "words": [
+    {"id": 9001, "word": "forest", "translation": "hutan", "definition": "A large area covered with trees.", "ipa": "/ˈfɒr.ɪst/", "pos": "noun", "level": "beginner", "cefr": "A2", "example": "We walked through the forest at dawn.", "example_id": "Kami berjalan menembus hutan saat fajar.", "synonyms": ["woods"], "antonyms": []},
+    {"id": 9002, "word": "river", "translation": "sungai", "definition": "A long natural stream of water.", "ipa": "/ˈrɪv.ər/", "pos": "noun", "level": "beginner", "cefr": "A1", "example": "The river flows into the sea.", "example_id": "Sungai itu mengalir ke laut.", "synonyms": ["stream"], "antonyms": []},
+    {"id": 9003, "word": "mountain", "translation": "gunung", "definition": "A very high hill with steep sides.", "ipa": "/ˈmaʊn.tɪn/", "pos": "noun", "level": "beginner", "cefr": "A1", "example": "Mount Bromo is an active volcano.", "example_id": "Gunung Bromo adalah gunung berapi aktif.", "synonyms": ["peak"], "antonyms": ["valley"]},
+    {"id": 9004, "word": "weather", "translation": "cuaca", "definition": "The condition of the air outside.", "ipa": "/ˈweð.ər/", "pos": "noun", "level": "beginner", "cefr": "A1", "example": "The weather is hot and humid today.", "example_id": "Cuacanya panas dan lembap hari ini.", "synonyms": ["climate"], "antonyms": []},
+    {"id": 9005, "word": "pollution", "translation": "polusi; pencemaran", "definition": "Damage to air, water, or land caused by waste.", "ipa": "/pəˈluː.ʃən/", "pos": "noun", "level": "intermediate", "cefr": "B1", "example": "Air pollution is serious in big cities.", "example_id": "Polusi udara serius di kota besar.", "synonyms": ["contamination"], "antonyms": ["cleanliness"]},
+    {"id": 9006, "word": "sustainable", "translation": "berkelanjutan", "definition": "Able to continue without damaging the environment.", "ipa": "/səˈsteɪ.nə.bəl/", "pos": "adjective", "level": "advanced", "cefr": "B2", "example": "They use sustainable farming methods.", "example_id": "Mereka memakai metode pertanian berkelanjutan.", "synonyms": ["renewable"], "antonyms": ["wasteful"]},
+    {"id": 9007, "word": "horizon", "translation": "cakrawala", "definition": "The line where the sky seems to meet the land or sea.", "ipa": "/həˈraɪ.zən/", "pos": "noun", "level": "intermediate", "cefr": "B2", "example": "The sun disappeared below the horizon.", "example_id": "Matahari menghilang di bawah cakrawala.", "synonyms": ["skyline"], "antonyms": []},
+    {"id": 9008, "word": "wildlife", "translation": "satwa liar", "definition": "Animals and plants living in nature.", "ipa": "/ˈwaɪld.laɪf/", "pos": "noun", "level": "intermediate", "cefr": "B1", "example": "The park protects endangered wildlife.", "example_id": "Taman itu melindungi satwa liar yang terancam.", "synonyms": ["fauna"], "antonyms": []},
+    {"id": 9009, "word": "flood", "translation": "banjir", "definition": "A large amount of water covering dry land.", "ipa": "/flʌd/", "pos": "noun", "level": "beginner", "cefr": "A2", "example": "Heavy rain caused a flood last night.", "example_id": "Hujan deras menyebabkan banjir tadi malam.", "synonyms": ["deluge"], "antonyms": ["drought"]},
+    {"id": 9010, "word": "drought", "translation": "kekeringan", "definition": "A long period without rain.", "ipa": "/draʊt/", "pos": "noun", "level": "advanced", "cefr": "B2", "example": "The drought lasted almost six months.", "example_id": "Kekeringan berlangsung hampir enam bulan.", "synonyms": ["dry spell"], "antonyms": ["flood"]}
+  ]
+}

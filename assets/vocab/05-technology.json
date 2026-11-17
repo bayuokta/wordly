@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "category": {
+    "id": 5,
+    "slug": "technology",
+    "name": "Technology",
+    "description": "Perangkat, perangkat lunak, dan istilah digital.",
+    "icon": "chip",
+    "order": 5
+  },
+  "words": [
+    {"id": 5001, "word": "device", "translation": "perangkat", "definition": "A machine or tool made for a particular purpose.", "ipa": "/dɪˈvaɪs/", "pos": "noun", "level": "intermediate", "cefr": "B1", "example": "This app works on any Android device.", "example_id": "Aplikasi ini berjalan di perangkat Android apa pun.", "synonyms": ["gadget"], "antonyms": []},
+    {"id": 5002, "word": "software", "translation": "perangkat lunak", "definition": "Programs that run on a computer.", "ipa": "/ˈsɒft.weər/", "pos": "noun", "level": "intermediate", "cefr": "B1", "example": "We updated the software last night.", "example_id": "Kami memperbarui perangkat lunak tadi malam.", "synonyms": ["program"], "antonyms": ["hardware"]},
+    {"id": 5003, "word": "download", "translation": "mengunduh", "definition": "To copy files from the internet to your device.", "ipa": "/ˌdaʊnˈləʊd/", "pos": "verb", "level": "beginner", "cefr": "A2", "example": "Download the file before you leave.", "example_id": "Unduh berkasnya sebelum kamu pergi.", "synonyms": [], "antonyms": ["upload"]},
+    {"id": 5004, "word": "backup", "translation": "cadangan", "definition": "A copy of data kept in case the original is lost.", "ipa": "/ˈbæk.ʌp/", "pos": "noun", "level": "intermediate", "cefr": "B2", "example": "Always keep a backup of your notes.", "example_id": "Selalu simpan cadangan catatanmu.", "synonyms": ["copy"], "antonyms": []},
+    {"id": 5005, "word": "update", "translation": "memperbarui", "definition": "To make something more modern or current.", "ipa": "/ʌpˈdeɪt/", "pos": "verb", "level": "beginner", "cefr": "A2", "example": "Please update the app to the latest version.", "example_id": "Mohon perbarui aplikasi ke versi terbaru.", "synonyms": ["refresh"], "antonyms": []},
+    {"id": 5006, "word": "encrypt", "translation": "mengenkripsi", "definition": "To convert data into a code so others cannot read it.", "ipa": "/ɪnˈkrɪpt/", "pos": "verb", "level": "advanced", "cefr": "C1", "example": "The app encrypts every message.", "example_id": "Aplikasi itu mengenkripsi setiap pesan.", "synonyms": ["encode"], "antonyms": ["decrypt"]},
+    {"id": 5007, "word": "bandwidth", "translation": "lebar pita", "definition": "The amount of data that can be sent at one time.", "ipa": "/ˈbænd.wɪdθ/", "pos": "noun", "level": "advanced", "cefr": "C1", "example": "Video calls use a lot of bandwidth.", "example_id": "Panggilan video memakai banyak lebar pita.", "synonyms": ["capacity"], "antonyms": []},
+    {"id": 5008, "word": "user", "translation": "pengguna", "definition": "A person who uses a product or service.", "ipa": "/ˈjuː.zər/", "pos": "noun", "level": "beginner", "cefr": "A2", "example": "Every user has a personal profile.", "example_id": "Setiap pengguna punya profil pribadi.", "synonyms": ["account holder"], "antonyms": []},
+    {"id": 5009, "word": "feature", "translation": "fitur", "definition": "An important part or function of a product.", "ipa": "/ˈfiː.tʃər/", "pos": "noun", "level": "intermediate", "cefr": "B1", "example": "Dark mode is my favourite feature.", "example_id": "Mode gelap adalah fitur favorit saya.", "synonyms": ["function"], "antonyms": []},
+    {"id": 5010, "word": "debug", "translation": "mencari kesalahan program", "definition": "To find and fix errors in a program.", "ipa": "/ˌdiːˈbʌɡ/", "pos": "verb", "level": "advanced", "cefr": "B2", "example": "He spent the night debugging the app.", "example_id": "Dia sepanjang malam mencari kesalahan aplikasi itu.", "synonyms": ["fix"], "antonyms": []}
+  ]
+}
