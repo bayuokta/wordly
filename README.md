@@ -1,5 +1,7 @@
 # Wordly
 
+[![CI](https://github.com/bayuokta/wordly/actions/workflows/ci.yml/badge.svg)](https://github.com/bayuokta/wordly/actions/workflows/ci.yml)
+
 Aplikasi Android untuk belajar kosakata **Inggris–Indonesia** dengan
 pengulangan berjarak (SM-2). Offline-first, tanpa akun, tanpa iklan.
 
@@ -30,7 +32,7 @@ pengulangan berjarak (SM-2). Offline-first, tanpa akun, tanpa iklan.
 | 🧠 **Latihan adaptif** | Quiz & flashcard memprioritaskan kata yang sering salah dan yang jatuh tempo |
 | ✅ **Quiz** | Pilihan ganda, EN→ID, ID→EN, isi rumpang, listening, ejaan |
 | 🔁 **Review terjadwal** | Antrean SM-2: prioritas kata paling terlambat & paling sering salah |
-| ⚙️ **Pengaturan** | Tema gelap/terang, level, target harian, ukuran teks 85–130% |
+| ⚙️ **Pengaturan** | Tema, level, target harian, ukuran teks 85–130%, putar otomatis & kecepatan audio |
 
 Semua progres tersimpan lokal dan bertahan setelah aplikasi ditutup.
 

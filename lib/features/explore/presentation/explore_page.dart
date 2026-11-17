@@ -11,6 +11,8 @@ import '../../../core/design/app_spacing.dart';
 import '../../../core/design/app_typography.dart';
 import '../../../core/widgets/app_chip.dart';
 import '../../../core/widgets/app_card.dart';
+import '../../../core/widgets/app_error_view.dart';
+import '../../../core/widgets/skeleton.dart';
 import '../../../core/widgets/app_progress.dart';
 import '../../../core/widgets/app_surfaces.dart';
 import '../../../core/widgets/word_row.dart';
@@ -91,11 +93,20 @@ class _ExplorePageState extends ConsumerState<ExplorePage> {
             const SectionHeader(title: 'Kategori'),
             const SizedBox(height: 10),
             categories.when(
-              loading: () => const Padding(
-                padding: EdgeInsets.symmetric(vertical: 24),
-                child: Center(child: CircularProgressIndicator()),
+              loading: () => const Column(
+                children: [
+                  SizedBox(height: 12),
+                  Skeleton(height: 56, radius: 16),
+                  SizedBox(height: 10),
+                  Skeleton(height: 56, radius: 16),
+                  SizedBox(height: 10),
+                  Skeleton(height: 56, radius: 16),
+                ],
               ),
-              error: (error, _) => Text('Gagal memuat kategori: $error', style: context.tiny),
+              error: (error, _) => InlineError(
+                message: 'Gagal memuat kategori.',
+                onRetry: () => ref.invalidate(categoriesProvider),
+              ),
               data: (list) => GridView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -287,7 +298,10 @@ class _SearchResults extends ConsumerWidget {
         padding: EdgeInsets.symmetric(vertical: 24),
         child: Center(child: CircularProgressIndicator()),
       ),
-      error: (error, _) => Text('Pencarian gagal: $error', style: context.tiny),
+      error: (error, _) => InlineError(
+        message: 'Pencarian gagal.',
+        onRetry: () => ref.invalidate(searchResultsProvider((query: query, level: level))),
+      ),
       data: (items) {
         if (items.isEmpty) {
           return const AppCard(
@@ -329,7 +343,10 @@ class _BrowseList extends ConsumerWidget {
         padding: EdgeInsets.symmetric(vertical: 24),
         child: Center(child: CircularProgressIndicator()),
       ),
-      error: (error, _) => Text('Gagal memuat kata: $error', style: context.tiny),
+      error: (error, _) => InlineError(
+        message: 'Gagal memuat kata.',
+        onRetry: () => ref.invalidate(browseProvider(level)),
+      ),
       data: (items) {
         if (items.isEmpty) {
           return const AppCard(

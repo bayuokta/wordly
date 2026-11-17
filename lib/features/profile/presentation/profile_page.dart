@@ -165,6 +165,23 @@ class ProfilePage extends ConsumerWidget {
                 ],
                 const _RowDivider(),
                 _SettingsRow(
+                  icon: Icons.volume_up_outlined,
+                  label: 'Putar otomatis',
+                  value: settings.audioAutoplay ? 'Aktif' : 'Mati',
+                  onTap: () => ref
+                      .read(settingsProvider.notifier)
+                      .setAudioAutoplay(enabled: !settings.audioAutoplay),
+                ),
+                const _RowDivider(),
+                _SettingsRow(
+                  icon: Icons.speed_rounded,
+                  label: 'Kecepatan audio',
+                  value: settings.audioSpeedLabel,
+                  tone: IconTileTone.neutral,
+                  onTap: () => _pickAudioSpeed(context, ref, settings),
+                ),
+                const _RowDivider(),
+                _SettingsRow(
                   icon: Icons.info_outline_rounded,
                   label: 'Tentang Wordly',
                   tone: IconTileTone.primary,
@@ -250,6 +267,25 @@ class ProfilePage extends ConsumerWidget {
         ..showSnackBar(
           const SnackBar(content: Text('Izin notifikasi ditolak. Aktifkan lewat pengaturan Android.')),
         );
+    }
+  }
+
+  Future<void> _pickAudioSpeed(BuildContext context, WidgetRef ref, AppSettings settings) async {
+    final picked = await _showOptions<double>(
+      context,
+      title: 'Kecepatan audio',
+      options: [
+        for (final speed in AppSettings.audioSpeedOptions)
+          (
+            value: speed,
+            label: speed < 1 ? 'Lambat' : 'Normal',
+            detail: speed < 1 ? '0,75x' : '1x',
+          ),
+      ],
+      selected: settings.audioSpeed,
+    );
+    if (picked != null) {
+      await ref.read(settingsProvider.notifier).setAudioSpeed(picked);
     }
   }
 

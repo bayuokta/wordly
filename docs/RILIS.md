@@ -69,7 +69,24 @@ gh release create v0.1.1 build\app\outputs\flutter-apk\app-release.apk#wordly-0.
 
 ---
 
-## 4. Catatan penting saat ini
+## 4. CI/CD (GitHub Actions)
+
+- `.github/workflows/ci.yml` — analyze, test, dan validator konten pada setiap push/PR.
+- `.github/workflows/release.yml` — saat tag `v*` dibuat: build APK + AAB, hitung SHA256,
+  unggah artefak, lalu publikasikan GitHub Release otomatis.
+
+Agar artefak di CI ditandatangani keystore rilis, tambahkan **Repository secrets**:
+
+| Secret | Isi |
+|---|---|
+| `KEYSTORE_BASE64` | hasil `base64 -w0 android/app/wordly-release.jks` |
+| `KEYSTORE_PASSWORD` | kata sandi keystore |
+| `KEY_ALIAS` | `wordly` |
+| `KEY_PASSWORD` | kata sandi key (biasanya sama) |
+
+Tanpa secrets, CI tetap membangun APK dengan debug key dan menampilkan peringatan.
+
+## 5. Catatan penting saat ini
 
 - **compileSdk 37** diperlukan oleh `flutter_local_notifications` 23.
   `android/app/build.gradle.kts` sudah menyetelnya eksplisit.

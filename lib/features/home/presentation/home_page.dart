@@ -12,7 +12,9 @@ import '../../../core/utils/date_id.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/app_card.dart';
 import '../../../core/widgets/app_chip.dart';
+import '../../../core/widgets/app_error_view.dart';
 import '../../../core/widgets/app_progress.dart';
+import '../../../core/widgets/skeleton.dart';
 import '../../../core/widgets/app_surfaces.dart';
 import '../../../core/widgets/word_row.dart';
 
@@ -51,8 +53,13 @@ class HomePage extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
             async.when(
-              loading: () => const _LoadingCard(height: 190),
-              error: (error, _) => _ErrorCard(message: '$error'),
+              loading: () => const _HomeSkeleton(),
+              error: (error, _) => AppErrorView(
+                title: 'Gagal memuat data',
+                message: '$error',
+                compact: true,
+                onRetry: () => ref.invalidate(homeSnapshotProvider),
+              ),
               data: (snapshot) => Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -446,41 +453,56 @@ class _EmptyRecent extends StatelessWidget {
   }
 }
 
-class _LoadingCard extends StatelessWidget {
-  const _LoadingCard({required this.height});
 
-  final double height;
+
+/// Kerangka memuat untuk Home (bukan spinner penuh layar).
+class _HomeSkeleton extends StatelessWidget {
+  const _HomeSkeleton();
 
   @override
   Widget build(BuildContext context) {
-    return AppCard(
-      child: SizedBox(
-        height: height,
-        child: Center(
-          child: CircularProgressIndicator(color: context.palette.primary),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: const [
+        AppCard(
+          radius: AppRadius.hero,
+          padding: EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Skeleton(width: 110, height: 10),
+              SizedBox(height: 14),
+              Skeleton(width: 200, height: 26),
+              SizedBox(height: 10),
+              Skeleton(width: 150, height: 13),
+              SizedBox(height: 16),
+              Skeleton(width: 140, height: 34, radius: 12),
+            ],
+          ),
         ),
-      ),
-    );
-  }
-}
-
-class _ErrorCard extends StatelessWidget {
-  const _ErrorCard({required this.message});
-
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
-    return AppCard(
-      child: Column(
-        children: [
-          Icon(Icons.error_outline_rounded, color: context.palette.error, size: 24),
-          const SizedBox(height: 10),
-          Text('Gagal memuat data', style: Theme.of(context).textTheme.titleSmall),
-          const SizedBox(height: 6),
-          Text(message, textAlign: TextAlign.center, style: context.tiny),
-        ],
-      ),
+        SizedBox(height: AppSpacing.cardGap),
+        AppCard(
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          child: Row(
+            children: [
+              Skeleton(width: 64, height: 64, radius: 32),
+              SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Skeleton(width: 90, height: 10),
+                    SizedBox(height: 10),
+                    Skeleton(height: 14),
+                    SizedBox(height: 10),
+                    Skeleton(height: 6, radius: 999),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

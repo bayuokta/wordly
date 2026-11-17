@@ -1,0 +1,90 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build APK & AAB
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.50.0
+          channel: stable
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Validate content
+        run: dart run tool/validate_vocab.dart
+
+      # Tanda tangan rilis memakai secrets. Bila secrets belum diisi,
+      # build tetap jalan dengan debug key (lihat android/app/build.gradle.kts).
+      - name: Configure release signing
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          if [ -n "$KEYSTORE_BASE64" ]; then
+            echo "$KEYSTORE_BASE64" | base64 -d > android/app/wordly-release.jks
+            cat > android/key.properties <<EOF
+          storePassword=$KEYSTORE_PASSWORD
+          keyPassword=${KEY_PASSWORD:-$KEYSTORE_PASSWORD}
+          keyAlias=${KEY_ALIAS:-wordly}
+          storeFile=wordly-release.jks
+          EOF
+            echo "Release signing dikonfigurasi dari secrets."
+          else
+            echo "::warning::Secrets keystore tidak tersedia — APK akan ditandatangani debug key."
+          fi
+
+      - name: Build APK
+        run: flutter build apk --release
+
+      - name: Build AAB
+        run: flutter build appbundle --release
+
+      - name: Rename artifacts
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          mkdir -p dist
+          cp build/app/outputs/flutter-apk/app-release.apk "dist/wordly-${VERSION}.apk"
+          cp build/app/outputs/bundle/release/app-release.aab "dist/wordly-${VERSION}.aab"
+          sha256sum dist/* | tee dist/SHA256SUMS.txt
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: wordly-release
+          path: dist/*
+
+      - name: Publish GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          gh release create "$GITHUB_REF_NAME" \
+            "dist/wordly-${VERSION}.apk" \
+            "dist/wordly-${VERSION}.aab" \
+            "dist/SHA256SUMS.txt" \
+            --title "Wordly ${GITHUB_REF_NAME}" \
+            --notes "Rilis otomatis dari tag ${GITHUB_REF_NAME}. Lihat catatan rilis manual bila perlu." \
+            --latest

@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../../../core/audio/tts_service.dart';
+import '../../../core/settings/settings_controller.dart';
 import '../../../core/db/database_providers.dart';
 import '../../../core/db/vocab_repository.dart';
 import '../../../core/design/app_palette.dart';
@@ -24,6 +25,18 @@ class WordDetailPage extends ConsumerStatefulWidget {
 
 class _WordDetailPageState extends ConsumerState<WordDetailPage> {
   bool _busy = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Putar otomatis bila pengguna mengaktifkannya di Pengaturan.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      if (!ref.read(settingsProvider).audioAutoplay) return;
+      final word = ref.read(wordDetailProvider(widget.vocabId)).value?.word.word;
+      if (word != null) speakWord(context, word);
+    });
+  }
 
   Future<void> _answer({required bool correct}) async {
     if (_busy) return;

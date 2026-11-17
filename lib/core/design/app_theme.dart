@@ -43,6 +43,9 @@ abstract final class AppTheme {
       textTheme: appTextTheme(p),
       extensions: <ThemeExtension<dynamic>>[p],
       splashFactory: InkSparkle.splashFactory,
+      pageTransitionsTheme: const PageTransitionsTheme(
+        builders: {TargetPlatform.android: FadeForwardsPageTransitionsBuilder()},
+      ),
       highlightColor: Colors.transparent,
       dividerColor: p.divider,
       appBarTheme: AppBarTheme(

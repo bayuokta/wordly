@@ -9,6 +9,7 @@ import '../../../core/design/app_spacing.dart';
 import '../../../core/design/app_typography.dart';
 import '../../../core/utils/date_id.dart';
 import '../../../core/widgets/activity_chart.dart';
+import '../../../core/widgets/app_error_view.dart';
 import '../../../core/widgets/streak_heatmap.dart';
 import '../../../core/widgets/app_card.dart';
 import '../../../core/widgets/app_chip.dart';
@@ -70,11 +71,10 @@ class _StatsPageState extends ConsumerState<StatsPage> {
             Expanded(
               child: async.when(
                 loading: () => const Center(child: CircularProgressIndicator()),
-                error: (error, _) => Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(AppSpacing.page),
-                    child: Text('Gagal memuat statistik.\n$error', textAlign: TextAlign.center),
-                  ),
+                error: (error, _) => AppErrorView(
+                  title: 'Gagal memuat statistik',
+                  message: '$error',
+                  onRetry: () => ref.invalidate(statsProvider(_days)),
                 ),
                 data: (stats) => _Body(stats: stats),
               ),

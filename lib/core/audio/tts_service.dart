@@ -1,5 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
+
+import '../settings/settings_controller.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
 /// Pembaca teks perangkat (TTS). Dipakai mode listening & spelling.
@@ -13,13 +15,14 @@ class TtsService {
   final FlutterTts _tts = FlutterTts();
   late final Future<void> _init;
   bool _unavailable = false;
+  static const double _baseRate = 0.45;
 
   bool get isUnavailable => _unavailable;
 
   Future<void> _configure() async {
     try {
       await _tts.setLanguage('en-US');
-      await _tts.setSpeechRate(0.45);
+      await _tts.setSpeechRate(_baseRate);
       await _tts.setPitch(1.0);
       await _tts.awaitSpeakCompletion(true);
     } on Object {
@@ -28,11 +31,12 @@ class TtsService {
   }
 
   /// Mengucapkan [text]; mengembalikan `false` bila TTS tidak tersedia.
-  Future<bool> speak(String text) async {
+  Future<bool> speak(String text, {double rate = 0.45}) async {
     try {
       await _init;
       if (_unavailable) return false;
       await _tts.stop();
+      await _tts.setSpeechRate(rate.clamp(0.2, 1.0));
       await _tts.speak(text);
       return true;
     } on Object {
@@ -62,7 +66,8 @@ final ttsServiceProvider = Provider<TtsService>((ref) {
 /// menjadi ConsumerWidget hanya untuk satu tombol audio.
 Future<void> speakWord(BuildContext context, String text) async {
   final container = ProviderScope.containerOf(context, listen: false);
-  final ok = await container.read(ttsServiceProvider).speak(text);
+  final speed = container.read(settingsProvider).audioSpeed;
+  final ok = await container.read(ttsServiceProvider).speak(text, rate: 0.45 * speed);
   if (!ok && context.mounted) {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()

@@ -19,6 +19,7 @@ class SettingsController extends Notifier<AppSettings> {
   static const _kAutoplay = 'audio_autoplay';
   static const _kNotifEnabled = 'notifications_enabled';
   static const _kNotifMinutes = 'notification_time';
+  static const _kAudioSpeed = 'audio_speed';
 
   static const String reminderBody =
       'Luangkan beberapa menit untuk mengulang kosakata hari ini.';
@@ -41,6 +42,7 @@ class SettingsController extends Notifier<AppSettings> {
       audioAutoplay: prefs.getBool(_kAutoplay) ?? false,
       notificationsEnabled: prefs.getBool(_kNotifEnabled) ?? false,
       notificationMinutes: prefs.getInt(_kNotifMinutes) ?? AppSettings.defaults.notificationMinutes,
+      audioSpeed: prefs.getDouble(_kAudioSpeed) ?? AppSettings.defaults.audioSpeed,
     );
   }
 
@@ -71,6 +73,11 @@ class SettingsController extends Notifier<AppSettings> {
   Future<void> toggleTheme() => setThemeMode(
     state.themeMode == ThemeMode.dark ? ThemeMode.light : ThemeMode.dark,
   );
+
+  Future<void> setAudioSpeed(double speed) async {
+    state = state.copyWith(audioSpeed: speed);
+    await _prefs.setDouble(_kAudioSpeed, speed);
+  }
 
   Future<void> setAudioAutoplay({required bool enabled}) async {
     state = state.copyWith(audioAutoplay: enabled);

@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter/services.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../../../core/audio/tts_service.dart';
@@ -34,6 +35,7 @@ class _QuizPageState extends ConsumerState<QuizPage> {
   int _index = 0;
   int _correct = 0;
   int _wrong = 0;
+  List<QuizQuestion> _wrongQuestions = [];
   bool _checked = false;
   bool _lastCorrect = false;
   int? _selected;
@@ -64,23 +66,24 @@ class _QuizPageState extends ConsumerState<QuizPage> {
     super.dispose();
   }
 
-  Future<void> _start() async {
+  Future<void> _start({List<QuizQuestion>? questions}) async {
     setState(() => _busy = true);
     try {
-      final pool = await ref.read(quizPoolProvider.future);
-      final questions = QuizBuilder(pool: pool).build(mode: _mode, count: _size);
+      final queue = questions ?? QuizBuilder(pool: await ref.read(quizPoolProvider.future))
+          .build(mode: _mode, count: _size);
       if (!mounted) return;
-      if (questions.isEmpty) {
+      if (queue.isEmpty) {
         ScaffoldMessenger.of(context)
           ..hideCurrentSnackBar()
           ..showSnackBar(const SnackBar(content: Text('Belum ada kata untuk kuis ini.')));
         return;
       }
       setState(() {
-        _questions = questions;
+        _questions = queue;
         _index = 0;
         _correct = 0;
         _wrong = 0;
+        _wrongQuestions = [];
         _checked = false;
         _selected = null;
         _controller.clear();
@@ -115,6 +118,11 @@ class _QuizPageState extends ConsumerState<QuizPage> {
           .read(vocabRepositoryProvider)
           .answer(vocabId: question.word.id, correct: correct, mode: 'quiz_${question.mode.name}');
       if (!mounted) return;
+      if (correct) {
+        HapticFeedback.selectionClick();
+      } else {
+        HapticFeedback.mediumImpact();
+      }
       setState(() {
         _checked = true;
         _lastCorrect = correct;
@@ -122,6 +130,7 @@ class _QuizPageState extends ConsumerState<QuizPage> {
           _correct++;
         } else {
           _wrong++;
+          _wrongQuestions.add(question);
         }
       });
       ref.invalidate(homeSnapshotProvider);
@@ -442,6 +451,15 @@ class _QuizPageState extends ConsumerState<QuizPage> {
                 ],
               ),
               const SizedBox(height: 18),
+              if (_wrongQuestions.isNotEmpty) ...[
+                AppButton(
+                  label: 'Ulangi  kata salah',
+                  icon: Icons.replay_rounded,
+                  variant: AppButtonVariant.warn,
+                  onPressed: () => _start(questions: List.of(_wrongQuestions)),
+                ),
+                const SizedBox(height: 10),
+              ],
               AppButton(
                 label: 'Ulangi dengan mode ini',
                 icon: Icons.replay_rounded,

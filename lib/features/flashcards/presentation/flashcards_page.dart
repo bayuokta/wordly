@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter/services.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../../../core/db/content/content_database.dart';
@@ -80,6 +81,11 @@ class _FlashcardsPageState extends ConsumerState<FlashcardsPage> {
           .answer(vocabId: card.word.id, correct: correct, mode: 'flashcard', easy: easy);
 
       if (!mounted) return;
+      if (correct) {
+        HapticFeedback.selectionClick();
+      } else {
+        HapticFeedback.mediumImpact();
+      }
       setState(() {
         _answered++;
         if (correct) {

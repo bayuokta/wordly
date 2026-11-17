@@ -12,6 +12,7 @@ class AppSettings {
     required this.audioAutoplay,
     required this.notificationsEnabled,
     required this.notificationMinutes,
+    required this.audioSpeed,
   });
 
   /// `beginner` | `intermediate` | `advanced`.
@@ -28,6 +29,9 @@ class AppSettings {
   final bool notificationsEnabled;
   final int notificationMinutes;
 
+  /// Pengali kecepatan TTS: 0.75 atau 1.0.
+  final double audioSpeed;
+
   static const AppSettings defaults = AppSettings(
     level: 'intermediate',
     dailyGoal: 10,
@@ -37,6 +41,7 @@ class AppSettings {
     audioAutoplay: false,
     notificationsEnabled: false,
     notificationMinutes: 19 * 60,
+    audioSpeed: 1,
   );
 
   /// Contoh: `19:00`.
@@ -48,6 +53,7 @@ class AppSettings {
 
   static const List<int> goalOptions = [5, 10, 20];
   static const List<double> textScaleOptions = [0.85, 1, 1.15, 1.3];
+  static const List<double> audioSpeedOptions = [0.75, 1];
   static const List<String> levelOptions = ['beginner', 'intermediate', 'advanced'];
 
   String get levelLabel => switch (level) {
@@ -61,6 +67,8 @@ class AppSettings {
     'advanced' => 'C1–C2',
     _ => 'B1–B2',
   };
+
+  String get audioSpeedLabel => audioSpeed < 1 ? '0,75x' : '1x';
 
   String get textScaleLabel => switch (textScale) {
     0.85 => 'Kecil',
@@ -78,6 +86,7 @@ class AppSettings {
     bool? audioAutoplay,
     bool? notificationsEnabled,
     int? notificationMinutes,
+    double? audioSpeed,
   }) {
     return AppSettings(
       level: level ?? this.level,
@@ -88,6 +97,7 @@ class AppSettings {
       audioAutoplay: audioAutoplay ?? this.audioAutoplay,
       notificationsEnabled: notificationsEnabled ?? this.notificationsEnabled,
       notificationMinutes: notificationMinutes ?? this.notificationMinutes,
+      audioSpeed: audioSpeed ?? this.audioSpeed,
     );
   }
 }
