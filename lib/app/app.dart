@@ -5,6 +5,7 @@ import '../core/auth/session_controller.dart';
 import '../core/design/app_palette.dart';
 import '../core/design/app_theme.dart';
 import '../core/settings/settings_controller.dart';
+import '../core/sync/sync_bootstrap.dart';
 import '../features/auth/presentation/auth_page.dart';
 import '../features/onboarding/presentation/onboarding_page.dart';
 import 'router.dart';
@@ -17,21 +18,22 @@ class WordlyApp extends ConsumerWidget {
     final settings = ref.watch(settingsProvider);
     final session = ref.watch(sessionProvider);
 
-    return MaterialApp.router(
-      title: 'Wordly',
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.light(),
-      darkTheme: AppTheme.dark(),
-      themeMode: settings.themeMode,
-      routerConfig: appRouter,
-      builder: (context, child) {
-        final media = MediaQuery.of(context);
-        return MediaQuery(
-          data: media.copyWith(textScaler: TextScaler.linear(settings.textScale)),
-          child: _gate(child, settings.onboardingDone, session),
-        );
-      },
-
+    return SyncBootstrap(
+      child: MaterialApp.router(
+        title: 'Wordly',
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.light(),
+        darkTheme: AppTheme.dark(),
+        themeMode: settings.themeMode,
+        routerConfig: appRouter,
+        builder: (context, child) {
+          final media = MediaQuery.of(context);
+          return MediaQuery(
+            data: media.copyWith(textScaler: TextScaler.linear(settings.textScale)),
+            child: _gate(child, settings.onboardingDone, session),
+          );
+        },
+      ),
     );
   }
 

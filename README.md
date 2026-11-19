@@ -36,7 +36,32 @@ pengulangan berjarak (SM-2). Offline-first, tanpa akun, tanpa iklan.
 | 🔁 **Review terjadwal** | Antrean SM-2: prioritas kata paling terlambat & paling sering salah |
 | ⚙️ **Pengaturan** | Tema, level, target harian, ukuran teks 85–130%, putar otomatis & kecepatan audio |
 
-Semua progres tersimpan lokal dan bertahan setelah aplikasi ditutup.
+Semua progres tersimpan lokal dan bertahan setelah aplikasi ditutup. Dengan
+akun, progres juga bisa disinkronkan ke panel admin Wordly (lihat bawah).
+
+### Sinkronisasi dengan panel admin
+
+Lapisan `lib/core/sync/` menghubungkan aplikasi ke backend
+`D:\Development\Python\worldy-admin`:
+
+- **Akun lokal tetap dipakai** — login tidak bergantung jaringan. Saat akun
+  dibuat, kredensial dipetakan ke akun server di latar belakang.
+- **Konten**: `/content/manifest` + `/content/delta` menarik perubahan kata
+  dari panel admin; ID kata asli dipertahankan sehingga progres tidak hilang.
+- **Progres**: `/sync/push` mengirim `user_words`, `review_logs`, dan aktivitas
+  harian; `/sync/pull?since_seq=` mengambil perubahan dari perangkat lain.
+- Tidak ada request jaringan di alur belajar; sync berjalan saat aplikasi dibuka
+  (maksimal sekali per menit) dan gagal sync tidak mengganggu belajar.
+- Mode tamu tidak pernah mengirim data.
+
+Ganti alamat server saat build:
+
+```bash
+flutter run --dart-define=WORDLY_API_BASE=http://192.168.1.5:8000
+```
+
+Default: `http://10.0.2.2:8000` (emulator Android). Detail teknis ada di
+`docs/PERANCANGAN.md` §17 dan `docs/PRIVASI.md`.
 
 ---
 

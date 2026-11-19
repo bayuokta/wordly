@@ -1,9 +1,13 @@
+import 'dart:async';
+import 'dart:developer' as developer;
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../db/database_providers.dart';
 import '../db/user/user_database.dart';
 import '../settings/settings_controller.dart';
+import '../sync/sync_providers.dart';
 import 'auth_repository.dart';
 
 /// Status sesi saat ini.
@@ -136,6 +140,7 @@ class SessionController extends Notifier<SessionState> {
   Future<void> signIn({required String email, required String password}) async {
     final user = await _auth.signIn(email: email, password: password);
     await _openSession(user);
+    _prepareServerAccount(email: email, displayName: user.displayName, password: password);
   }
 
   Future<void> signUp({
@@ -145,6 +150,28 @@ class SessionController extends Notifier<SessionState> {
   }) async {
     final user = await _auth.signUp(email: email, displayName: displayName, password: password);
     await _openSession(user);
+    _prepareServerAccount(email: email, displayName: displayName, password: password);
+  }
+
+  /// Siapkan akun server di latar belakang. Gagal pun login lokal tetap sukses.
+  void _prepareServerAccount({
+    required String email,
+    required String displayName,
+    required String password,
+  }) {
+    unawaited(
+      ref.read(syncServiceProvider).ensureAccount(
+            email: email,
+            displayName: displayName,
+            password: password,
+          ).onError((error, _) {
+        developer.log(
+          'Gagal menyiapkan akun server; aplikasi tetap offline',
+          name: 'wordly.sync',
+          error: error,
+        );
+      }),
+    );
   }
 
   Future<void> _openSession(User user) async {
@@ -169,6 +196,7 @@ class SessionController extends Notifier<SessionState> {
       final session = await ref.read(userDbProvider).sessionByToken(token);
       if (session != null) await ref.read(userDbProvider).deleteSession(session.id);
     }
+    unawaited(ref.read(syncServiceProvider).clearSession());
     await _clear();
     state = const SessionState.signedOut();
   }

@@ -77,6 +77,18 @@ Aturan penempatan:
 
 ---
 
+### Lapisan sinkronisasi (`lib/core/sync/`)
+
+- `api_client.dart` — HTTP + bearer token, pesan error bahasa Indonesia.
+- `sync_service.dart` — push/pull progres; push `user_words` dengan
+  `sync_state != synced`, `review_logs`, `daily_activities`.
+- `content_sync.dart` — manifest + delta konten; **ID kata tidak boleh diubah**.
+- `sync_coordinator.dart` — jalan di latar belakang, maksimal sekali per menit.
+- `sync_bootstrap.dart` — dipasang di `app.dart`; **jangan** menunggu jaringan
+  sebelum render dan **jangan** memanggil sync dari halaman belajar.
+- Base URL: `String.fromEnvironment('WORDLY_API_BASE')`, default `10.0.2.2:8000`.
+- Tamu/belum login harus return lebih awal sebelum menyentuh provider database.
+
 ## 5. Database & data
 
 - **Dua database terpisah:** `vocab.db` (konten, read-only saat runtime) dan
