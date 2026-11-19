@@ -15,12 +15,18 @@ class ContentDatabase extends _$ContentDatabase {
     : super(executor ?? driftDatabase(name: 'vocab'));
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
     onCreate: (m) async {
       await m.createAll();
+      await _createSearchIndex();
+    },
+    onUpgrade: (m, from, to) async {
+      if (from < 2) {
+        await m.addColumn(vocabularies, vocabularies.isActive);
+      }
       await _createSearchIndex();
     },
   );
@@ -60,7 +66,8 @@ class ContentDatabase extends _$ContentDatabase {
     final rows = await customSelect(
       'SELECT c.id, c.slug, c.name, c.description, c.icon, c.sort_order, '
       'COUNT(v.id) AS total '
-      'FROM categories c LEFT JOIN vocabularies v ON v.category_id = c.id '
+      'FROM categories c LEFT JOIN vocabularies v '
+      'ON v.category_id = c.id AND v.is_active = 1 '
       'GROUP BY c.id ORDER BY c.sort_order',
       readsFrom: {categories, vocabularies},
     ).get();
@@ -82,24 +89,34 @@ class ContentDatabase extends _$ContentDatabase {
 
   Future<int> vocabularyCount() async {
     final count = countAll();
-    final row = await (selectOnly(vocabularies)..addColumns([count])).getSingle();
+    final row = await (selectOnly(vocabularies)
+          ..addColumns([count])
+          ..where(vocabularies.isActive.equals(true)))
+        .getSingle();
     return row.read(count) ?? 0;
   }
 
   Future<Vocabulary?> vocabularyById(int id) =>
-      (select(vocabularies)..where((t) => t.id.equals(id))).getSingleOrNull();
+      (select(vocabularies)
+            ..where((t) => t.id.equals(id))
+            ..where((t) => t.isActive.equals(true)))
+        .getSingleOrNull();
 
   Future<Category?> categoryOf(int id) =>
       (select(categories)..where((t) => t.id.equals(id))).getSingleOrNull();
 
   Future<List<Vocabulary>> vocabulariesByIds(List<int> ids) async {
     if (ids.isEmpty) return const [];
-    return (select(vocabularies)..where((t) => t.id.isIn(ids))).get();
+    return (select(vocabularies)
+          ..where((t) => t.id.isIn(ids))
+          ..where((t) => t.isActive.equals(true)))
+        .get();
   }
 
   Future<List<Vocabulary>> byCategory(int categoryId, {String? level}) {
     final query = select(vocabularies)
       ..where((t) => t.categoryId.equals(categoryId))
+      ..where((t) => t.isActive.equals(true))
       ..orderBy([(t) => OrderingTerm.asc(t.word)]);
     if (level != null) {
       query.where((t) => t.difficultyLevel.equals(level));
@@ -116,7 +133,7 @@ class ContentDatabase extends _$ContentDatabase {
     final match = '${query.replaceAll('"', '')}*';
     final results = await customSelect(
       'SELECT v.* FROM vocabulary_fts f JOIN vocabularies v ON v.id = f.rowid '
-      'WHERE vocabulary_fts MATCH ? '
+      'WHERE vocabulary_fts MATCH ? AND v.is_active = 1 '
       '${level == null ? '' : 'AND v.difficulty_level = ? '}'
       'ORDER BY v.word LIMIT ?',
       variables: [
@@ -132,7 +149,8 @@ class ContentDatabase extends _$ContentDatabase {
     // Fallback: pencarian terjemahan Indonesia yang tidak terindeks FTS.
     final like = '%${query.toLowerCase()}%';
     final fallback = select(vocabularies)
-      ..where((t) => t.translation.lower().like(like));
+      ..where((t) => t.translation.lower().like(like))
+      ..where((t) => t.isActive.equals(true));
     if (level != null) {
       fallback.where((t) => t.difficultyLevel.equals(level));
     }
@@ -143,6 +161,7 @@ class ContentDatabase extends _$ContentDatabase {
   Future<List<Vocabulary>> wordsForLevel(String level, {int limit = 50}) {
     return (select(vocabularies)
           ..where((t) => t.difficultyLevel.equals(level))
+          ..where((t) => t.isActive.equals(true))
           ..orderBy([(t) => OrderingTerm.asc(t.word)])
           ..limit(limit))
         .get();
@@ -150,6 +169,7 @@ class ContentDatabase extends _$ContentDatabase {
 
   Future<List<Vocabulary>> allWords({int limit = 500}) {
     return (select(vocabularies)
+          ..where((t) => t.isActive.equals(true))
           ..orderBy([(t) => OrderingTerm.asc(t.word)])
           ..limit(limit))
         .get();
@@ -161,7 +181,8 @@ class ContentDatabase extends _$ContentDatabase {
     String? level,
     int limit = 20,
   }) {
-    final query = select(vocabularies);
+    final query = select(vocabularies)
+      ..where((t) => t.isActive.equals(true));
     if (level != null) {
       query.where((t) => t.difficultyLevel.equals(level));
     }
@@ -178,7 +199,8 @@ class ContentDatabase extends _$ContentDatabase {
   Future<Vocabulary?> pickWordOfDay(DateTime day, {String level = 'intermediate'}) async {
     final total = await (selectOnly(vocabularies)
           ..addColumns([countAll()])
-          ..where(vocabularies.difficultyLevel.equals(level)))
+          ..where(vocabularies.difficultyLevel.equals(level))
+          ..where(vocabularies.isActive.equals(true)))
         .getSingle()
         .then((row) => row.read(countAll()) ?? 0);
     if (total == 0) return null;
@@ -187,6 +209,7 @@ class ContentDatabase extends _$ContentDatabase {
     final offset = seed.abs() % total;
     return (select(vocabularies)
           ..where((t) => t.difficultyLevel.equals(level))
+          ..where((t) => t.isActive.equals(true))
           ..orderBy([(t) => OrderingTerm.asc(t.id)])
           ..limit(1, offset: offset))
         .getSingleOrNull();

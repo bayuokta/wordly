@@ -31,6 +31,10 @@ class Vocabularies extends Table {
   TextColumn get audioUrl => text().nullable()();
   TextColumn get createdAt => text()();
 
+  /// Kata yang dinonaktifkan dari panel admin tetap disimpan agar progres
+  /// tidak yatim, tetapi disembunyikan dari daftar/latihan.
+  BoolColumn get isActive => boolean().withDefault(const Constant(true))();
+
   @override
   Set<Column> get primaryKey => {id};
 

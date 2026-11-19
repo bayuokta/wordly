@@ -207,8 +207,30 @@ class SyncService {
       return true;
     }
 
-    // `review_log` sengaja tidak di-insert ulang saat pull agar tidak
-    // menduplikasi riwayat; data ini sudah dikirim saat push.
+    if (entity == 'review_log') {
+      final vocabId = (payload['vocab_id'] as num?)?.toInt();
+      final reviewedAt = _date(payload['reviewed_at']);
+      if (vocabId == null || reviewedAt == null) return false;
+
+      // client_id memakai vocab_id + reviewedAt, jadi kombinasi ini unik.
+      final existing = await (_db.select(_db.reviewLogs)
+            ..where((row) => row.userId.equals(userId))
+            ..where((row) => row.vocabId.equals(vocabId))
+            ..where((row) => row.reviewedAt.equals(reviewedAt)))
+          .get();
+      if (existing.isNotEmpty) return false;
+
+      await _db.into(_db.reviewLogs).insert(ReviewLogsCompanion.insert(
+            userId: Value(userId),
+            vocabId: vocabId,
+            mode: payload['mode']?.toString() ?? 'quiz',
+            quality: (payload['quality'] as num?)?.toInt() ?? 0,
+            isCorrect: payload['is_correct'] as bool? ?? false,
+            reviewedAt: reviewedAt,
+          ));
+      return true;
+    }
+
     return false;
   }
 

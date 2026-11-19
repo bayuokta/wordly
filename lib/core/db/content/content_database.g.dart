@@ -575,6 +575,21 @@ class $VocabulariesTable extends Vocabularies
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _isActiveMeta = const VerificationMeta(
+    'isActive',
+  );
+  @override
+  late final GeneratedColumn<bool> isActive = GeneratedColumn<bool>(
+    'is_active',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_active" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -593,6 +608,7 @@ class $VocabulariesTable extends Vocabularies
     antonyms,
     audioUrl,
     createdAt,
+    isActive,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -740,6 +756,12 @@ class $VocabulariesTable extends Vocabularies
     } else if (isInserting) {
       context.missing(_createdAtMeta);
     }
+    if (data.containsKey('is_active')) {
+      context.handle(
+        _isActiveMeta,
+        isActive.isAcceptableOrUnknown(data['is_active']!, _isActiveMeta),
+      );
+    }
     return context;
   }
 
@@ -813,6 +835,10 @@ class $VocabulariesTable extends Vocabularies
         DriftSqlType.string,
         data['${effectivePrefix}created_at'],
       )!,
+      isActive: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_active'],
+      )!,
     );
   }
 
@@ -839,6 +865,10 @@ class Vocabulary extends DataClass implements Insertable<Vocabulary> {
   final String antonyms;
   final String? audioUrl;
   final String createdAt;
+
+  /// Kata yang dinonaktifkan dari panel admin tetap disimpan agar progres
+  /// tidak yatim, tetapi disembunyikan dari daftar/latihan.
+  final bool isActive;
   const Vocabulary({
     required this.id,
     required this.word,
@@ -856,6 +886,7 @@ class Vocabulary extends DataClass implements Insertable<Vocabulary> {
     required this.antonyms,
     this.audioUrl,
     required this.createdAt,
+    required this.isActive,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -882,6 +913,7 @@ class Vocabulary extends DataClass implements Insertable<Vocabulary> {
       map['audio_url'] = Variable<String>(audioUrl);
     }
     map['created_at'] = Variable<String>(createdAt);
+    map['is_active'] = Variable<bool>(isActive);
     return map;
   }
 
@@ -907,6 +939,7 @@ class Vocabulary extends DataClass implements Insertable<Vocabulary> {
           ? const Value.absent()
           : Value(audioUrl),
       createdAt: Value(createdAt),
+      isActive: Value(isActive),
     );
   }
 
@@ -934,6 +967,7 @@ class Vocabulary extends DataClass implements Insertable<Vocabulary> {
       antonyms: serializer.fromJson<String>(json['antonyms']),
       audioUrl: serializer.fromJson<String?>(json['audioUrl']),
       createdAt: serializer.fromJson<String>(json['createdAt']),
+      isActive: serializer.fromJson<bool>(json['isActive']),
     );
   }
   @override
@@ -956,6 +990,7 @@ class Vocabulary extends DataClass implements Insertable<Vocabulary> {
       'antonyms': serializer.toJson<String>(antonyms),
       'audioUrl': serializer.toJson<String?>(audioUrl),
       'createdAt': serializer.toJson<String>(createdAt),
+      'isActive': serializer.toJson<bool>(isActive),
     };
   }
 
@@ -976,6 +1011,7 @@ class Vocabulary extends DataClass implements Insertable<Vocabulary> {
     String? antonyms,
     Value<String?> audioUrl = const Value.absent(),
     String? createdAt,
+    bool? isActive,
   }) => Vocabulary(
     id: id ?? this.id,
     word: word ?? this.word,
@@ -995,6 +1031,7 @@ class Vocabulary extends DataClass implements Insertable<Vocabulary> {
     antonyms: antonyms ?? this.antonyms,
     audioUrl: audioUrl.present ? audioUrl.value : this.audioUrl,
     createdAt: createdAt ?? this.createdAt,
+    isActive: isActive ?? this.isActive,
   );
   Vocabulary copyWithCompanion(VocabulariesCompanion data) {
     return Vocabulary(
@@ -1032,6 +1069,7 @@ class Vocabulary extends DataClass implements Insertable<Vocabulary> {
       antonyms: data.antonyms.present ? data.antonyms.value : this.antonyms,
       audioUrl: data.audioUrl.present ? data.audioUrl.value : this.audioUrl,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      isActive: data.isActive.present ? data.isActive.value : this.isActive,
     );
   }
 
@@ -1053,7 +1091,8 @@ class Vocabulary extends DataClass implements Insertable<Vocabulary> {
           ..write('synonyms: $synonyms, ')
           ..write('antonyms: $antonyms, ')
           ..write('audioUrl: $audioUrl, ')
-          ..write('createdAt: $createdAt')
+          ..write('createdAt: $createdAt, ')
+          ..write('isActive: $isActive')
           ..write(')'))
         .toString();
   }
@@ -1076,6 +1115,7 @@ class Vocabulary extends DataClass implements Insertable<Vocabulary> {
     antonyms,
     audioUrl,
     createdAt,
+    isActive,
   );
   @override
   bool operator ==(Object other) =>
@@ -1096,7 +1136,8 @@ class Vocabulary extends DataClass implements Insertable<Vocabulary> {
           other.synonyms == this.synonyms &&
           other.antonyms == this.antonyms &&
           other.audioUrl == this.audioUrl &&
-          other.createdAt == this.createdAt);
+          other.createdAt == this.createdAt &&
+          other.isActive == this.isActive);
 }
 
 class VocabulariesCompanion extends UpdateCompanion<Vocabulary> {
@@ -1116,6 +1157,7 @@ class VocabulariesCompanion extends UpdateCompanion<Vocabulary> {
   final Value<String> antonyms;
   final Value<String?> audioUrl;
   final Value<String> createdAt;
+  final Value<bool> isActive;
   const VocabulariesCompanion({
     this.id = const Value.absent(),
     this.word = const Value.absent(),
@@ -1133,6 +1175,7 @@ class VocabulariesCompanion extends UpdateCompanion<Vocabulary> {
     this.antonyms = const Value.absent(),
     this.audioUrl = const Value.absent(),
     this.createdAt = const Value.absent(),
+    this.isActive = const Value.absent(),
   });
   VocabulariesCompanion.insert({
     this.id = const Value.absent(),
@@ -1151,6 +1194,7 @@ class VocabulariesCompanion extends UpdateCompanion<Vocabulary> {
     this.antonyms = const Value.absent(),
     this.audioUrl = const Value.absent(),
     required String createdAt,
+    this.isActive = const Value.absent(),
   }) : word = Value(word),
        wordNormalized = Value(wordNormalized),
        translation = Value(translation),
@@ -1178,6 +1222,7 @@ class VocabulariesCompanion extends UpdateCompanion<Vocabulary> {
     Expression<String>? antonyms,
     Expression<String>? audioUrl,
     Expression<String>? createdAt,
+    Expression<bool>? isActive,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -1196,6 +1241,7 @@ class VocabulariesCompanion extends UpdateCompanion<Vocabulary> {
       if (antonyms != null) 'antonyms': antonyms,
       if (audioUrl != null) 'audio_url': audioUrl,
       if (createdAt != null) 'created_at': createdAt,
+      if (isActive != null) 'is_active': isActive,
     });
   }
 
@@ -1216,6 +1262,7 @@ class VocabulariesCompanion extends UpdateCompanion<Vocabulary> {
     Value<String>? antonyms,
     Value<String?>? audioUrl,
     Value<String>? createdAt,
+    Value<bool>? isActive,
   }) {
     return VocabulariesCompanion(
       id: id ?? this.id,
@@ -1234,6 +1281,7 @@ class VocabulariesCompanion extends UpdateCompanion<Vocabulary> {
       antonyms: antonyms ?? this.antonyms,
       audioUrl: audioUrl ?? this.audioUrl,
       createdAt: createdAt ?? this.createdAt,
+      isActive: isActive ?? this.isActive,
     );
   }
 
@@ -1288,6 +1336,9 @@ class VocabulariesCompanion extends UpdateCompanion<Vocabulary> {
     if (createdAt.present) {
       map['created_at'] = Variable<String>(createdAt.value);
     }
+    if (isActive.present) {
+      map['is_active'] = Variable<bool>(isActive.value);
+    }
     return map;
   }
 
@@ -1309,7 +1360,8 @@ class VocabulariesCompanion extends UpdateCompanion<Vocabulary> {
           ..write('synonyms: $synonyms, ')
           ..write('antonyms: $antonyms, ')
           ..write('audioUrl: $audioUrl, ')
-          ..write('createdAt: $createdAt')
+          ..write('createdAt: $createdAt, ')
+          ..write('isActive: $isActive')
           ..write(')'))
         .toString();
   }
@@ -1663,6 +1715,7 @@ typedef $$VocabulariesTableCreateCompanionBuilder =
       Value<String> antonyms,
       Value<String?> audioUrl,
       required String createdAt,
+      Value<bool> isActive,
     });
 typedef $$VocabulariesTableUpdateCompanionBuilder =
     VocabulariesCompanion Function({
@@ -1682,6 +1735,7 @@ typedef $$VocabulariesTableUpdateCompanionBuilder =
       Value<String> antonyms,
       Value<String?> audioUrl,
       Value<String> createdAt,
+      Value<bool> isActive,
     });
 
 final class $$VocabulariesTableReferences
@@ -1787,6 +1841,11 @@ class $$VocabulariesTableFilterComposer
 
   ColumnFilters<String> get createdAt => $composableBuilder(
     column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isActive => $composableBuilder(
+    column: $table.isActive,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -1898,6 +1957,11 @@ class $$VocabulariesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<bool> get isActive => $composableBuilder(
+    column: $table.isActive,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$CategoriesTableOrderingComposer get categoryId {
     final $$CategoriesTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -1992,6 +2056,9 @@ class $$VocabulariesTableAnnotationComposer
   GeneratedColumn<String> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
 
+  GeneratedColumn<bool> get isActive =>
+      $composableBuilder(column: $table.isActive, builder: (column) => column);
+
   $$CategoriesTableAnnotationComposer get categoryId {
     final $$CategoriesTableAnnotationComposer composer = $composerBuilder(
       composer: this,
@@ -2062,6 +2129,7 @@ class $$VocabulariesTableTableManager
                 Value<String> antonyms = const Value.absent(),
                 Value<String?> audioUrl = const Value.absent(),
                 Value<String> createdAt = const Value.absent(),
+                Value<bool> isActive = const Value.absent(),
               }) => VocabulariesCompanion(
                 id: id,
                 word: word,
@@ -2079,6 +2147,7 @@ class $$VocabulariesTableTableManager
                 antonyms: antonyms,
                 audioUrl: audioUrl,
                 createdAt: createdAt,
+                isActive: isActive,
               ),
           createCompanionCallback:
               ({
@@ -2098,6 +2167,7 @@ class $$VocabulariesTableTableManager
                 Value<String> antonyms = const Value.absent(),
                 Value<String?> audioUrl = const Value.absent(),
                 required String createdAt,
+                Value<bool> isActive = const Value.absent(),
               }) => VocabulariesCompanion.insert(
                 id: id,
                 word: word,
@@ -2115,6 +2185,7 @@ class $$VocabulariesTableTableManager
                 antonyms: antonyms,
                 audioUrl: audioUrl,
                 createdAt: createdAt,
+                isActive: isActive,
               ),
           withReferenceMapper: (p0) => p0
               .map(

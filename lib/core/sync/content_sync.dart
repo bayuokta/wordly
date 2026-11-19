@@ -76,8 +76,19 @@ class ContentSync {
             antonyms: Value(jsonEncode(item['antonyms'] ?? const <String>[])),
             audioUrl: Value(item['audio']?.toString()),
             createdAt: Value(_createdAt(item)),
+            isActive: const Value(true),
           ));
       count++;
+    }
+
+    // Kata yang dinonaktifkan admin tidak dihapus (progres tetap ada), cukup
+    // ditandai agar tidak muncul di daftar/latihan.
+    for (final id in (delta['disabled_ids'] as List? ?? const [])) {
+      final wordId = (id as num?)?.toInt();
+      if (wordId == null) continue;
+      await (_db.update(_db.vocabularies)
+            ..where((row) => row.id.equals(wordId)))
+          .write(const VocabulariesCompanion(isActive: Value(false)));
     }
 
     await _prefs.setInt(SyncConfig.contentVersionKey, version);

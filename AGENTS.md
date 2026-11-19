@@ -81,8 +81,10 @@ Aturan penempatan:
 
 - `api_client.dart` — HTTP + bearer token, pesan error bahasa Indonesia.
 - `sync_service.dart` — push/pull progres; push `user_words` dengan
-  `sync_state != synced`, `review_logs`, `daily_activities`.
+  `sync_state != synced`, `review_logs`, `daily_activities`. Saat pull,
+  `review_log` dicek dulu berdasarkan `vocab_id + reviewed_at` agar tidak dobel.
 - `content_sync.dart` — manifest + delta konten; **ID kata tidak boleh diubah**.
+  Kata dari `disabled_ids` ditandai `is_active = false`, bukan dihapus.
 - `sync_coordinator.dart` — jalan di latar belakang, maksimal sekali per menit.
 - `sync_bootstrap.dart` — dipasang di `app.dart`; **jangan** menunggu jaringan
   sebelum render dan **jangan** memanggil sync dari halaman belajar.
