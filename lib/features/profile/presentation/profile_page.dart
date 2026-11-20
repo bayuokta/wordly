@@ -10,6 +10,9 @@ import '../../../core/design/app_spacing.dart';
 import '../../../core/design/app_typography.dart';
 import '../../../core/settings/app_settings.dart';
 import '../../../core/settings/settings_controller.dart';
+import '../../../core/sync/api_client.dart';
+import '../../../core/sync/server_settings.dart';
+import '../../../core/sync/sync_providers.dart';
 import '../../../core/utils/date_id.dart';
 import '../../../core/widgets/activity_chart.dart';
 import '../../../core/widgets/app_button.dart';
@@ -182,6 +185,15 @@ class ProfilePage extends ConsumerWidget {
                 ),
                 const _RowDivider(),
                 _SettingsRow(
+                  icon: Icons.dns_outlined,
+                  label: 'Server sinkronisasi',
+                  value: ServerSettings.current(ref.read(sharedPreferencesProvider))
+                      .replaceFirst('http://', ''),
+                  tone: IconTileTone.neutral,
+                  onTap: () => _showServerDialog(context, ref),
+                ),
+                const _RowDivider(),
+                _SettingsRow(
                   icon: Icons.info_outline_rounded,
                   label: 'Tentang Wordly',
                   tone: IconTileTone.primary,
@@ -193,6 +205,109 @@ class ProfilePage extends ConsumerWidget {
         ],
       ),
     );
+  }
+
+  Future<void> _showServerDialog(BuildContext context, WidgetRef ref) async {
+    final prefs = ref.read(sharedPreferencesProvider);
+    final controller = TextEditingController(
+      text: ServerSettings.current(prefs),
+    );
+    String? status;
+    String? error;
+    var testing = false;
+
+    await showDialog<void>(
+      context: context,
+      builder: (dialogContext) => StatefulBuilder(
+        builder: (context, setState) {
+          Future<void> test() async {
+            setState(() {
+              testing = true;
+              error = null;
+              status = null;
+            });
+            ApiClient? api;
+            try {
+              api = ApiClient(baseUrl: ServerSettings.normalize(controller.text));
+              final version = await ServerSettings.testConnection(api);
+              if (!context.mounted) return;
+              setState(() => status = 'Terhubung · v$version');
+            } on Object catch (failure) {
+              if (!context.mounted) return;
+              setState(() => error = failure.toString());
+            } finally {
+              api?.dispose();
+              if (context.mounted) setState(() => testing = false);
+            }
+          }
+
+          Future<void> save() async {
+            try {
+              await ServerSettings.save(prefs, controller.text);
+              ref.invalidate(apiClientProvider);
+              if (context.mounted) Navigator.of(context).pop();
+            } on FormatException catch (failure) {
+              if (context.mounted) setState(() => error = failure.message);
+            }
+          }
+
+          final p = context.palette;
+          return AlertDialog(
+            title: Text(
+              'Server sinkronisasi',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextField(
+                  controller: controller,
+                  autocorrect: false,
+                  keyboardType: TextInputType.url,
+                  decoration: const InputDecoration(
+                    labelText: 'Alamat server',
+                    hintText: 'http://10.0.2.2:8000',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Emulator: 10.0.2.2 · HP fisik: IP LAN komputer. '
+                  'Menyimpan alamat baru akan mencabut token server lama.',
+                  style: context.tiny,
+                ),
+                if (status != null || error != null) ...[
+                  const SizedBox(height: 10),
+                  Text(
+                    status ?? error ?? '',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: status != null ? p.successText : p.errorText,
+                    ),
+                  ),
+                ],
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('Batal'),
+              ),
+              TextButton(
+                onPressed: testing ? null : test,
+                child: Text(testing ? 'Menguji…' : 'Uji koneksi'),
+              ),
+              TextButton(
+                onPressed: testing ? null : save,
+                child: const Text('Simpan'),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+    controller.dispose();
   }
 
   Future<void> _pickLevel(BuildContext context, WidgetRef ref, AppSettings settings) async {

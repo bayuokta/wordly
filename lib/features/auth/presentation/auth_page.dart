@@ -7,6 +7,10 @@ import '../../../core/auth/session_controller.dart';
 import '../../../core/design/app_palette.dart';
 import '../../../core/design/app_spacing.dart';
 import '../../../core/design/app_typography.dart';
+import '../../../core/settings/settings_controller.dart';
+import '../../../core/sync/api_client.dart';
+import '../../../core/sync/server_settings.dart';
+import '../../../core/sync/sync_providers.dart';
 import '../../../core/widgets/app_button.dart';
 
 enum _Mode { signIn, signUp }
@@ -25,11 +29,21 @@ class _AuthPageState extends ConsumerState<AuthPage> {
   final _name = TextEditingController();
   final _password = TextEditingController();
   final _confirm = TextEditingController();
+  final _server = TextEditingController();
 
   _Mode _mode = _Mode.signIn;
   bool _busy = false;
   bool _obscure = true;
+  bool _testingServer = false;
   String? _error;
+  String? _serverStatus;
+  String? _serverError;
+
+  @override
+  void initState() {
+    super.initState();
+    _server.text = ServerSettings.current(ref.read(sharedPreferencesProvider));
+  }
 
   @override
   void dispose() {
@@ -37,6 +51,7 @@ class _AuthPageState extends ConsumerState<AuthPage> {
     _name.dispose();
     _password.dispose();
     _confirm.dispose();
+    _server.dispose();
     super.dispose();
   }
 
@@ -47,9 +62,50 @@ class _AuthPageState extends ConsumerState<AuthPage> {
     });
   }
 
+  /// Simpan alamat server bila berubah. Token lama dicabut oleh [ServerSettings.save].
+  Future<bool> _persistServer() async {
+    try {
+      final url = ServerSettings.normalize(_server.text);
+      final prefs = ref.read(sharedPreferencesProvider);
+      if (url != ServerSettings.current(prefs)) {
+        await ServerSettings.save(prefs, url);
+        ref.invalidate(apiClientProvider);
+      }
+      if (mounted) setState(() => _serverError = null);
+      return true;
+    } on FormatException catch (error) {
+      if (mounted) setState(() => _serverError = error.message);
+      return false;
+    }
+  }
+
+  Future<void> _testServer() async {
+    FocusScope.of(context).unfocus();
+    if (_testingServer) return;
+    if (!await _persistServer()) return;
+
+    setState(() {
+      _testingServer = true;
+      _serverStatus = null;
+    });
+    final api = ApiClient(baseUrl: ServerSettings.normalize(_server.text));
+    try {
+      final version = await ServerSettings.testConnection(api);
+      if (!mounted) return;
+      setState(() => _serverStatus = 'Terhubung · v$version');
+    } on Object catch (error) {
+      if (!mounted) return;
+      setState(() => _serverError = error.toString());
+    } finally {
+      api.dispose();
+      if (mounted) setState(() => _testingServer = false);
+    }
+  }
+
   Future<void> _submit() async {
     FocusScope.of(context).unfocus();
     if (!(_formKey.currentState?.validate() ?? false)) return;
+    if (!await _persistServer()) return;
 
     setState(() {
       _busy = true;
@@ -130,7 +186,7 @@ class _AuthPageState extends ConsumerState<AuthPage> {
                       ),
                     ),
                     const SizedBox(height: 3),
-                    Text('Akun lokal · tanpa server', style: context.tiny),
+                    Text('Akun lokal · sinkron opsional', style: context.tiny),
                   ],
                 ),
               ],
@@ -149,6 +205,8 @@ class _AuthPageState extends ConsumerState<AuthPage> {
             ),
             const SizedBox(height: 20),
             _ModeSwitch(mode: _mode, onChanged: _switchMode),
+            const SizedBox(height: 14),
+            _serverCard(context),
             const SizedBox(height: 18),
             Form(
               key: _formKey,
@@ -254,12 +312,79 @@ class _AuthPageState extends ConsumerState<AuthPage> {
             ),
             const SizedBox(height: 16),
             Text(
-              'Kata sandi di-hash di perangkat dan tidak pernah dikirim ke mana pun.',
+              'Kata sandi di-hash di perangkat. Saat sinkron aktif, kredensial '
+              'dikirim sekali ke server yang kamu pilih.',
               textAlign: TextAlign.center,
               style: context.tiny,
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _serverCard(BuildContext context) {
+    final p = context.palette;
+    final status = _serverStatus ?? _serverError ?? 'Belum diuji';
+    final statusColor = _serverStatus != null
+        ? p.successText
+        : (_serverError != null ? p.errorText : p.textDim);
+
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: p.fieldBg,
+        border: Border.all(color: p.border),
+        borderRadius: BorderRadius.circular(AppRadius.md),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(Icons.dns_outlined, size: 16, color: p.textSecondary),
+              const SizedBox(width: 8),
+              Text('Server sinkronisasi', style: context.small),
+            ],
+          ),
+          const SizedBox(height: 10),
+          _Field(
+            controller: _server,
+            label: 'Alamat server',
+            hint: 'http://10.0.2.2:8000',
+            icon: Icons.link_rounded,
+            keyboardType: TextInputType.url,
+            textInputAction: TextInputAction.done,
+            onSubmitted: (_) => _testServer(),
+            enabled: !_busy && !_testingServer,
+            validator: (_) => null,
+          ),
+          const SizedBox(height: 6),
+          Text(
+            'Emulator: 10.0.2.2 · HP fisik: IP LAN komputer',
+            style: context.tiny,
+          ),
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              AppButton(
+                label: 'Uji koneksi',
+                size: AppButtonSize.small,
+                variant: AppButtonVariant.ghost,
+                loading: _testingServer,
+                expand: false,
+                onPressed: _busy ? null : _testServer,
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  status,
+                  style: TextStyle(fontSize: 11.5, color: statusColor),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

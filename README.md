@@ -54,14 +54,25 @@ Lapisan `lib/core/sync/` menghubungkan aplikasi ke backend
   (maksimal sekali per menit) dan gagal sync tidak mengganggu belajar.
 - Mode tamu tidak pernah mengirim data.
 
-Ganti alamat server saat build:
+### Alamat server bisa diisi manual
+
+Buka **Masuk/Daftar** → kartu "Server sinkronisasi", atau **Profil →
+Pengaturan → Server sinkronisasi**:
+
+- Isi alamat server, mis. `http://10.0.2.2:8000` (emulator Android) atau
+  `http://192.168.1.5:8000` (HP fisik, IP LAN komputer)
+- Tombol **Uji koneksi** memanggil `/api/health` dan menampilkan versi server
+- Alamat tersimpan di perangkat; mengubahnya mencabut token server lama,
+  akun lokal tetap aman
+- Login lokal tetap bisa tanpa server (uji koneksi tidak wajib)
+
+Nilai bawaan juga bisa diubah saat build:
 
 ```bash
 flutter run --dart-define=WORDLY_API_BASE=http://192.168.1.5:8000
 ```
 
-Default: `http://10.0.2.2:8000` (emulator Android). Detail teknis ada di
-`docs/PERANCANGAN.md` §17 dan `docs/PRIVASI.md`.
+Detail teknis ada di `docs/PERANCANGAN.md` §17 dan `docs/PRIVASI.md`.
 
 ---
 

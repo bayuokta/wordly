@@ -6,10 +6,12 @@ import 'api_client.dart';
 import 'content_sync.dart';
 import 'sync_coordinator.dart';
 import 'sync_service.dart';
+import 'server_settings.dart';
 
-final apiClientProvider = Provider<ApiClient>(
-  (ref) => ApiClient(),
-);
+final apiClientProvider = Provider<ApiClient>((ref) {
+  final prefs = ref.watch(sharedPreferencesProvider);
+  return ApiClient(baseUrl: ServerSettings.current(prefs));
+});
 
 final syncServiceProvider = Provider<SyncService>((ref) => SyncService(
       ref.watch(apiClientProvider),

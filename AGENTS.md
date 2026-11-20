@@ -88,7 +88,11 @@ Aturan penempatan:
 - `sync_coordinator.dart` — jalan di latar belakang, maksimal sekali per menit.
 - `sync_bootstrap.dart` — dipasang di `app.dart`; **jangan** menunggu jaringan
   sebelum render dan **jangan** memanggil sync dari halaman belajar.
-- Base URL: `String.fromEnvironment('WORDLY_API_BASE')`, default `10.0.2.2:8000`.
+- Base URL: `ServerSettings.current(prefs)` (default `10.0.2.2:8000`, bisa diubah
+  pengguna di AuthPage & Profil). `sync_base_url` tersimpan di SharedPreferences.
+- `ServerSettings.save()` mencabut token server & mereset seq saat URL berubah;
+  setelah itu `ref.invalidate(apiClientProvider)`.
+- Tombol "Uji koneksi" memanggil `GET /api/health`; tidak wajib untuk login lokal.
 - Tamu/belum login harus return lebih awal sebelum menyentuh provider database.
 
 ## 5. Database & data

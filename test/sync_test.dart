@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:wordly/core/sync/api_client.dart';
+import 'package:wordly/core/sync/server_settings.dart';
 import 'package:wordly/core/sync/sync_config.dart';
 
 void main() {
@@ -37,7 +38,17 @@ void main() {
   });
 
   test('base URL default memakai alamat emulator', () {
-    expect(SyncConfig.baseUrl, isNotEmpty);
-    expect(SyncConfig.baseUrl, contains('8000'));
+    expect(SyncConfig.defaultBaseUrl, contains('10.0.2.2'));
+    expect(SyncConfig.defaultBaseUrl, contains('8000'));
+  });
+
+  test('normalisasi alamat server', () {
+    expect(ServerSettings.normalize(' 10.0.2.2:8000/ '), 'http://10.0.2.2:8000');
+    expect(
+      ServerSettings.normalize('https://wordly.example.com/api/'),
+      'https://wordly.example.com/api',
+    );
+    expect(() => ServerSettings.normalize(''), throwsFormatException);
+    expect(() => ServerSettings.normalize('ftp://10.0.2.2'), throwsFormatException);
   });
 }

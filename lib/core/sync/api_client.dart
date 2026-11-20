@@ -22,7 +22,7 @@ class ApiException implements Exception {
 class ApiClient {
   ApiClient({http.Client? client, String? baseUrl})
     : _client = client ?? http.Client(),
-      baseUrl = baseUrl ?? SyncConfig.baseUrl;
+      baseUrl = baseUrl ?? SyncConfig.defaultBaseUrl;
 
   final http.Client _client;
   final String baseUrl;
