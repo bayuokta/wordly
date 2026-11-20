@@ -1,7 +1,7 @@
 name: wordly
 description: "Wordly — belajar kosakata Inggris–Indonesia dengan pengulangan berjarak, offline-first."
 publish_to: 'none'
-version: 0.1.7+8
+version: 0.1.8+9
 
 environment:
   sdk: ^3.14.0
